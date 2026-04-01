@@ -1,0 +1,147 @@
+{
+  "tasks": [
+    "niah_single_1",
+    "vt",
+    "cwe",
+    "fwe"
+  ],
+  "num_samples": 32,
+  "max_seq_length": 128,
+  "seed": 17,
+  "summary_rows": [
+    {
+      "model": "transformer",
+      "checkpoint_path": "auto_research_llm_ideas/results/_gated_recall_d64_tradeoffs_v1/lm/transformer/transformer_lm.pt",
+      "average_score": 0.0,
+      "null_predictions_total": "128/128",
+      "seq_budget": 128,
+      "num_samples": 32
+    },
+    {
+      "model": "triple-hybrid",
+      "checkpoint_path": "auto_research_llm_ideas/results/_gated_recall_d64_tradeoffs_v1/lm/triple-hybrid/triple-hybrid_lm.pt",
+      "average_score": 0.0,
+      "null_predictions_total": "0/128",
+      "seq_budget": 128,
+      "num_samples": 32
+    },
+    {
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "checkpoint_path": "auto_research_llm_ideas/results/_gated_recall_d64_tradeoffs_v1/lm/triple-hybrid-assoc-gated-last-logits/triple-hybrid-assoc-gated-last-logits_lm.pt",
+      "average_score": 0.0,
+      "null_predictions_total": "0/128",
+      "seq_budget": 128,
+      "num_samples": 32
+    }
+  ],
+  "task_rows": [
+    {
+      "model": "transformer",
+      "task": "niah_single_1",
+      "task_type": "niah",
+      "score": 0.0,
+      "null_predictions": "32/32",
+      "num_samples": 32,
+      "seq_budget": 128
+    },
+    {
+      "model": "transformer",
+      "task": "vt",
+      "task_type": "variable_tracking",
+      "score": 0.0,
+      "null_predictions": "32/32",
+      "num_samples": 32,
+      "seq_budget": 128
+    },
+    {
+      "model": "transformer",
+      "task": "cwe",
+      "task_type": "common_words_extraction",
+      "score": 0.0,
+      "null_predictions": "32/32",
+      "num_samples": 32,
+      "seq_budget": 128
+    },
+    {
+      "model": "transformer",
+      "task": "fwe",
+      "task_type": "freq_words_extraction",
+      "score": 0.0,
+      "null_predictions": "32/32",
+      "num_samples": 32,
+      "seq_budget": 128
+    },
+    {
+      "model": "triple-hybrid",
+      "task": "niah_single_1",
+      "task_type": "niah",
+      "score": 0.0,
+      "null_predictions": "0/32",
+      "num_samples": 32,
+      "seq_budget": 128
+    },
+    {
+      "model": "triple-hybrid",
+      "task": "vt",
+      "task_type": "variable_tracking",
+      "score": 0.0,
+      "null_predictions": "0/32",
+      "num_samples": 32,
+      "seq_budget": 128
+    },
+    {
+      "model": "triple-hybrid",
+      "task": "cwe",
+      "task_type": "common_words_extraction",
+      "score": 0.0,
+      "null_predictions": "0/32",
+      "num_samples": 32,
+      "seq_budget": 128
+    },
+    {
+      "model": "triple-hybrid",
+      "task": "fwe",
+      "task_type": "freq_words_extraction",
+      "score": 0.0,
+      "null_predictions": "0/32",
+      "num_samples": 32,
+      "seq_budget": 128
+    },
+    {
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "task": "niah_single_1",
+      "task_type": "niah",
+      "score": 0.0,
+      "null_predictions": "0/32",
+      "num_samples": 32,
+      "seq_budget": 128
+    },
+    {
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "task": "vt",
+      "task_type": "variable_tracking",
+      "score": 0.0,
+      "null_predictions": "0/32",
+      "num_samples": 32,
+      "seq_budget": 128
+    },
+    {
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "task": "cwe",
+      "task_type": "common_words_extraction",
+      "score": 0.0,
+      "null_predictions": "0/32",
+      "num_samples": 32,
+      "seq_budget": 128
+    },
+    {
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "task": "fwe",
+      "task_type": "freq_words_extraction",
+      "score": 0.0,
+      "null_predictions": "0/32",
+      "num_samples": 32,
+      "seq_budget": 128
+    }
+  ]
+}

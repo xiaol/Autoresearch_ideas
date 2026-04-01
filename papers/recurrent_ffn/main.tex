@@ -1,0 +1,579 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{enumitem}
+
+\IfFileExists{neurips_2025.sty}{
+  \usepackage{neurips_2025}
+}{
+  \usepackage{geometry}
+  \geometry{margin=1in}
+}
+
+\title{Replacing Transformer FFNs with Localized Recurrent Memory}
+\author{
+Liu Xiao \\
+\texttt{liu.xiao.in@gmail.com}
+\And
+GPT-5.4 xhigh
+}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Transformer feed-forward networks are usually treated as token-local nonlinear
+blocks, but they can also be viewed as a form of static memory stored in
+weights. We study a narrow replacement question: can the FFN slot in a
+decoder-only Transformer be replaced by a localized recurrent memory module
+while keeping self-attention fixed? This isolates dynamic memory from full
+backbone recurrence. We first screen a family of recurrent FFN replacements,
+including token-conditioned readout, matrix-state memory, multiscale decay,
+predictive-corrective updates, stable dynamics, sparse writes, and auxiliary
+state prediction. On synthetic memory tasks, the plain Recurrent-FFN already
+improves over Mamba2 and softmax attention baselines in our small pilot,
+reaching 15.8\% associative-recall accuracy versus 10.2\% and 7.0\%,
+respectively. On byte-level WikiText-2, several recurrent variants beat a
+full-width SwiGLU Transformer at 120 steps, and stable/readout variants are the
+best fair small-model performers at 200 steps. We then make a deliberately
+accuracy-first move: an \textbf{Ultra} compound recurrent FFN that mixes a
+readout memory, a stable recurrent memory, and a widened local SwiGLU branch.
+In a two-seed, 400-step matched-capacity comparison on byte-level WikiText-2,
+Ultra-384 (1,294,976 parameters) reaches 3.2544 and 3.2544 bits-per-byte,
+versus 3.4744 and 3.4384 for a Transformer-SwiGLU with 1,294,880 parameters.
+The systems story remains poor in the current Python reference
+implementation: the matched-capacity Transformer reaches roughly
+204k--281k tokens/sec at sequence lengths 64--256 on Apple MPS, while
+Ultra-384 reaches only about 6.6k--6.7k. We therefore interpret localized
+recurrent FFNs as a credible small-scale quality and memory win, with the
+strongest current result coming from an accuracy-first compound design rather
+than the original strict parameter-matched replacement.
+\end{abstract}
+
+\section{Introduction}
+Modern recurrent and state-space models have revived interest in replacing
+quadratic attention with learned state updates. Earlier attempts to inject
+recurrence into Transformer-style computation include Universal Transformers
+and direct Transformer-to-RNN conversion work \citep{dehghani2019universal,
+kasai2021t2r}. More recent matrix-state recurrence, Linear Recurrent Units,
+RWKV-style recurrence, selective state spaces, and hybrid recurrent systems all
+suggest that carefully designed state can recover more sequence structure than
+older recurrent architectures were able to preserve
+\citep{orvieto2023lru, rwkv2023, eaglefinch2024, mamba2023,
+mamba2ssd2024, xlstm2024, m2rnn2026}. Recent models such as RetNet,
+DeltaNet, Griffin, and Gated Delta Networks further sharpen this design space
+by combining recurrent or state-space updates with retention, local attention,
+delta-rule memory updates, or sequential linear-time mixing
+\citep{retnet2023, yang2024deltanet, griffin2024, gateddeltanet2024}. Hybrid
+designs further suggest that strong sequence models may emerge not from a
+single replacement of attention, but from careful division of labor between
+attention, recurrence, and explicit memory \citep{jamba2024, samba2024,
+hymba2024}. At the same time, full backbone
+replacement makes it difficult to disentangle which parts of Transformer
+quality come from self-attention and which come from the feed-forward layers.
+
+This paper studies a narrower question:
+\begin{quote}
+Can we replace only the Transformer FFN with localized recurrent memory while
+keeping attention fixed?
+\end{quote}
+That framing is useful for two reasons. First, it isolates one component of the
+Transformer block instead of turning the experiment into a complete backbone
+change. Second, it gives a clean bridge from Transformer FFNs, which can be
+interpreted as a kind of static memory stored in parameters, to modern
+token-conditioned recurrent memory. That bridge is not only intuitive but also
+supported by prior mechanistic work: Transformer feed-forward layers have been
+interpreted as key-value memories stored in weights \citep{geva2020ffnmem},
+knowledge-bearing FFN units have been localized in pretrained models
+\citep{dai2021knowledge}, direct factual editing results often operate on MLP
+weights \citep{meng2022rome}, and recent FFN-centric memory work has explored
+making such memory more explicit and controllable \citep{memoryllmffn2026}.
+Our paper asks whether a localized
+recurrent substitute can play a similar role while adding token-conditioned
+dynamics.
+
+Our starting point is simple. We keep the standard decoder-only residual
+layout,
+\[
+x \rightarrow \text{attention} \rightarrow \text{residual} \rightarrow
+\text{FFN replacement} \rightarrow \text{residual},
+\]
+and change only the FFN slot. This creates a localized recurrent memory block
+inside an otherwise standard Transformer. We then ask five progressively more
+refined questions:
+\begin{enumerate}[leftmargin=1.25em]
+  \item Does a plain recurrent FFN help memory-sensitive behavior at all?
+  \item If language-model quality lags, is the missing ingredient token-
+  conditioned memory readout?
+  \item Does the recurrent block need to recover some of the token-local
+  nonlinear mixing of a normal Transformer MLP?
+  \item Which recurrent inductive bias best uses the FFN slot: matrix memory,
+  multiscale decay, predictive correction, stable dynamics, sparse writes, or
+  auxiliary prediction?
+  \item If the fair drop-in variants are still not strong enough, can an
+  accuracy-first compound recurrent FFN beat a matched-capacity Transformer?
+\end{enumerate}
+
+The resulting story is narrower than a general ``RNNs beat Transformers''
+claim, but more scientifically legible. Our experiments show that the plain
+localized recurrent block is already a memory-sensitive win on synthetic tasks,
+yet initially slightly worse on byte-level WikiText-2. A wider method screen
+then shows that several recurrent FFNs beat a small strong SwiGLU baseline. The
+most important update in this paper is that the story no longer ends there:
+once we introduce an accuracy-first compound recurrent FFN and compare it to a
+matched-capacity Transformer, the recurrent FFN can achieve a much larger BPB
+gain in this small benchmark.
+
+\paragraph{Contributions.}
+\begin{itemize}[leftmargin=1.25em]
+  \item We define a localized recurrent replacement for the Transformer FFN
+  that keeps self-attention, residual structure, and normalization fixed.
+  \item We screen a broad family of localized recurrent FFN variants: readout,
+  hybrid, matrix-state, multiscale, predictive-corrective, stable,
+  sparse-write, and auxiliary-prediction designs.
+  \item We show that the plain localized recurrent FFN improves small
+  synthetic memory tasks even before it improves language-model quality.
+  \item We show that several recurrent variants beat a full-width SwiGLU
+  Transformer at 120 steps, and that stable/readout variants are the strongest
+  small matched-capacity performers at 200 steps.
+  \item We introduce an accuracy-first \emph{Ultra} compound recurrent FFN and
+  show that, in a two-seed 400-step matched-capacity comparison, it beats a
+  larger Transformer-SwiGLU by roughly 0.20 BPB on byte-level WikiText-2.
+  \item We report the caveat clearly: these localized recurrent FFNs remain far
+  slower than the Transformer in the current Python reference implementation.
+\end{itemize}
+
+\section{Method}
+\subsection{Localized Recurrent FFN Replacement}
+We start from a standard decoder-only Transformer block with self-attention and
+residual connections \citep{vaswani2017attention}. The attention path is left
+unchanged. Only the post-attention FFN is replaced.
+
+Given normalized token features $u_t \in \mathbb{R}^{d}$, the plain
+Recurrent-FFN updates a per-layer recurrent state $s_t \in \mathbb{R}^{m}$:
+\begin{align}
+f_t &= \tanh(W_f u_t), \\
+i_t &= \sigma(W_i u_t), \\
+v_t &= \mathrm{silu}(W_v u_t), \\
+s_t &= f_t \odot s_{t-1} + i_t \odot v_t, \\
+y_t &= W_o \, \mathrm{silu}(s_t).
+\end{align}
+The output $y_t$ is projected back to model width and added through the normal
+residual path.
+
+\subsection{Readout, Local Mixing, and Screened Recurrent Variants}
+The first baseline removes most of the standard FFN's token-local expansion and
+asks the recurrent state to do almost all of the work. To recover some of that
+capacity, we first add token-conditioned readout and then screen several
+physics- and memory-inspired recurrent update rules.
+
+\paragraph{Recurrent-FFN-Readout.}
+This variant adds a token-conditioned readout vector
+\begin{equation}
+q_t = W_q u_t,
+\end{equation}
+and exposes recurrent memory through an elementwise interaction:
+\begin{equation}
+y_t = W_o \, \mathrm{silu}(q_t \odot s_t).
+\end{equation}
+This allows the current token to select which recurrent channels are relevant.
+
+\paragraph{Recurrent-FFN-Hybrid.}
+The simplest quality-oriented variant keeps the recurrent readout path but also
+adds a local gated branch in the spirit of GLU/SwiGLU Transformer FFNs
+\citep{shazeer2020glu}:
+\begin{align}
+r_t &= W_r \, \mathrm{silu}(q_t \odot s_t), \\
+\ell_t &= W_\ell \left(\mathrm{silu}(U u_t) \odot \sigma(G u_t)\right), \\
+y_t &= r_t + \ell_t.
+\end{align}
+This restores part of the token-local nonlinear mixing that a standard
+Transformer FFN provides, while preserving a dynamic recurrent memory channel.
+
+\paragraph{Screened recurrent update rules.}
+On top of this readout and local-mixing template, we test six additional
+recurrent inductive biases. The \textbf{matrix} variant writes a low-rank
+matrix-valued state. The \textbf{multiscale} variant maintains several decay
+timescales and learns a token-conditioned mixture over them. The
+\textbf{predictive} variant uses a prediction-correction update reminiscent of
+observer-style filtering. The \textbf{stable} variant applies damped,
+token-conditioned rotations to paired recurrent channels. The \textbf{sparse}
+variant enforces top-$k$ writes. The \textbf{auxiliary} variant adds a next-
+feature prediction loss on the recurrent state.
+
+\paragraph{Stable-dynamics variant.}
+The strongest fair small-model result comes from the stable variant. It splits
+the recurrent state into paired channels, applies token-conditioned rotation
+and damping, and then reads the state through the same token-conditioned query
+and local SwiGLU-like branch. Let the previous state be partitioned into
+$(a_{t-1}, b_{t-1})$ pairs. For each pair, we apply
+\begin{equation}
+\mathrm{rot}(a, b; \omega) =
+\left(a \cos \omega - b \sin \omega,\; a \sin \omega + b \cos \omega\right).
+\end{equation}
+The stable recurrent update is then
+\begin{align}
+\omega_t &= \pi \tanh(W_\omega u_t), \\
+\tilde{s}_t &= \mathrm{rot}(s_{t-1}; \omega_t), \\
+d_t &= \exp(-\mathrm{softplus}(W_d u_t)), \\
+g_t &= \sigma(W_g u_t), \\
+c_t &= \mathrm{silu}(W_c u_t), \\
+s_t &= d_t \odot \tilde{s}_t + g_t \odot c_t.
+\end{align}
+The damped rotation is intended to preserve useful phase-like structure without
+allowing the recurrent state to grow unstably.
+
+\paragraph{Ultra compound variant.}
+The strongest final result comes from a deliberately accuracy-first
+\textbf{Ultra} variant. Ultra keeps the FFN slot localized, but allocates more
+capacity and combines three subpaths:
+\begin{enumerate}[leftmargin=1.25em]
+  \item a readout memory path of the Recurrent-FFN-Readout form, producing
+  $r_t$,
+  \item a stable recurrent path of the form above, producing $h_t$,
+  \item a widened local SwiGLU-style branch, producing $\ell_t$.
+\end{enumerate}
+The three paths are mixed with token-dependent coefficients:
+\begin{align}
+\alpha_t &= \mathrm{softmax}(W_{\text{mix}} u_t), \\
+y_t &= \alpha_{t,1} r_t + \alpha_{t,2} h_t + \alpha_{t,3} \ell_t.
+\end{align}
+Unlike the earlier screen, Ultra is not intended to be a strict parameter-
+matched drop-in replacement during the search phase. It is an accuracy-first
+compound FFN. We only restore fairness at the final comparison step by matching
+its total parameter count against a larger Transformer-SwiGLU control.
+
+\section{Experimental Setup}
+\paragraph{Language modeling.}
+We train byte-level autoregressive models on WikiText-2 raw text
+\citep{merity2017pointer}. All models are decoder-only and use sequence length
+$128$, batch size $16$, and Apple MPS.
+
+We report four regimes:
+\begin{enumerate}[leftmargin=1.25em]
+  \item a historical 80-step pilot with the original GELU Transformer baseline,
+  \item a 120-step recurrent method screen at $d=64$, 3 layers, 4 heads, zero
+  dropout, and learning rate $4 \times 10^{-4}$, with recurrent state sizes
+  chosen to near-match the 223,040-parameter full-width SwiGLU baseline,
+  \item a 200-step two-seed follow-up for the strongest fair recurrent
+  candidates under the same small-model setup,
+  \item an accuracy-first Ultra search with wider recurrent budgets and longer
+  schedules, followed by matched-capacity controls against larger
+  Transformer-SwiGLU models.
+\end{enumerate}
+
+\paragraph{Accuracy-first matched-capacity setting.}
+The main final comparison uses Ultra-384 with $d=64$, 3 layers, 4 heads, and
+state size 384, for 1,294,976 parameters. It is trained for 400 steps with
+learning rate $3 \times 10^{-4}$, weight decay 0.02, zero dropout, and 40
+warmup steps. The matched Transformer control uses $d=160$, 3 layers, 4 heads,
+the standard full-width SwiGLU FFN, and 1,294,880 parameters. Among the
+Transformer settings we tested, the best control uses 400 steps, learning rate
+$4 \times 10^{-4}$, weight decay 0.05, and zero warmup.
+
+\paragraph{Synthetic memory tasks.}
+We also evaluate on small synthetic memory-sensitive tasks implemented in the
+local benchmark harness: associative recall and signal-vs-noise interference.
+The initial pilot uses sequence length $64$, hidden size $64$, 2 layers,
+4 heads, batch size $8$, and 120 training steps.
+
+\paragraph{Throughput.}
+We measure forward throughput on Apple MPS at sequence lengths 64, 128, and
+256. The throughput table compares the matched-capacity Transformer control
+with Ultra-384. These are reference-implementation numbers rather than
+optimized systems measurements, because the recurrent state updates are written
+as explicit Python loops.
+
+\section{Results}
+\subsection{Initial Synthetic Memory Pilot}
+The plain Recurrent-FFN baseline is already a positive result on memory-
+sensitive tasks. Table~\ref{tab:memory} shows that it outperforms both Mamba2
+and softmax attention in associative recall and signal-vs-noise accuracy in
+our first small pilot.
+
+\begin{table}[t]
+  \centering
+  \caption{Initial synthetic memory pilot at sequence length 64.}
+  \label{tab:memory}
+  \begin{tabular}{lccc}
+    \toprule
+    Task & Recurrent-FFN & Mamba2 & Softmax attention \\
+    \midrule
+    Associative recall accuracy & 15.82\% & 10.16\% & 7.03\% \\
+    Signal-noise accuracy & 12.70\% & 8.59\% & 8.59\% \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+This matters because attention is unchanged. The gain comes from replacing only
+the FFN slot with a dynamic memory mechanism.
+
+\subsection{Historical Small-Model Development}
+The first matched-parameter WikiText-2 pilot used the original GELU Transformer
+baseline and showed that the plain recurrent FFN was still slightly worse at 80
+training steps: 5.178 BPB versus 5.144. We then changed the main baseline to a
+full-width SwiGLU Transformer and reran a wider recurrent screen. Table
+~\ref{tab:pilot120} shows the 120-step method screen.
+
+\begin{table}[t]
+  \centering
+  \small
+  \caption{120-step byte-level WikiText-2 method screen with zero dropout and
+  learning rate $4 \times 10^{-4}$. Lower is better. The main baseline is the
+  full-width Transformer-SwiGLU row; GELU and matched-SwiGLU rows provide
+  context.}
+  \label{tab:pilot120}
+  \begin{tabular}{lcccc}
+    \toprule
+    Model & Params & Val BPB & Val ppl & Train sec \\
+    \midrule
+    Transformer-SwiGLU & 223,040 & 4.404 & 21.17 & 1.38 \\
+    Transformer-GELU & 174,848 & 4.309 & 19.82 & 1.21 \\
+    Transformer-SwiGLU-matched & 173,504 & 4.411 & 21.28 & 1.25 \\
+    Recurrent-FFN (192) & 223,040 & 4.610 & 24.42 & 16.16 \\
+    Readout (152) & 221,960 & 4.375 & 20.74 & 19.90 \\
+    Hybrid (192) & 223,328 & 4.431 & 21.57 & 35.58 \\
+    Matrix (384) & 212,987 & 4.386 & 20.91 & 40.93 \\
+    Multiscale (216) & 222,152 & 4.368 & 20.65 & 33.24 \\
+    Predictive (192) & 223,328 & 4.462 & 22.04 & 29.04 \\
+    Stable (184) & 226,004 & 4.370 & 20.68 & 37.73 \\
+    Sparse (192) & 223,328 & 4.428 & 21.52 & 33.80 \\
+    Auxiliary (168) & 220,988 & 4.438 & 21.68 & 35.94 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Four conclusions follow. First, optimization still matters a great deal for
+localized recurrent FFNs: the plain recurrent baseline remains well behind.
+Second, token-conditioned readout helps immediately. Third, once the search
+space is widened, the old hybrid winner is no longer the best recurrent model.
+Fourth, several recurrent variants beat the full-width Transformer-SwiGLU
+baseline at 120 steps: Multiscale, Stable, Readout, and Matrix. However, the
+smaller Transformer-GELU baseline remains the best short-budget Transformer in
+this tiny setting, so the 120-step result is a SwiGLU-specific win rather than
+yet a general FFN win.
+
+Table~\ref{tab:pilot200} shows the 200-step two-seed follow-up for the best
+fair recurrent candidates. The earlier hybrid winner disappears entirely.
+Recurrent-FFN-Readout gives the best single-seed run in seed 7, while
+Recurrent-FFN-Stable gives the best two-seed mean among the fair small models.
+
+\begin{table}[t]
+  \centering
+  \small
+  \caption{Two-seed 200-step byte-level WikiText-2 follow-up for the strongest
+  fair recurrent candidates from the 120-step screen.}
+  \label{tab:pilot200}
+  \begin{tabular}{lccccc}
+    \toprule
+    Seed & Model & Params & Val BPB & Val ppl & Train sec \\
+    \midrule
+    7 & Transformer-SwiGLU & 223,040 & 3.949 & 15.44 & 2.75 \\
+    7 & Transformer-GELU & 174,848 & 3.930 & 15.24 & 2.27 \\
+    7 & Readout (152) & 221,960 & 3.798 & 13.91 & 32.99 \\
+    7 & Stable (184) & 226,004 & 3.832 & 14.24 & 64.84 \\
+    11 & Transformer-SwiGLU & 223,040 & 3.946 & 15.41 & 2.23 \\
+    11 & Transformer-GELU & 174,848 & 3.965 & 15.62 & 2.00 \\
+    11 & Readout (152) & 221,960 & 3.865 & 14.57 & 33.66 \\
+    11 & Stable (184) & 226,004 & 3.819 & 14.11 & 64.76 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+These results already show that localized recurrent FFNs can become a
+language-modeling win in the small matched-capacity regime. But the gap is
+still modest, and the best small-model recurrent designs appear to optimize
+more slowly than the Transformer.
+
+\subsection{Accuracy-First Ultra Push}
+We next asked a less conservative question: what happens if we optimize purely
+for quality inside the FFN slot, even before restoring parameter fairness? The
+answer is that widening and compounding the recurrent FFN creates a much larger
+jump. Table~\ref{tab:ultra120} shows the most informative 120-step widening
+results.
+
+\begin{table}[t]
+  \centering
+  \caption{Accuracy-first widening results at 120 steps.}
+  \label{tab:ultra120}
+  \begin{tabular}{lcccc}
+    \toprule
+    Model & Params & Val BPB & Val ppl & Train sec \\
+    \midrule
+    Transformer-SwiGLU & 223,040 & 4.404 & 21.17 & 1.59 \\
+    Stable (256) & 284,864 & 4.366 & 20.63 & 37.43 \\
+    Ultra (128) & 482,432 & 4.366 & 20.62 & 70.85 \\
+    Ultra (256) & 888,704 & 4.305 & 19.77 & 68.64 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The key point is not just that Ultra wins, but that it wins by much more than
+the earlier fair recurrent variants. At 120 steps, Ultra-256 nearly matches the
+short-budget Transformer-GELU row from the earlier table while clearly beating
+the strong small Transformer-SwiGLU baseline.
+
+We then extended Ultra training. In single-seed 200-step runs, Ultra-384
+already reaches 3.679 and 3.685 BPB across two seeds. In a targeted 300-step
+single-seed search, Ultra-384 falls further to 3.567 BPB, and exploratory
+widening to Ultra-448 reaches 3.557 in seed 7. These search results suggest
+that the compound recurrent FFN has substantial optimization headroom once the
+budget is increased.
+
+\subsection{Matched-Capacity Crossover at 400 Steps}
+The most important question is whether the Ultra improvement survives a fairer
+capacity-controlled comparison. Table~\ref{tab:ultra400} answers that question.
+We compare Ultra-384 against a larger Transformer-SwiGLU with nearly identical
+parameter count.
+
+\begin{table}[t]
+  \centering
+  \caption{Two-seed 400-step matched-capacity comparison.}
+  \label{tab:ultra400}
+  \begin{tabular}{lccccc}
+    \toprule
+    Seed & Model & Params & Val BPB & Val ppl & Train sec \\
+    \midrule
+    7 & Transformer-SwiGLU ($d=160$) & 1,294,880 & 3.474 & 11.11 & 8.51 \\
+    7 & Ultra-384 & 1,294,976 & 3.254 & 9.54 & 245.10 \\
+    11 & Transformer-SwiGLU ($d=160$) & 1,294,880 & 3.438 & 10.84 & 9.39 \\
+    11 & Ultra-384 & 1,294,976 & 3.254 & 9.54 & 222.74 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+This is the strongest result in the paper. Ultra-384 improves BPB by 0.220 in
+seed 7 and 0.184 in seed 11 relative to the matched-capacity Transformer. The
+two-seed mean is 3.254 for Ultra-384 versus 3.456 for the Transformer. In this
+small benchmark, the quality gap is no longer marginal.
+
+We still avoid overselling the result. The Transformer control is strong among
+the settings we tested, but our Transformer hyperparameter search is much
+smaller than the Ultra search. Even so, the matched-capacity crossover is now
+substantial enough that it cannot be dismissed as a tiny short-run fluctuation.
+
+\subsection{Throughput Remains the Main Weakness}
+The systems story remains decisively negative in the current implementation.
+Table~\ref{tab:throughput} compares the matched-capacity Transformer control
+with Ultra-384.
+
+\begin{table}[t]
+  \centering
+  \caption{Forward-only throughput on Apple MPS for the matched-capacity pair.}
+  \label{tab:throughput}
+  \begin{tabular}{lcc}
+    \toprule
+    Sequence length & Transformer-SwiGLU tok/s & Ultra-384 tok/s \\
+    \midrule
+    64 & 204.1k & 6.6k \\
+    128 & 281.1k & 6.6k \\
+    256 & 243.8k & 6.7k \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Ultra-384 is therefore a quality-first research result, not a systems
+replacement. The throughput is roughly 30--40$\times$ worse in this Python
+reference implementation, even though the recurrent curve is flatter across
+sequence lengths.
+
+\section{Discussion}
+\paragraph{Relation to modern RNNs.}
+The paper is motivated by the same broad intuition behind Universal
+Transformers, Transformer-to-RNN conversion, RWKV-style models, matrix-state
+recurrent models, selective state spaces, and delta-rule sequence models:
+dynamic token-conditioned memory can replace some functions usually assigned to
+static or attention-heavy components \citep{dehghani2019universal,
+kasai2021t2r, orvieto2023lru, rwkv2023, eaglefinch2024, mamba2023,
+mamba2ssd2024, retnet2023, yang2024deltanet, griffin2024,
+gateddeltanet2024, m2rnn2026}. But our experiment is deliberately narrower.
+We do not replace the whole backbone. We ask whether the FFN slot alone can be
+made recurrent.
+
+\paragraph{Relation to FFN memory interpretations.}
+Our motivation also overlaps with a mechanistic line of work that treats FFN
+layers as memory-bearing modules rather than generic token-wise nonlinearities.
+Key-value memory interpretations of FFNs \citep{geva2020ffnmem}, knowledge-
+neuron analyses \citep{dai2021knowledge}, and direct model-editing results that
+target MLP weights \citep{meng2022rome} all support the view that part of a
+Transformers' stored knowledge lives in the FFN stack. Our localized
+recurrent FFN can be read as shifting some of that storage from purely static
+parameters into token-conditioned state, while still keeping the surrounding
+attention scaffold intact.
+
+\paragraph{What the current evidence supports.}
+The strongest honest claim is now:
+\begin{quote}
+Localized recurrent FFN replacement is a real small-scale quality win plus a
+memory-sensitive win, but the strongest result currently comes from an
+accuracy-first compound FFN rather than a strict drop-in systems replacement.
+\end{quote}
+That is a stronger statement than our earlier ``memory win only'' or ``small
+matched win'' interpretations, but still far weaker than a general claim that
+recurrent layers replace Transformers everywhere.
+
+\paragraph{Why Ultra likely helps.}
+The fair small variants suggest that three ingredients matter: token-conditioned
+readout, recurrent dynamics with better stability, and a local branch that
+restores FFN-like token mixing. Ultra simply stops forcing those ingredients to
+share a tiny budget. It gives the model a readout memory, a stable memory, and
+a wider local nonlinear branch, then lets the token mix them dynamically.
+Viewed this way, Ultra is less a single clever recurrence rule than a
+specialized division of labor inside the FFN slot.
+
+\paragraph{Why the ranking changes with training length.}
+The matched small-model screen already hints that good recurrent FFNs optimize
+more slowly than the Transformer. The 300- and 400-step Ultra results amplify
+that pattern. Very short screens understate what these localized recurrent FFNs
+can do once the optimization budget is extended.
+
+\section{Limitations}
+This is still a pilot study, not a state-of-the-art language-modeling claim.
+\begin{itemize}[leftmargin=1.25em]
+  \item The experiments are small: byte-level WikiText-2, short sequences, and
+  at most 400 training steps on Apple MPS.
+  \item The final matched-capacity result is only a two-seed comparison.
+  \item The Ultra result follows a targeted search over recurrent designs and
+  schedules. Our larger Transformer control search is smaller and may not be
+  fully optimized.
+  \item The final comparison matches parameter count, not FLOPs, wall-clock
+  budget, or hardware efficiency.
+  \item The recurrent implementations are explicit Python loops rather than
+  fused scan kernels.
+  \item Ultra is not the cleanest possible scientific isolation of a
+  parameter-matched FFN replacement. It is explicitly an accuracy-first
+  compound design.
+  \item We do not yet report larger datasets, matched-FLOP comparisons, or
+  modern long-context benchmarks.
+  \item The best synthetic memory result is still modest in absolute accuracy,
+  even though it improves on the pilot baselines.
+\end{itemize}
+
+\section{Conclusion}
+Replacing the Transformer FFN with localized recurrent memory is a credible and
+scientifically useful research direction. A plain recurrent FFN already helps
+memory-sensitive synthetic tasks, which supports the view that the FFN slot can
+benefit from a dynamic memory mechanism. A wider recurrent method screen then
+shows that several localized recurrent FFNs beat a small strong SwiGLU
+Transformer. The strongest update in this paper is that an accuracy-first
+compound recurrent FFN, Ultra-384, goes further: in a two-seed 400-step
+matched-capacity comparison, it substantially beats a larger Transformer-SwiGLU
+on byte-level WikiText-2. The implementation is still drastically slower, so
+this should not be framed as a practical replacement yet. But it is now strong
+enough to justify a more ambitious standalone line of work: optimize the
+compound recurrent FFN itself, add fused kernels, run a stronger Transformer
+control search, and test whether the same quality crossover persists on larger
+datasets.
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\end{document}

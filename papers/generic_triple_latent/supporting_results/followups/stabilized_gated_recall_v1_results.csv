@@ -1,0 +1,4 @@
+task,model,steps,batch_size,seq_len,seed,device,train_seconds,train_loss_last,eval_loss,eval_accuracy,num_params,num_pairs,lr_warmup_steps,curriculum_start_seq_len,curriculum_steps,curriculum_start_num_pairs,read_gate_bias_init,write_gate_bias_init
+associative_recall,triple-hybrid-assoc-gated-last-logits,500,32,128,7,mps,487.73871166596655,2.07830810546875,2.088288154453039,0.13037109375,202459,4,50,32,150,,-2.0,
+associative_recall,triple-hybrid-assoc-gated-last-logits,500,32,128,19,mps,547.6005036670249,2.0597596168518066,2.088663075119257,0.1337890625,202459,4,50,32,150,,-2.0,
+associative_recall,triple-hybrid-assoc-gated-last-logits,500,32,128,29,mps,350.94415054202545,2.071390151977539,2.0960085093975067,0.11572265625,202459,4,50,32,150,,-2.0,

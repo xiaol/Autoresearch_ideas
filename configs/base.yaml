@@ -1,0 +1,16 @@
+model:
+  vocab_size: 32000
+  d_model: 768
+  n_layers: 12
+  n_heads: 8
+  state_dim: 64
+  deep_embed_dim: 256
+  dropout: 0.1
+  use_rosa: true
+
+training:
+  context_length: 2048
+  micro_batch_size: 8
+  gradient_accumulation_steps: 8
+  lr: 3.0e-4
+  weight_decay: 0.1

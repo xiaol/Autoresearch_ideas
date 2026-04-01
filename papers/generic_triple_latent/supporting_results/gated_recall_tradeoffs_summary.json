@@ -1,0 +1,133 @@
+{
+  "device": "mps",
+  "lm_results": [
+    {
+      "task": "language_modeling",
+      "model": "transformer",
+      "dataset": "wikitext2-bytes",
+      "steps": 80,
+      "batch_size": 16,
+      "seq_len": 128,
+      "seed": 7,
+      "device": "mps",
+      "train_seconds": 1.0616380830178969,
+      "train_loss_last": 3.5881459712982178,
+      "train_loss_mean_last_10": 3.629060482978821,
+      "val_loss": 3.5652072243392467,
+      "val_bpb": 5.143506782295738,
+      "val_perplexity": 35.34677735798526,
+      "num_params": 174848,
+      "checkpoint_path": "auto_research_llm_ideas/results/_gated_recall_d64_tradeoffs_v1/lm/transformer/transformer_lm.pt"
+    },
+    {
+      "task": "language_modeling",
+      "model": "triple-hybrid",
+      "dataset": "wikitext2-bytes",
+      "steps": 80,
+      "batch_size": 16,
+      "seq_len": 128,
+      "seed": 7,
+      "device": "mps",
+      "train_seconds": 22.774960540991742,
+      "train_loss_last": 3.422663450241089,
+      "train_loss_mean_last_10": 3.49680495262146,
+      "val_loss": 3.3571113012731075,
+      "val_bpb": 4.843287826059007,
+      "val_perplexity": 28.706147581482586,
+      "num_params": 177752,
+      "checkpoint_path": "auto_research_llm_ideas/results/_gated_recall_d64_tradeoffs_v1/lm/triple-hybrid/triple-hybrid_lm.pt"
+    },
+    {
+      "task": "language_modeling",
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "dataset": "wikitext2-bytes",
+      "steps": 80,
+      "batch_size": 16,
+      "seq_len": 128,
+      "seed": 7,
+      "device": "mps",
+      "train_seconds": 58.289614582958166,
+      "train_loss_last": 2.5892715454101562,
+      "train_loss_mean_last_10": 2.6650912284851076,
+      "val_loss": 2.4918775744736195,
+      "val_bpb": 3.5950194191955096,
+      "val_perplexity": 12.083943337642905,
+      "num_params": 214939,
+      "checkpoint_path": "auto_research_llm_ideas/results/_gated_recall_d64_tradeoffs_v1/lm/triple-hybrid-assoc-gated-last-logits/triple-hybrid-assoc-gated-last-logits_lm.pt"
+    }
+  ],
+  "benchmark_results": [
+    {
+      "task": "throughput_benchmark",
+      "model": "transformer",
+      "device": "mps",
+      "seq_len": 64,
+      "batch_size": 8,
+      "timed_iters": 20,
+      "num_params": 199424,
+      "tokens_per_second": 602683.815434953,
+      "milliseconds_per_iter": 0.8495333488099277,
+      "memory_mb": 0.7646484375
+    },
+    {
+      "task": "throughput_benchmark",
+      "model": "transformer",
+      "device": "mps",
+      "seq_len": 512,
+      "batch_size": 8,
+      "timed_iters": 20,
+      "num_params": 199424,
+      "tokens_per_second": 344184.8084133058,
+      "milliseconds_per_iter": 11.900583349051885,
+      "memory_mb": 0.7919921875
+    },
+    {
+      "task": "throughput_benchmark",
+      "model": "triple-hybrid",
+      "device": "mps",
+      "seq_len": 64,
+      "batch_size": 8,
+      "timed_iters": 20,
+      "num_params": 202328,
+      "tokens_per_second": 18433.38571768341,
+      "milliseconds_per_iter": 27.775689601548947,
+      "memory_mb": 0.794677734375
+    },
+    {
+      "task": "throughput_benchmark",
+      "model": "triple-hybrid",
+      "device": "mps",
+      "seq_len": 512,
+      "batch_size": 8,
+      "timed_iters": 20,
+      "num_params": 202328,
+      "tokens_per_second": 18869.868518857602,
+      "milliseconds_per_iter": 217.06563540210482,
+      "memory_mb": 0.822021484375
+    },
+    {
+      "task": "throughput_benchmark",
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "device": "mps",
+      "seq_len": 64,
+      "batch_size": 8,
+      "timed_iters": 20,
+      "num_params": 239515,
+      "tokens_per_second": 5658.784810727749,
+      "milliseconds_per_iter": 90.47878955025226,
+      "memory_mb": 0.945068359375
+    },
+    {
+      "task": "throughput_benchmark",
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "device": "mps",
+      "seq_len": 512,
+      "batch_size": 8,
+      "timed_iters": 20,
+      "num_params": 239515,
+      "tokens_per_second": 4909.837046453236,
+      "milliseconds_per_iter": 834.2435729020508,
+      "memory_mb": 0.972412109375
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "assumptions": [
+    "Counts use 2 FLOPs per multiply-add and track only dominant linear/attention/einsum terms.",
+    "Embedding lookups, layer norm, GELU, softmax, top-k selection, and Python overhead are omitted.",
+    "Triple-hybrid includes the front-end local convolution; logits-fusion variants include the extra vocab projection."
+  ],
+  "config": {
+    "models": [
+      "transformer",
+      "triple-hybrid",
+      "triple-hybrid-assoc-gated-last-logits"
+    ],
+    "seq_lens": [
+      64,
+      128,
+      512
+    ],
+    "d_model": 64,
+    "n_layers": 3,
+    "n_heads": 4,
+    "state_dim": 8,
+    "vocab_size": 259
+  },
+  "rows": [
+    {
+      "model": "transformer",
+      "seq_len": 64,
+      "total_flops": 24141824,
+      "total_mflops": 24.142,
+      "qkv_proj": 4718592,
+      "attn_out_proj": 1572864,
+      "attn_scores": 1572864,
+      "attn_reduce": 1572864,
+      "ffn": 12582912,
+      "lm_head": 2121728,
+      "relative_to_transformer": 1.0
+    },
+    {
+      "model": "triple-hybrid",
+      "seq_len": 64,
+      "total_flops": 21755904,
+      "total_mflops": 21.756,
+      "recurrent_proj": 3342336,
+      "recurrent_memory": 301056,
+      "output_proj": 786432,
+      "ffn": 12582912,
+      "local_conv": 2621440,
+      "lm_head": 2121728,
+      "relative_to_transformer": 0.9012
+    },
+    {
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "seq_len": 64,
+      "total_flops": 25777664,
+      "total_mflops": 25.778,
+      "recurrent_proj": 3342336,
+      "recurrent_memory": 301056,
+      "output_proj": 786432,
+      "ffn": 12582912,
+      "local_conv": 2621440,
+      "lm_head": 2121728,
+      "assoc_proj": 1572864,
+      "assoc_scores": 258048,
+      "assoc_topk_mix": 60928,
+      "assoc_read_gate": 8192,
+      "assoc_write_gate": 0,
+      "assoc_lm_head": 2121728,
+      "relative_to_transformer": 1.0678
+    },
+    {
+      "model": "transformer",
+      "seq_len": 128,
+      "total_flops": 54575104,
+      "total_mflops": 54.575,
+      "qkv_proj": 9437184,
+      "attn_out_proj": 3145728,
+      "attn_scores": 6291456,
+      "attn_reduce": 6291456,
+      "ffn": 25165824,
+      "lm_head": 4243456,
+      "relative_to_transformer": 1.0
+    },
+    {
+      "model": "triple-hybrid",
+      "seq_len": 128,
+      "total_flops": 43511808,
+      "total_mflops": 43.512,
+      "recurrent_proj": 6684672,
+      "recurrent_memory": 602112,
+      "output_proj": 1572864,
+      "ffn": 25165824,
+      "local_conv": 5242880,
+      "lm_head": 4243456,
+      "relative_to_transformer": 0.7973
+    },
+    {
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "seq_len": 128,
+      "total_flops": 52084224,
+      "total_mflops": 52.084,
+      "recurrent_proj": 6684672,
+      "recurrent_memory": 602112,
+      "output_proj": 1572864,
+      "ffn": 25165824,
+      "local_conv": 5242880,
+      "lm_head": 4243456,
+      "assoc_proj": 3145728,
+      "assoc_scores": 1040384,
+      "assoc_topk_mix": 126464,
+      "assoc_read_gate": 16384,
+      "assoc_write_gate": 0,
+      "assoc_lm_head": 4243456,
+      "relative_to_transformer": 0.9544
+    },
+    {
+      "model": "transformer",
+      "seq_len": 512,
+      "total_flops": 369295360,
+      "total_mflops": 369.295,
+      "qkv_proj": 37748736,
+      "attn_out_proj": 12582912,
+      "attn_scores": 100663296,
+      "attn_reduce": 100663296,
+      "ffn": 100663296,
+      "lm_head": 16973824,
+      "relative_to_transformer": 1.0
+    },
+    {
+      "model": "triple-hybrid",
+      "seq_len": 512,
+      "total_flops": 174047232,
+      "total_mflops": 174.047,
+      "recurrent_proj": 26738688,
+      "recurrent_memory": 2408448,
+      "output_proj": 6291456,
+      "ffn": 100663296,
+      "local_conv": 20971520,
+      "lm_head": 16973824,
+      "relative_to_transformer": 0.4713
+    },
+    {
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "seq_len": 512,
+      "total_flops": 220933632,
+      "total_mflops": 220.934,
+      "recurrent_proj": 26738688,
+      "recurrent_memory": 2408448,
+      "output_proj": 6291456,
+      "ffn": 100663296,
+      "local_conv": 20971520,
+      "lm_head": 16973824,
+      "assoc_proj": 12582912,
+      "assoc_scores": 16744448,
+      "assoc_topk_mix": 519680,
+      "assoc_read_gate": 65536,
+      "assoc_write_gate": 0,
+      "assoc_lm_head": 16973824,
+      "relative_to_transformer": 0.5983
+    }
+  ]
+}

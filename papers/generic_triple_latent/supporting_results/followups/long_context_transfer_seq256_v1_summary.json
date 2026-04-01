@@ -1,0 +1,156 @@
+{
+  "config": {
+    "models": [
+      "transformer",
+      "triple-hybrid-assoc-gated-last-logits"
+    ],
+    "dataset_name": "wikitext2",
+    "steps": 80,
+    "batch_size": 8,
+    "seq_len": 256,
+    "eval_batches": 32,
+    "lr": 0.0003,
+    "lr_warmup_steps": 8,
+    "d_model": 64,
+    "n_layers": 3,
+    "n_heads": 4,
+    "state_dim": 8,
+    "dropout": 0.1,
+    "seed": 7,
+    "ruler_tasks": [
+      "niah_single_1",
+      "vt",
+      "cwe",
+      "fwe"
+    ],
+    "ruler_num_samples": 8
+  },
+  "lm_results": [
+    {
+      "task": "language_modeling",
+      "model": "transformer",
+      "dataset": "wikitext2-bytes",
+      "steps": 80,
+      "batch_size": 8,
+      "seq_len": 256,
+      "seed": 7,
+      "device": "mps",
+      "train_seconds": 2.0621204579947516,
+      "train_loss_last": 3.6402547359466553,
+      "train_loss_mean_last_10": 3.714662957191467,
+      "val_loss": 3.6512074768543243,
+      "val_bpb": 5.267578920114438,
+      "val_perplexity": 38.52115137709507,
+      "num_params": 231232,
+      "lr_warmup_steps": 8,
+      "checkpoint_path": "/Users/xiaol/x/PaperX/auto_research_llm_ideas/results/_long_context_transfer_seq256_v1/lm/transformer/transformer_lm.pt"
+    },
+    {
+      "task": "language_modeling",
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "dataset": "wikitext2-bytes",
+      "steps": 80,
+      "batch_size": 8,
+      "seq_len": 256,
+      "seed": 7,
+      "device": "mps",
+      "train_seconds": 211.70841454103356,
+      "train_loss_last": 2.7390034198760986,
+      "train_loss_mean_last_10": 2.828004336357117,
+      "val_loss": 2.6959273517131805,
+      "val_bpb": 3.889401020913522,
+      "val_perplexity": 14.819255044670374,
+      "num_params": 223131,
+      "lr_warmup_steps": 8,
+      "checkpoint_path": "/Users/xiaol/x/PaperX/auto_research_llm_ideas/results/_long_context_transfer_seq256_v1/lm/triple-hybrid-assoc-gated-last-logits/triple-hybrid-assoc-gated-last-logits_lm.pt"
+    }
+  ],
+  "ruler_results": [
+    {
+      "model": "transformer",
+      "checkpoint_path": "/Users/xiaol/x/PaperX/auto_research_llm_ideas/results/_long_context_transfer_seq256_v1/lm/transformer/transformer_lm.pt",
+      "average_score": 0.0,
+      "seq_budget": 256,
+      "num_samples": 8
+    },
+    {
+      "model": "transformer",
+      "task": "niah_single_1",
+      "task_type": "niah",
+      "score": 0.0,
+      "null_predictions": "8/8",
+      "seq_budget": 256,
+      "num_samples": 8
+    },
+    {
+      "model": "transformer",
+      "task": "vt",
+      "task_type": "variable_tracking",
+      "score": 0.0,
+      "null_predictions": "8/8",
+      "seq_budget": 256,
+      "num_samples": 8
+    },
+    {
+      "model": "transformer",
+      "task": "cwe",
+      "task_type": "common_words_extraction",
+      "score": 0.0,
+      "null_predictions": "8/8",
+      "seq_budget": 256,
+      "num_samples": 8
+    },
+    {
+      "model": "transformer",
+      "task": "fwe",
+      "task_type": "freq_words_extraction",
+      "score": 0.0,
+      "null_predictions": "8/8",
+      "seq_budget": 256,
+      "num_samples": 8
+    },
+    {
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "checkpoint_path": "/Users/xiaol/x/PaperX/auto_research_llm_ideas/results/_long_context_transfer_seq256_v1/lm/triple-hybrid-assoc-gated-last-logits/triple-hybrid-assoc-gated-last-logits_lm.pt",
+      "average_score": 0.0,
+      "seq_budget": 256,
+      "num_samples": 8
+    },
+    {
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "task": "niah_single_1",
+      "task_type": "niah",
+      "score": 0.0,
+      "null_predictions": "0/8",
+      "seq_budget": 256,
+      "num_samples": 8
+    },
+    {
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "task": "vt",
+      "task_type": "variable_tracking",
+      "score": 0.0,
+      "null_predictions": "0/8",
+      "seq_budget": 256,
+      "num_samples": 8
+    },
+    {
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "task": "cwe",
+      "task_type": "common_words_extraction",
+      "score": 0.0,
+      "null_predictions": "0/8",
+      "seq_budget": 256,
+      "num_samples": 8
+    },
+    {
+      "model": "triple-hybrid-assoc-gated-last-logits",
+      "task": "fwe",
+      "task_type": "freq_words_extraction",
+      "score": 0.0,
+      "null_predictions": "0/8",
+      "seq_budget": 256,
+      "num_samples": 8
+    }
+  ]
+}

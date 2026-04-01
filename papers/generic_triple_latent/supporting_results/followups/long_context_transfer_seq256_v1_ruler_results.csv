@@ -1,0 +1,11 @@
+model,checkpoint_path,average_score,seq_budget,num_samples,task,task_type,score,null_predictions
+transformer,/Users/xiaol/x/PaperX/auto_research_llm_ideas/results/_long_context_transfer_seq256_v1/lm/transformer/transformer_lm.pt,0.0,256,8,,,,
+transformer,,,256,8,niah_single_1,niah,0.0,8/8
+transformer,,,256,8,vt,variable_tracking,0.0,8/8
+transformer,,,256,8,cwe,common_words_extraction,0.0,8/8
+transformer,,,256,8,fwe,freq_words_extraction,0.0,8/8
+triple-hybrid-assoc-gated-last-logits,/Users/xiaol/x/PaperX/auto_research_llm_ideas/results/_long_context_transfer_seq256_v1/lm/triple-hybrid-assoc-gated-last-logits/triple-hybrid-assoc-gated-last-logits_lm.pt,0.0,256,8,,,,
+triple-hybrid-assoc-gated-last-logits,,,256,8,niah_single_1,niah,0.0,0/8
+triple-hybrid-assoc-gated-last-logits,,,256,8,vt,variable_tracking,0.0,0/8
+triple-hybrid-assoc-gated-last-logits,,,256,8,cwe,common_words_extraction,0.0,0/8
+triple-hybrid-assoc-gated-last-logits,,,256,8,fwe,freq_words_extraction,0.0,0/8

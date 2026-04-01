@@ -1,0 +1,13 @@
+model,task,task_type,score,null_predictions,num_samples,seq_budget
+transformer,niah_single_1,niah,0.0,32/32,32,128
+transformer,vt,variable_tracking,0.0,32/32,32,128
+transformer,cwe,common_words_extraction,0.0,32/32,32,128
+transformer,fwe,freq_words_extraction,0.0,32/32,32,128
+triple-hybrid,niah_single_1,niah,0.0,0/32,32,128
+triple-hybrid,vt,variable_tracking,0.0,0/32,32,128
+triple-hybrid,cwe,common_words_extraction,0.0,0/32,32,128
+triple-hybrid,fwe,freq_words_extraction,0.0,0/32,32,128
+triple-hybrid-assoc-gated-last-logits,niah_single_1,niah,0.0,0/32,32,128
+triple-hybrid-assoc-gated-last-logits,vt,variable_tracking,0.0,0/32,32,128
+triple-hybrid-assoc-gated-last-logits,cwe,common_words_extraction,0.0,0/32,32,128
+triple-hybrid-assoc-gated-last-logits,fwe,freq_words_extraction,0.0,0/32,32,128
