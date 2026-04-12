@@ -1,4 +1,7 @@
 .DS_Store
+.env
+.env.*
+!.env.example
 __pycache__/
 *.py[cod]
 *.so
@@ -24,5 +27,6 @@ papers/**/*.fdb_latexmk
 papers/**/*.fls
 papers/**/*.log
 papers/**/*.out
+
 
 *.zip
