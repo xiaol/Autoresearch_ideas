@@ -1,0 +1,101 @@
+[
+  {
+    "start": 0,
+    "end": 180.5,
+    "summary": "Introduction to AI's transient memory problem and the critique of pure RAG as a system where knowledge is repeatedly reconstructed at query time rather than accumulated.",
+    "page": 1,
+    "type": "concept",
+    "quote": "Complex cross-document synthesis is paid for again on every query",
+    "nodeId": "node-1776598117167-3",
+    "parentNodeId": "node-1776598117167-1",
+    "imageUrl": "images/paper61/node-node-1776598117167-3.jpg"
+  },
+  {
+    "start": 180.5,
+    "end": 280,
+    "summary": "Introducing the LLM Wiki concept, comparing classical RAG's fleeting process to the durable 'meal-prepping' of compiled knowledge.",
+    "page": 2,
+    "type": "concept",
+    "quote": "The wiki pattern shifts work from query time to maintenance time.",
+    "nodeId": "node-1776598117168-19",
+    "parentNodeId": "node-1776598117168-19",
+    "imageUrl": "images/paper61/node-node-1776598117168-19.jpg"
+  },
+  {
+    "start": 280,
+    "end": 350,
+    "summary": "Connecting the LLM Wiki to historical externalized memory systems, specifically Vannevar Bush's Memex, highlighting the value of maintaining associative trails.",
+    "page": 2,
+    "type": "reference",
+    "quote": "Bush’s Memex remains the closest historical analogy",
+    "nodeId": "node-1776598117168-19",
+    "parentNodeId": "node-1776598117168-19",
+    "imageUrl": "images/paper61/node-node-1776598117168-19.jpg"
+  },
+  {
+    "start": 350,
+    "end": 450,
+    "summary": "Discussing why 'Loopy AI' and iterative reasoning methods (like Chain-of-Thought or Self-Refine) are insufficient on their own because they do not accumulate long-term memory.",
+    "page": 2,
+    "type": "concept",
+    "quote": "A loop can improve a local answer; it does not by itself guarantee durable accumulation.",
+    "nodeId": "node-1776598117168-17",
+    "parentNodeId": "node-1776598117168-9",
+    "imageUrl": "images/paper61/node-node-1776598117168-17.jpg"
+  },
+  {
+    "start": 450,
+    "end": 570,
+    "summary": "Breaking down the original LLM Wiki pattern into three structural layers: raw sources, the compiled wiki, and the schema file that acts as an operational contract.",
+    "page": 3,
+    "type": "pipeline",
+    "quote": "immutable source documents that remain the ground truth.",
+    "nodeId": "node-1776598117169-33",
+    "parentNodeId": "node-1776598117168-29",
+    "imageUrl": "images/paper61/node-node-1776598117169-33.jpg"
+  },
+  {
+    "start": 570,
+    "end": 690,
+    "summary": "Detailing the operational loops of the system, specifically focusing on the ingest and query operations that allow the agent to self-enrich its notes.",
+    "page": 3,
+    "type": "pipeline",
+    "quote": "answer from the compiled wiki, then optionally promote useful answers back into the wiki.",
+    "nodeId": "node-1776598117170-43",
+    "parentNodeId": "node-1776598117168-29",
+    "imageUrl": "images/paper61/node-node-1776598117170-43.jpg"
+  },
+  {
+    "start": 690,
+    "end": 850,
+    "summary": "Explaining the linting operation, which tasks the AI with scanning its compiled knowledge to find logical degradation, orphan pages, and contradictions.",
+    "page": 3,
+    "type": "pipeline",
+    "quote": "Lint: detect contradictions, staleness, orphan pages, missing cross-links, and gaps worth investigating.",
+    "nodeId": "node-1776598117170-45",
+    "parentNodeId": "node-1776598117168-29",
+    "imageUrl": "images/paper61/node-node-1776598117170-45.jpg"
+  },
+  {
+    "start": 850,
+    "end": 1020,
+    "summary": "Comparing six repository implementations that operationalize the pattern, highlighting their approaches to search, hosted platforms, and split-memory systems.",
+    "page": 4,
+    "type": "result",
+    "quote": "Table 1 summarizes the comparison set at a systems-design level.",
+    "nodeId": "node-1776598117171-57",
+    "parentNodeId": "node-1776598117171-57",
+    "imageUrl": "images/paper61/node-node-1776598117171-57.jpg"
+  },
+  {
+    "start": 1020,
+    "end": 1215.448526,
+    "summary": "Concluding the analysis by observing that while the core operations remain stable, systems primarily diverge in their chosen memory substrate architecture.",
+    "page": 1,
+    "type": "result",
+    "quote": "The major design divergence is whether systems treat the compiled wiki, retrieval, or a memory hierarchy of both as the real substrate of agent memory.",
+    "nodeId": "node-1776598117171-83",
+    "parentNodeId": "node-1776598117171-79",
+    "imageUrl": "images/paper61/node-node-1776598117171-83.jpg"
+  }
+]

@@ -1,0 +1,428 @@
+{
+  "root": {
+    "text": "LLM Wiki Memory Pattern",
+    "quote": "The central conclusion is that the LLM wiki idea is best understood not as a grand theory of “Loopy AI,” but as a concrete systems pattern for durable, agent-maintained knowledge artifacts.",
+    "page": 1,
+    "nodeType": "concept",
+    "children": [
+      {
+        "text": "1. Introduction",
+        "quote": "Most practical LLM-document systems today still follow the RAG paradigm",
+        "page": 1,
+        "nodeType": "concept",
+        "color": "rgba(255, 99, 132, 0.8)",
+        "children": [
+          {
+            "text": "RAG Structural Weakness",
+            "quote": "Knowledge is repeatedly rediscovered instead of explicitly accumulated.",
+            "page": 1,
+            "nodeType": "concept",
+            "refs": [
+              "RAG"
+            ]
+          },
+          {
+            "text": "Karpathy's Core Proposal",
+            "quote": "insert a persistent, LLM-maintained markdown wiki between raw sources and future questions.",
+            "page": 1,
+            "nodeType": "pipeline"
+          },
+          {
+            "text": "The Artifact as Memory",
+            "quote": "the system’s memory is not only the model’s parametric weights or a retrieval index. It is also the maintained artifact itself.",
+            "page": 1,
+            "nodeType": "concept"
+          }
+        ]
+      },
+      {
+        "text": "2. Conceptual Frame",
+        "quote": "Karpathy’s note is intentionally informal, but it implies a strong architectural distinction",
+        "page": 1,
+        "nodeType": "concept",
+        "color": "rgba(54, 162, 235, 0.8)",
+        "children": [
+          {
+            "text": "RAG Deferred Synthesis",
+            "quote": "The burden of synthesis is deferred until the moment of questioning.",
+            "page": 2,
+            "nodeType": "concept",
+            "refs": [
+              "RAG"
+            ]
+          },
+          {
+            "text": "Wiki Compilation Phase",
+            "quote": "A source is read once, discussed, summarized, linked, and integrated into a durable artifact.",
+            "page": 2,
+            "nodeType": "pipeline"
+          },
+          {
+            "text": "Externalized Long-term Memory",
+            "quote": "It becomes an externalized long-term memory system.",
+            "page": 2,
+            "nodeType": "concept",
+            "refs": [
+              "Memex"
+            ]
+          },
+          {
+            "text": "Limitations of Loopy AI",
+            "quote": "A loop can improve a local answer; it does not by itself guarantee durable accumulation.",
+            "page": 2,
+            "nodeType": "concept"
+          }
+        ]
+      },
+      {
+        "text": "3. Related Work",
+        "quote": "The LLM wiki pattern sits at the intersection of three research threads",
+        "page": 2,
+        "nodeType": "reference",
+        "color": "rgba(255, 206, 86, 0.8)",
+        "children": [
+          {
+            "text": "Retrieval as Augmentation",
+            "quote": "Retrieval-Augmented Generation formalized the now-standard pattern",
+            "page": 2,
+            "nodeType": "reference",
+            "refs": [
+              "RAG"
+            ]
+          },
+          {
+            "text": "Test-time Reasoning",
+            "quote": "exposing intermediate reasoning traces can substantially improve performance",
+            "page": 2,
+            "nodeType": "reference",
+            "refs": [
+              "Chain-of-Thought",
+              "Tree of Thoughts",
+              "ReAct",
+              "Reflexion",
+              "Self-Refine"
+            ]
+          },
+          {
+            "text": "External Memory Hierarchies",
+            "quote": "explicitly modeling memory tiers and paging context in and out of a limited working window",
+            "page": 3,
+            "nodeType": "reference",
+            "refs": [
+              "MemGPT"
+            ]
+          },
+          {
+            "text": "Associative Knowledge Systems",
+            "quote": "Bush’s Memex remains the foundational conceptual reference",
+            "page": 3,
+            "nodeType": "reference",
+            "refs": [
+              "Memex"
+            ]
+          }
+        ]
+      },
+      {
+        "text": "4. The Original Pattern",
+        "quote": "Karpathy’s gist defines a three-layer pattern",
+        "page": 3,
+        "nodeType": "pipeline",
+        "color": "rgba(75, 192, 192, 0.8)",
+        "children": [
+          {
+            "text": "Karpathy's Three Layers",
+            "quote": "Raw sources... The wiki... The schema",
+            "page": 3,
+            "nodeType": "pipeline",
+            "children": [
+              {
+                "text": "Immutable Raw Sources",
+                "quote": "immutable source documents that remain the ground truth.",
+                "page": 3,
+                "nodeType": "concept"
+              },
+              {
+                "text": "LLM Maintained Wiki",
+                "quote": "LLM-maintained markdown pages containing summaries, entities, concepts, comparisons, and syntheses.",
+                "page": 3,
+                "nodeType": "concept"
+              },
+              {
+                "text": "Operational Schema",
+                "quote": "an operational contract... that tells the agent how to ingest, query, and maintain the wiki.",
+                "page": 3,
+                "nodeType": "concept"
+              }
+            ]
+          },
+          {
+            "text": "Operational Contract",
+            "quote": "The note also highlights three core operations: Ingest... Query... Lint",
+            "page": 3,
+            "nodeType": "pipeline",
+            "children": [
+              {
+                "text": "Ingest Operation",
+                "quote": "read a source, summarize it, update relevant pages, and record the change.",
+                "page": 3,
+                "nodeType": "pipeline"
+              },
+              {
+                "text": "Query Operation",
+                "quote": "answer from the compiled wiki, then optionally promote useful answers back into the wiki.",
+                "page": 3,
+                "nodeType": "pipeline"
+              },
+              {
+                "text": "Lint Operation",
+                "quote": "detect contradictions, staleness, orphan pages, missing cross-links, and gaps worth investigating.",
+                "page": 3,
+                "nodeType": "pipeline"
+              }
+            ]
+          },
+          {
+            "text": "Log Files as Memory",
+            "quote": "index and log files are treated as first-class operational memory.",
+            "page": 3,
+            "nodeType": "concept"
+          }
+        ]
+      },
+      {
+        "text": "5. Method",
+        "quote": "examined the repositories most clearly connected to Karpathy’s gist",
+        "page": 3,
+        "nodeType": "pipeline",
+        "color": "rgba(153, 102, 255, 0.8)",
+        "children": [
+          {
+            "text": "Implementation Ecosystem",
+            "quote": "six repositories that operationalize or extend the pattern in different directions",
+            "page": 1,
+            "nodeType": "reference"
+          },
+          {
+            "text": "Comparison Evidence",
+            "quote": "README-level claims... repository structure... small runnable checks",
+            "page": 3,
+            "nodeType": "pipeline"
+          },
+          {
+            "text": "Lightweight Validations",
+            "quote": "targeted sanity checks used to separate architectural claims from executable behavior.",
+            "page": 4,
+            "nodeType": "result"
+          }
+        ]
+      },
+      {
+        "text": "6. Implementation Analysis",
+        "quote": "Table 1 summarizes the comparison set at a systems-design level.",
+        "page": 4,
+        "nodeType": "result",
+        "color": "rgba(255, 159, 64, 0.8)",
+        "children": [
+          {
+            "text": "llmbase: Compiled Wiki",
+            "quote": "the strongest direct implementation of the compiled-wiki idea",
+            "page": 4,
+            "nodeType": "result",
+            "refs": [
+              "Hosuke/llmbase"
+            ]
+          },
+          {
+            "text": "qmd: Retrieval Substrate",
+            "quote": "provides high-quality local retrieval over markdown collections",
+            "page": 5,
+            "nodeType": "result",
+            "refs": [
+              "tobi/qmd"
+            ]
+          },
+          {
+            "text": "llmwiki: Hosted Platform",
+            "quote": "translates the pattern into a full web product",
+            "page": 5,
+            "nodeType": "result",
+            "refs": [
+              "lucasastorian/llmwiki"
+            ]
+          },
+          {
+            "text": "llm-wiki: Explicit L1/L2",
+            "quote": "introduces a two-level memory model absent from Karpathy’s note",
+            "page": 5,
+            "nodeType": "result",
+            "refs": [
+              "MehmetGoekce/llm-wiki"
+            ]
+          },
+          {
+            "text": "karpathy-llm-wiki: Skill",
+            "quote": "packages the pattern as an installable agent skill rather than a software platform",
+            "page": 5,
+            "nodeType": "result",
+            "refs": [
+              "Astro-Han/karpathy-llm-wiki"
+            ]
+          },
+          {
+            "text": "llm-wiki: Session Archives",
+            "quote": "applies the pattern to agent session history rather than external research documents",
+            "page": 6,
+            "nodeType": "result",
+            "refs": [
+              "Pratiyush/llm-wiki"
+            ]
+          }
+        ]
+      },
+      {
+        "text": "7. Empirical Observations",
+        "quote": "The targeted llmbase test run passed all 18 selected tests",
+        "page": 6,
+        "nodeType": "result",
+        "color": "rgba(201, 203, 207, 0.8)",
+        "children": [
+          {
+            "text": "llmbase Failure Coverage",
+            "quote": "executable behavior around the exact failure modes the pattern invites",
+            "page": 6,
+            "nodeType": "result"
+          },
+          {
+            "text": "qmd Immediate Utility",
+            "quote": "immediately useful as a local retrieval substrate for markdown corpora.",
+            "page": 6,
+            "nodeType": "result"
+          },
+          {
+            "text": "Executable Separation",
+            "quote": "validates the practical role it can play underneath a compiled wiki workflow.",
+            "page": 6,
+            "nodeType": "result"
+          }
+        ]
+      },
+      {
+        "text": "8. Synthesis",
+        "quote": "Across these repositories, several components recur consistently",
+        "page": 6,
+        "nodeType": "concept",
+        "color": "rgba(0, 128, 128, 0.8)",
+        "children": [
+          {
+            "text": "Stable Pattern Core",
+            "quote": "immutable raw sources... a maintained knowledge artifact... an explicit operations layer",
+            "page": 6,
+            "nodeType": "concept"
+          },
+          {
+            "text": "Memory Substrate Divergence",
+            "quote": "The major design divergence is whether systems treat the compiled wiki, retrieval, or a memory hierarchy of both as the real substrate of agent memory.",
+            "page": 1,
+            "nodeType": "concept",
+            "children": [
+              {
+                "text": "Substrate Divergence",
+                "quote": "compiled wiki vs retrieval engine",
+                "page": 7,
+                "nodeType": "concept"
+              },
+              {
+                "text": "Deployment Styles",
+                "quote": "local-first vs hosted",
+                "page": 7,
+                "nodeType": "concept"
+              },
+              {
+                "text": "Memory Hierarchies",
+                "quote": "single-store memory vs memory hierarchy",
+                "page": 7,
+                "nodeType": "concept"
+              }
+            ]
+          },
+          {
+            "text": "Appropriate Loopy Framing",
+            "quote": "The loop framing is useful when it refers to maintenance and revision",
+            "page": 7,
+            "nodeType": "concept"
+          },
+          {
+            "text": "CoT Externalization Analogy",
+            "quote": "externalizes knowledge accumulation in the same way that Chain-of-Thought externalized intermediate reasoning",
+            "page": 7,
+            "nodeType": "concept",
+            "refs": [
+              "Chain-of-Thought"
+            ]
+          }
+        ]
+      },
+      {
+        "text": "9. Open Questions",
+        "quote": "Several questions remain unresolved across the ecosystem",
+        "page": 7,
+        "nodeType": "concept",
+        "color": "rgba(128, 0, 128, 0.8)",
+        "children": [
+          {
+            "text": "Retrieval Escalation",
+            "quote": "How large can an index-driven wiki grow before specialized retrieval becomes mandatory?",
+            "page": 7,
+            "nodeType": "concept"
+          },
+          {
+            "text": "Answer Promotion Rules",
+            "quote": "When should a useful query answer be promoted into a first-class page",
+            "page": 7,
+            "nodeType": "concept"
+          },
+          {
+            "text": "Contradiction Handling",
+            "quote": "How should contradictions be represented",
+            "page": 7,
+            "nodeType": "concept"
+          },
+          {
+            "text": "Engineering Next Phase",
+            "quote": "These are engineering questions, not merely philosophical ones",
+            "page": 7,
+            "nodeType": "concept"
+          }
+        ]
+      },
+      {
+        "text": "10. Conclusion",
+        "quote": "It is a practical systems pattern for building durable, agent-maintained knowledge artifacts.",
+        "page": 8,
+        "nodeType": "concept",
+        "color": "rgba(128, 128, 0, 0.8)",
+        "children": [
+          {
+            "text": "Systems over Hype",
+            "quote": "narrower and more concrete than hype suggests. It is not a universal theory of agent cognition.",
+            "page": 8,
+            "nodeType": "result"
+          },
+          {
+            "text": "Strongest Architectures",
+            "quote": "The strongest implementations converge on the same backbone: immutable raw sources, compiled wiki pages, and explicit ingest/query/lint operations.",
+            "page": 8,
+            "nodeType": "result"
+          },
+          {
+            "text": "Fast Evolving Ecosystem",
+            "quote": "persistent, markdown-native, agent-maintained knowledge systems have become a concrete and fast-evolving design space.",
+            "page": 8,
+            "nodeType": "result"
+          }
+        ]
+      }
+    ]
+  }
+}
