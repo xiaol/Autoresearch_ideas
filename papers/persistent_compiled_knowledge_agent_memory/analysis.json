@@ -17,20 +17,20 @@
     "page": 2,
     "type": "concept",
     "quote": "The wiki pattern shifts work from query time to maintenance time.",
-    "nodeId": "node-1776598117168-19",
-    "parentNodeId": "node-1776598117168-19",
-    "imageUrl": "images/paper61/node-node-1776598117168-19.jpg"
+    "nodeId": "node-1776598117168-13",
+    "parentNodeId": "node-1776598117168-13",
+    "imageUrl": "images/paper61/node-node-1776598117168-13.jpg"
   },
   {
     "start": 280,
     "end": 350,
     "summary": "Connecting the LLM Wiki to historical externalized memory systems, specifically Vannevar Bush's Memex, highlighting the value of maintaining associative trails.",
-    "page": 2,
+    "page": 3,
     "type": "reference",
     "quote": "Bush’s Memex remains the closest historical analogy",
-    "nodeId": "node-1776598117168-19",
-    "parentNodeId": "node-1776598117168-19",
-    "imageUrl": "images/paper61/node-node-1776598117168-19.jpg"
+    "nodeId": "node-1776598117168-27",
+    "parentNodeId": "node-1776598117168-27",
+    "imageUrl": "images/paper61/node-node-1776598117168-27.jpg"
   },
   {
     "start": 350,
@@ -91,11 +91,11 @@
     "start": 1020,
     "end": 1215.448526,
     "summary": "Concluding the analysis by observing that while the core operations remain stable, systems primarily diverge in their chosen memory substrate architecture.",
-    "page": 1,
+    "page": 7,
     "type": "result",
     "quote": "The major design divergence is whether systems treat the compiled wiki, retrieval, or a memory hierarchy of both as the real substrate of agent memory.",
-    "nodeId": "node-1776598117171-83",
+    "nodeId": "node-1776598117171-85",
     "parentNodeId": "node-1776598117171-79",
-    "imageUrl": "images/paper61/node-node-1776598117171-83.jpg"
+    "imageUrl": "images/paper61/node-node-1776598117171-85.jpg"
   }
 ]
