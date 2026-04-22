@@ -1,0 +1,549 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 6. Evaluation, Error Analysis, and Experiment Design - Machine Learning Full Course by AI</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="An AI-native machine learning course book from beginner foundations to production engineering.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-d7827a28.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-6024a431.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Machine Learning Full Course by AI</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/xiaol/Autoresearch_ideas" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="chapter-6-evaluation-error-analysis-and-experiment-design"><a class="header" href="#chapter-6-evaluation-error-analysis-and-experiment-design">Chapter 6. Evaluation, Error Analysis, and Experiment Design</a></h1>
+<p>This chapter may be the most important in the entire book.</p>
+<p>Why?</p>
+<p>Because many people can train models.</p>
+<p>Far fewer people can tell whether the model is actually good, good for whom, good under what conditions, and good enough to trust.</p>
+<p>That difference is the beginning of engineering judgment.</p>
+<p>In this chapter we return to two familiar cases.</p>
+<p>First, a delivery-time model looks strong on average error, but it becomes unreliable exactly when customers care most: rain, rush hour, and long-distance routes.</p>
+<p>Second, a fraud model boasts excellent overall accuracy, yet floods investigators with false positives and slows legitimate transactions.</p>
+<p>Both models look respectable until evaluation becomes honest.</p>
+<h2 id="61-when-a-good-metric-lies"><a class="header" href="#61-when-a-good-metric-lies">6.1 When a Good Metric Lies</a></h2>
+<p>Suppose your delivery model reports a low average error.</p>
+<p>The team celebrates.</p>
+<p>But later you inspect specific conditions and discover:</p>
+<ul>
+<li>performance is much worse during heavy rain</li>
+<li>performance is worse for certain neighborhoods</li>
+<li>performance is worse for high-order-volume restaurants</li>
+</ul>
+<p>Now ask:</p>
+<p>Was the model ever truly good?</p>
+<p>The answer is:</p>
+<ul>
+<li>only under a weak definition of good</li>
+</ul>
+<p>This is the central lesson of evaluation:</p>
+<p>metrics are not self-interpreting.</p>
+<p>They must be read in the context of:</p>
+<ul>
+<li>the decision</li>
+<li>the cost of errors</li>
+<li>the user experience</li>
+<li>the slices that matter</li>
+</ul>
+<h2 id="62-accuracy-is-not-enough"><a class="header" href="#62-accuracy-is-not-enough">6.2 Accuracy Is Not Enough</a></h2>
+<p>Consider fraud detection.</p>
+<p>Fraud is usually rare.</p>
+<p>If only 1 percent of transactions are fraudulent, then a model that predicts “not fraud” for everything can be 99 percent accurate.</p>
+<p>That is a useless model.</p>
+<p>This is why evaluation is inseparable from class balance and error cost.</p>
+<p>If a fraud model catches more fraud but also triples the false-positive workload for investigators, then operationally it may be worse even if a headline metric improves.</p>
+<p>This is the first habit to build:</p>
+<p>always ask what a metric hides.</p>
+<h2 id="63-metrics-as-tradeoffs-not-decorations"><a class="header" href="#63-metrics-as-tradeoffs-not-decorations">6.3 Metrics as Tradeoffs, Not Decorations</a></h2>
+<p>Metrics are not badges. They are compressed summaries of tradeoffs.</p>
+<h3 id="regression-metrics"><a class="header" href="#regression-metrics">Regression metrics</a></h3>
+<p>For delivery-time prediction, common choices include:</p>
+<ul>
+<li>mean absolute error</li>
+<li>mean squared error</li>
+<li>root mean squared error</li>
+</ul>
+<p>Each tells a slightly different story.</p>
+<p>For example:</p>
+<ul>
+<li>mean absolute error is easier to interpret directly</li>
+<li>mean squared error punishes large mistakes more heavily</li>
+</ul>
+<p>If customers are especially sensitive to very late deliveries, a metric that reacts more strongly to large misses may better reflect operational pain.</p>
+<h3 id="classification-metrics"><a class="header" href="#classification-metrics">Classification metrics</a></h3>
+<p>For fraud, support routing, or churn, common metrics include:</p>
+<ul>
+<li>precision</li>
+<li>recall</li>
+<li>F1</li>
+<li>ROC-AUC</li>
+<li>PR-AUC</li>
+</ul>
+<p>Each of these emphasizes something different.</p>
+<p>If investigator time is scarce, precision matters a lot.</p>
+<p>If missing fraud is extremely expensive, recall matters a lot.</p>
+<p>There is no universal “best metric.” There is only the metric that reflects the decision context best.</p>
+<h2 id="64-precision-recall-and-thresholds"><a class="header" href="#64-precision-recall-and-thresholds">6.4 Precision, Recall, and Thresholds</a></h2>
+<p>Let us slow down on a key point.</p>
+<p>Many classifiers produce a score, not a final decision. A threshold converts score into action.</p>
+<p>That means model behavior is shaped not only by training, but by threshold choice.</p>
+<h3 id="precision"><a class="header" href="#precision">Precision</a></h3>
+<p>Of the cases the model flagged as positive, how many were truly positive?</p>
+<h3 id="recall"><a class="header" href="#recall">Recall</a></h3>
+<p>Of the truly positive cases, how many did the model catch?</p>
+<p>These are often in tension.</p>
+<p>Raise the threshold:</p>
+<ul>
+<li>precision may improve</li>
+<li>recall may drop</li>
+</ul>
+<p>Lower the threshold:</p>
+<ul>
+<li>recall may improve</li>
+<li>precision may fall</li>
+</ul>
+<p>This is not a mathematical inconvenience. It is an operational design choice.</p>
+<p>The right threshold depends on:</p>
+<ul>
+<li>cost of false positives</li>
+<li>cost of false negatives</li>
+<li>human review capacity</li>
+<li>downstream workflow</li>
+</ul>
+<h2 id="65-calibration-can-we-trust-the-probabilities"><a class="header" href="#65-calibration-can-we-trust-the-probabilities">6.5 Calibration: Can We Trust the Probabilities?</a></h2>
+<p>A model can rank cases well and still be badly calibrated.</p>
+<p>Calibration asks:</p>
+<ul>
+<li>when the model says 0.8, does that really correspond to something like 80 percent likelihood</li>
+</ul>
+<p>This matters because many systems use scores for prioritization, not just hard classification.</p>
+<p>In fraud:</p>
+<ul>
+<li>poorly calibrated scores can distort investigator queues</li>
+</ul>
+<p>In support routing:</p>
+<ul>
+<li>poorly calibrated urgency scores can waste escalations</li>
+</ul>
+<p>In churn:</p>
+<ul>
+<li>poorly calibrated risk scores can misallocate retention effort</li>
+</ul>
+<p>Calibration is one of the places where professional ML begins to look different from classroom ML. It asks not only whether the ordering is useful, but whether the confidence can support action.</p>
+<h2 id="66-train-validation-and-test-discipline-over-convenience"><a class="header" href="#66-train-validation-and-test-discipline-over-convenience">6.6 Train, Validation, and Test: Discipline Over Convenience</a></h2>
+<p>One of the easiest ways to lie to yourself is to let the evaluation boundary become fuzzy.</p>
+<p>That is why we separate:</p>
+<ul>
+<li>training data</li>
+<li>validation data</li>
+<li>test data</li>
+</ul>
+<h3 id="training-data"><a class="header" href="#training-data">Training data</a></h3>
+<p>Used to fit parameters.</p>
+<h3 id="validation-data"><a class="header" href="#validation-data">Validation data</a></h3>
+<p>Used to choose models, thresholds, or hyperparameters.</p>
+<h3 id="test-data"><a class="header" href="#test-data">Test data</a></h3>
+<p>Used sparingly to estimate final generalization after the important choices are already made.</p>
+<p>The purpose of this separation is not ritual purity. It is to preserve honesty.</p>
+<p>Every time you look at a split and adjust the system based on what you saw, that split is becoming less like a clean final estimate and more like part of development.</p>
+<p>This is why evaluation discipline is really about resisting convenience.</p>
+<h2 id="67-slice-based-evaluation"><a class="header" href="#67-slice-based-evaluation">6.7 Slice-Based Evaluation</a></h2>
+<p>Global averages are often where important failures hide.</p>
+<p>That is why slice-based evaluation is essential.</p>
+<p>A slice may be defined by:</p>
+<ul>
+<li>geography</li>
+<li>device type</li>
+<li>merchant category</li>
+<li>user segment</li>
+<li>time of day</li>
+<li>weather condition</li>
+<li>ticket language</li>
+</ul>
+<p>For the delivery case, slice analysis might reveal:</p>
+<ul>
+<li>urban core works well</li>
+<li>suburban long-distance routes fail badly</li>
+</ul>
+<p>For fraud:</p>
+<ul>
+<li>one payment method is over-flagged</li>
+<li>one region sees much lower recall</li>
+</ul>
+<p>Slices matter because deployment happens to actual groups, not to the average row in a spreadsheet.</p>
+<h2 id="68-error-analysis-study-the-failures-not-just-the-score"><a class="header" href="#68-error-analysis-study-the-failures-not-just-the-score">6.8 Error Analysis: Study the Failures, Not Just the Score</a></h2>
+<p>After evaluating metrics, the next step is <strong>error analysis</strong>.</p>
+<p>Error analysis asks:</p>
+<ul>
+<li>where does the model fail</li>
+<li>what patterns define the failures</li>
+<li>what hypotheses do those failures suggest</li>
+</ul>
+<p>For delivery-time prediction, error analysis might show:</p>
+<ul>
+<li>large underestimates mostly happen on rainy evenings</li>
+<li>large overestimates occur for small orders near fast restaurants</li>
+</ul>
+<p>For fraud:</p>
+<ul>
+<li>false positives concentrate on new devices in certain merchant segments</li>
+<li>false negatives spike in low-amount coordinated attacks</li>
+</ul>
+<p>That kind of information is far more useful than a single number.</p>
+<p>It tells you:</p>
+<ul>
+<li>which features may be missing</li>
+<li>which slices need attention</li>
+<li>whether the label process is suspect</li>
+<li>whether the model family is mismatched</li>
+</ul>
+<h2 id="69-experiment-design-change-one-thing-learn-one-thing"><a class="header" href="#69-experiment-design-change-one-thing-learn-one-thing">6.9 Experiment Design: Change One Thing, Learn One Thing</a></h2>
+<p>Many experiment logs are noisy because the team changes too many things at once.</p>
+<p>Then when the result moves, no one knows why.</p>
+<p>Good experiment design tries to preserve attribution.</p>
+<p>That means:</p>
+<ul>
+<li>define the hypothesis</li>
+<li>change one important variable at a time when possible</li>
+<li>state what success would look like</li>
+<li>record the outcome</li>
+<li>record what the outcome actually means</li>
+</ul>
+<p>This habit matters because the job of an experiment is not merely to improve the metric. The job is to produce knowledge that the team can reuse.</p>
+<h2 id="610-an-experiment-log-that-deserves-to-exist"><a class="header" href="#610-an-experiment-log-that-deserves-to-exist">6.10 An Experiment Log That Deserves to Exist</a></h2>
+<p>Many teams keep logs that no one trusts or rereads.</p>
+<p>Let us define a better one.</p>
+<p>A good experiment log should include:</p>
+<ul>
+<li>date</li>
+<li>task</li>
+<li>split version</li>
+<li>hypothesis</li>
+<li>exact change made</li>
+<li>primary metric</li>
+<li>slice effects</li>
+<li>calibration or threshold notes</li>
+<li>result</li>
+<li>interpretation</li>
+<li>next action</li>
+</ul>
+<p>Notice the word interpretation.</p>
+<p>An experiment without interpretation is only a number in a table.</p>
+<h2 id="611-harness-lab-build-an-evaluation-review-harness"><a class="header" href="#611-harness-lab-build-an-evaluation-review-harness">6.11 Harness Lab: Build an Evaluation Review Harness</a></h2>
+<p>This chapter needs a harness more than almost any other chapter.</p>
+<p>Here is a simple <strong>Evaluation Review Harness</strong>.</p>
+<h3 id="purpose"><a class="header" href="#purpose">Purpose</a></h3>
+<p>Pressure-test whether a model result is trustworthy enough to inform the next decision.</p>
+<h3 id="inputs"><a class="header" href="#inputs">Inputs</a></h3>
+<ul>
+<li>task definition</li>
+<li>chosen metrics</li>
+<li>split strategy</li>
+<li>slice results</li>
+<li>calibration or threshold settings</li>
+<li>recent experiment logs</li>
+</ul>
+<h3 id="required-outputs"><a class="header" href="#required-outputs">Required outputs</a></h3>
+<ol>
+<li>Whether the main metric is appropriate</li>
+<li>What the metric hides</li>
+<li>Which slices are most concerning</li>
+<li>Whether calibration matters here</li>
+<li>Whether thresholding is operationally sane</li>
+<li>Whether the experiment design supports the claimed conclusion</li>
+<li>Recommended next step</li>
+</ol>
+<h3 id="minimal-workflow"><a class="header" href="#minimal-workflow">Minimal workflow</a></h3>
+<ol>
+<li>Restate the business target.</li>
+<li>Check whether the primary metric reflects it.</li>
+<li>Inspect class balance or error distribution.</li>
+<li>Review slice-level behavior.</li>
+<li>Review thresholding and confidence quality.</li>
+<li>Examine recent experimental attribution.</li>
+<li>Decide whether to deploy, debug, or redesign.</li>
+</ol>
+<h3 id="evidence-artifact"><a class="header" href="#evidence-artifact">Evidence artifact</a></h3>
+<p>Produce a one-page evaluation review for each serious model candidate.</p>
+<p>It should answer:</p>
+<ul>
+<li>what looks good</li>
+<li>what looks weak</li>
+<li>what we still do not know</li>
+<li>what must be true before rollout is justified</li>
+</ul>
+<p>This artifact is one of the clearest markers of engineering maturity in an ML team.</p>
+<h2 id="612-common-failure-modes"><a class="header" href="#612-common-failure-modes">6.12 Common Failure Modes</a></h2>
+<h3 id="failure-mode-1-average-score-worship"><a class="header" href="#failure-mode-1-average-score-worship">Failure Mode 1. Average Score Worship</a></h3>
+<p>The global metric looks good, so the team ignores the slices where the product actually hurts.</p>
+<p>Fix:</p>
+<ul>
+<li>require slice evaluation before any serious conclusion</li>
+</ul>
+<h3 id="failure-mode-2-accuracy-illusion"><a class="header" href="#failure-mode-2-accuracy-illusion">Failure Mode 2. Accuracy Illusion</a></h3>
+<p>The team celebrates high accuracy on an imbalanced task.</p>
+<p>Fix:</p>
+<ul>
+<li>choose metrics aligned with class imbalance and operational cost</li>
+</ul>
+<h3 id="failure-mode-3-threshold-amnesia"><a class="header" href="#failure-mode-3-threshold-amnesia">Failure Mode 3. Threshold Amnesia</a></h3>
+<p>The team talks as if the classifier has one fixed behavior, forgetting that score-to-action is a design choice.</p>
+<p>Fix:</p>
+<ul>
+<li>treat threshold selection as part of deployment design</li>
+</ul>
+<h3 id="failure-mode-4-test-set-leakage-by-curiosity"><a class="header" href="#failure-mode-4-test-set-leakage-by-curiosity">Failure Mode 4. Test-Set Leakage by Curiosity</a></h3>
+<p>The team keeps checking the test set and quietly tuning against it.</p>
+<p>Fix:</p>
+<ul>
+<li>protect the evaluation boundary and document when a split stops being clean</li>
+</ul>
+<h3 id="failure-mode-5-experiment-fog"><a class="header" href="#failure-mode-5-experiment-fog">Failure Mode 5. Experiment Fog</a></h3>
+<p>Multiple changes happen at once, so nobody knows what actually improved.</p>
+<p>Fix:</p>
+<ul>
+<li>log hypotheses and preserve attribution discipline</li>
+</ul>
+<h2 id="chapter-summary"><a class="header" href="#chapter-summary">Chapter Summary</a></h2>
+<p>Machine learning becomes engineering when evaluation becomes honest. Metrics summarize tradeoffs, thresholds create operational behavior, calibration determines whether scores can be trusted, and slice analysis reveals where average performance hides real damage. Error analysis turns failure into diagnosis, and good experiment design turns metric changes into reusable knowledge. A strong practitioner does not ask only, “Did the score improve?” They ask, “Can I trust what this result means?”</p>
+<h2 id="use-this-skill-now"><a class="header" href="#use-this-skill-now">Use This Skill Now</a></h2>
+<p>After this chapter, open <a href="../reader-skills/ml-evaluation-review.html">Reader Skill: ML Evaluation Review</a>.</p>
+<p>Feed it one metric summary from your own project or one invented from this chapter. Then check whether the skill exposed hidden threshold, calibration, or slice issues that your first reading missed.</p>
+<h2 id="extension-exercises"><a class="header" href="#extension-exercises">Extension Exercises</a></h2>
+<ol>
+<li>Take one classification problem and explain why accuracy alone could be misleading.</li>
+<li>For a model with probabilistic output, describe how changing the threshold changes the workflow.</li>
+<li>Draft a slice-based evaluation plan for either delivery-time prediction or fraud detection.</li>
+<li>Create an experiment log template and fill it with one hypothetical experiment.</li>
+</ol>
+<h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
+<ul>
+<li><a href="../references.html">References</a></li>
+<li><a href="../chapter-07/README.html">Chapter 7. Optimization and Representation Learning</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapter-05/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapter-07/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapter-05/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapter-07/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

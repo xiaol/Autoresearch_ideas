@@ -1,0 +1,4 @@
+interface:
+  display_name: "ML Training Diagnostics"
+  short_description: "Diagnose unstable or confusing training behavior."
+  default_prompt: "Use $ml-training-diagnostics to diagnose confusing training behavior such as oscillating loss, overfitting, stalled validation, or unstable optimization, and propose ranked hypotheses plus low-cost diagnostic next steps."

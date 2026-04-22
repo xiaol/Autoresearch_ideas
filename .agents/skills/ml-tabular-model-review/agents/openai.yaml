@@ -1,0 +1,4 @@
+interface:
+  display_name: "ML Tabular Model Review"
+  short_description: "Compare linear, tree, and ensemble baselines honestly."
+  default_prompt: "Use $ml-tabular-model-review to compare naive, linear, tree, and ensemble baselines on a tabular task, including slice behavior, leakage risks, calibration notes, and a justified recommendation."

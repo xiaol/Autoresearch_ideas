@@ -1,0 +1,4 @@
+interface:
+  display_name: "ML Data Readiness"
+  short_description: "Check whether data and features are ready."
+  default_prompt: "Use $ml-data-readiness to assess whether an ML dataset and feature pipeline are ready for serious modeling by reviewing schemas, timestamps, freshness, leakage risks, joins, lineage, and train-serve consistency."

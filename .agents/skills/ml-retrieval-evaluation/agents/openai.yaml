@@ -1,0 +1,4 @@
+interface:
+  display_name: "ML Retrieval Evaluation"
+  short_description: "Judge search quality with inspectable evidence."
+  default_prompt: "Use $ml-retrieval-evaluation to evaluate a retrieval system with query relevance definitions, practical metrics, representative successes and failures, and a diagnosis of whether the issue is representation, indexing, or ranking."

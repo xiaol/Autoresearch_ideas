@@ -1,0 +1,4 @@
+interface:
+  display_name: "ML Problem Framer"
+  short_description: "Turn a vague ML request into a decision-aware task definition."
+  default_prompt: "Use $ml-problem-framer to turn an ML project request into a decision-support problem with prediction moment, label definition, business target, leakage risks, cost asymmetries, and a first-baseline recommendation."

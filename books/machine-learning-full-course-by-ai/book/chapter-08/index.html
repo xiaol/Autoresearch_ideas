@@ -1,0 +1,504 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 8. Neural Networks in Practice - Machine Learning Full Course by AI</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="An AI-native machine learning course book from beginner foundations to production engineering.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-d7827a28.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-6024a431.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Machine Learning Full Course by AI</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/xiaol/Autoresearch_ideas" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="chapter-8-neural-networks-in-practice"><a class="header" href="#chapter-8-neural-networks-in-practice">Chapter 8. Neural Networks in Practice</a></h1>
+<p>The promise of neural networks attracts many learners early.</p>
+<p>The practice of neural networks discourages many learners soon after.</p>
+<p>Why?</p>
+<p>Because writing down a model class is easy compared with building a training setup that is:</p>
+<ul>
+<li>understandable</li>
+<li>reproducible</li>
+<li>debuggable</li>
+<li>reviewable</li>
+<li>worth trusting</li>
+</ul>
+<p>This chapter is about crossing that gap.</p>
+<p>We will use support-ticket text classification as the main case. The goal is to route or prioritize tickets based on content and metadata. The technical task matters, but the larger lesson is broader: a neural project should be structured so that another engineer can inspect it without needing to reverse-engineer your intentions.</p>
+<h2 id="81-from-model-idea-to-training-project"><a class="header" href="#81-from-model-idea-to-training-project">8.1 From Model Idea to Training Project</a></h2>
+<p>A beginner often thinks the core of a neural project is the model definition.</p>
+<p>In practice, the core is the project structure around the model:</p>
+<ul>
+<li>data preparation</li>
+<li>train/validation/test discipline</li>
+<li>batching</li>
+<li>optimizer choice</li>
+<li>logging</li>
+<li>checkpointing</li>
+<li>reproducibility</li>
+<li>failure inspection</li>
+</ul>
+<p>This is one of the book’s recurring themes:</p>
+<p>the harness around the model determines whether the model can be improved responsibly.</p>
+<h2 id="82-case-support-ticket-text-classification"><a class="header" href="#82-case-support-ticket-text-classification">8.2 Case: Support-Ticket Text Classification</a></h2>
+<p>Imagine a support platform with incoming tickets like:</p>
+<ul>
+<li>billing problems</li>
+<li>login failures</li>
+<li>outage reports</li>
+<li>feature questions</li>
+<li>security concerns</li>
+</ul>
+<p>The system needs to route urgent or specialized tickets quickly.</p>
+<p>Why is this a good teaching case?</p>
+<p>Because it combines:</p>
+<ul>
+<li>unstructured text</li>
+<li>practical label noise</li>
+<li>operational urgency</li>
+<li>a clear deployment path</li>
+</ul>
+<p>It is also close enough to real work that the engineering lessons travel.</p>
+<h2 id="83-modules-parameters-and-forward-passes"><a class="header" href="#83-modules-parameters-and-forward-passes">8.3 Modules, Parameters, and Forward Passes</a></h2>
+<p>A neural network is built from modules that transform inputs into outputs.</p>
+<p>At a high level, every project needs you to keep clear:</p>
+<ul>
+<li>what the input representation is</li>
+<li>what the model consumes</li>
+<li>what shape the output has</li>
+<li>what the loss expects</li>
+</ul>
+<p>For support-ticket text classification, that might mean:</p>
+<ul>
+<li>tokenized text input</li>
+<li>embedding layer</li>
+<li>encoder</li>
+<li>classifier head</li>
+<li>logits for class prediction</li>
+</ul>
+<p>This sounds simple, but many bugs happen because one of those boundaries is unclear.</p>
+<p>Shape literacy from Chapter 2 still matters here.</p>
+<h2 id="84-batching-and-the-training-loop"><a class="header" href="#84-batching-and-the-training-loop">8.4 Batching and the Training Loop</a></h2>
+<p>A practical neural training loop usually follows this rhythm:</p>
+<ol>
+<li>Load a batch.</li>
+<li>Run the forward pass.</li>
+<li>Compute loss.</li>
+<li>Backpropagate.</li>
+<li>Update parameters.</li>
+<li>Log useful signals.</li>
+</ol>
+<p>The danger is that learners often treat this loop as boilerplate rather than as a diagnostic system.</p>
+<p>A healthy training loop should make it easy to inspect:</p>
+<ul>
+<li>loss progression</li>
+<li>validation behavior</li>
+<li>gradient instability</li>
+<li>class imbalance effects</li>
+<li>prediction drift across epochs</li>
+</ul>
+<p>The loop is not just for updating parameters. It is also for surfacing evidence.</p>
+<h2 id="85-regularization-and-normalization"><a class="header" href="#85-regularization-and-normalization">8.5 Regularization and Normalization</a></h2>
+<p>As models gain capacity, discipline matters more.</p>
+<p>Two recurring ideas are:</p>
+<h3 id="regularization"><a class="header" href="#regularization">Regularization</a></h3>
+<p>Helps discourage brittle or overly memorized behavior.</p>
+<p>Examples:</p>
+<ul>
+<li>weight decay</li>
+<li>dropout</li>
+<li>early stopping</li>
+</ul>
+<h3 id="normalization"><a class="header" href="#normalization">Normalization</a></h3>
+<p>Helps stabilize or speed learning under some architectures and settings.</p>
+<p>Examples:</p>
+<ul>
+<li>batch normalization</li>
+<li>layer normalization</li>
+</ul>
+<p>The exact mechanism matters, but at the engineering level the bigger lesson is:</p>
+<ul>
+<li>training stability and generalization are shaped by more than just the architecture name</li>
+</ul>
+<h2 id="86-reproducibility-is-not-optional"><a class="header" href="#86-reproducibility-is-not-optional">8.6 Reproducibility Is Not Optional</a></h2>
+<p>One of the most demoralizing experiences in ML is rerunning a project and not knowing why the results changed.</p>
+<p>This is where reproducibility habits matter:</p>
+<ul>
+<li>set seeds where appropriate</li>
+<li>log dataset versions</li>
+<li>log configuration</li>
+<li>record checkpoint identity</li>
+<li>record preprocessing assumptions</li>
+</ul>
+<p>Perfect determinism is not always possible, but careless non-determinism is a major source of wasted time.</p>
+<p>If a teammate cannot reproduce the result closely enough to inspect it, the project is harder to improve and harder to trust.</p>
+<h2 id="87-debugging-neural-failures"><a class="header" href="#87-debugging-neural-failures">8.7 Debugging Neural Failures</a></h2>
+<p>Neural models fail in recurring ways.</p>
+<h3 id="failure-pattern-loss-does-not-move"><a class="header" href="#failure-pattern-loss-does-not-move">Failure pattern: loss does not move</a></h3>
+<p>Possible causes:</p>
+<ul>
+<li>learning rate too low</li>
+<li>bad initialization</li>
+<li>broken input pipeline</li>
+<li>loss mismatch</li>
+</ul>
+<h3 id="failure-pattern-training-improves-validation-collapses"><a class="header" href="#failure-pattern-training-improves-validation-collapses">Failure pattern: training improves, validation collapses</a></h3>
+<p>Possible causes:</p>
+<ul>
+<li>overfitting</li>
+<li>split mismatch</li>
+<li>label issues</li>
+<li>data leakage in the wrong place</li>
+</ul>
+<h3 id="failure-pattern-gradients-explode-or-vanish"><a class="header" href="#failure-pattern-gradients-explode-or-vanish">Failure pattern: gradients explode or vanish</a></h3>
+<p>Possible causes:</p>
+<ul>
+<li>architecture depth</li>
+<li>unstable optimization</li>
+<li>poor scaling</li>
+<li>sequence length issues</li>
+</ul>
+<p>The best neural practitioners do not memorize all pathologies at once. They build a debugging routine that turns symptoms into structured investigation.</p>
+<h2 id="88-a-reusable-training-template"><a class="header" href="#88-a-reusable-training-template">8.8 A Reusable Training Template</a></h2>
+<p>A good project template should separate:</p>
+<ul>
+<li>configuration</li>
+<li>data loading</li>
+<li>model definition</li>
+<li>training loop</li>
+<li>evaluation</li>
+<li>logging</li>
+<li>checkpointing</li>
+</ul>
+<p>Why separate these?</p>
+<p>Because clarity scales.</p>
+<p>When the project grows, or someone else joins, or you revisit it after a month, modular structure becomes part of model quality.</p>
+<p>This is harness engineering in practice.</p>
+<h2 id="89-code-review-for-training-scripts"><a class="header" href="#89-code-review-for-training-scripts">8.9 Code Review for Training Scripts</a></h2>
+<p>A training script should be readable as an engineering argument.</p>
+<p>When reviewing one, ask:</p>
+<ul>
+<li>are dataset assumptions explicit</li>
+<li>are shapes and outputs coherent</li>
+<li>is split usage correct</li>
+<li>are metrics aligned with the task</li>
+<li>is checkpointing meaningful</li>
+<li>are failure cases inspectable</li>
+</ul>
+<p>A good review is not only about style. It is about making silent mistakes harder.</p>
+<h2 id="810-harness-lab-build-a-neural-project-harness"><a class="header" href="#810-harness-lab-build-a-neural-project-harness">8.10 Harness Lab: Build a Neural Project Harness</a></h2>
+<p>Here is a simple <strong>Neural Project Harness</strong>.</p>
+<h3 id="purpose"><a class="header" href="#purpose">Purpose</a></h3>
+<p>Turn a neural experiment into a project structure that another engineer can debug, reproduce, and extend.</p>
+<h3 id="inputs"><a class="header" href="#inputs">Inputs</a></h3>
+<ul>
+<li>task definition</li>
+<li>dataset</li>
+<li>model family</li>
+<li>evaluation plan</li>
+</ul>
+<h3 id="required-outputs"><a class="header" href="#required-outputs">Required outputs</a></h3>
+<ol>
+<li>Config file or config block</li>
+<li>Explicit data split rules</li>
+<li>Model module boundaries</li>
+<li>Training loop with logging</li>
+<li>Validation procedure</li>
+<li>Checkpointing and reproducibility notes</li>
+<li>Debug checklist for ordinary failure patterns</li>
+</ol>
+<h3 id="minimal-workflow"><a class="header" href="#minimal-workflow">Minimal workflow</a></h3>
+<ol>
+<li>Freeze the task and metric.</li>
+<li>Separate configuration from code.</li>
+<li>Make the input-output shapes explicit.</li>
+<li>Add logging that helps interpret training, not just admire it.</li>
+<li>Record seeds, versions, and checkpoint names.</li>
+<li>Add a short failure checklist before scaling up experiments.</li>
+</ol>
+<h3 id="evidence-artifact"><a class="header" href="#evidence-artifact">Evidence artifact</a></h3>
+<p>Produce a project README for every serious neural experiment that states:</p>
+<ul>
+<li>task</li>
+<li>data source</li>
+<li>split logic</li>
+<li>model architecture</li>
+<li>metric</li>
+<li>main training settings</li>
+<li>known weaknesses</li>
+</ul>
+<p>That README turns a private experiment into a reusable team artifact.</p>
+<h2 id="811-common-failure-modes"><a class="header" href="#811-common-failure-modes">8.11 Common Failure Modes</a></h2>
+<h3 id="failure-mode-1-notebook-only-training"><a class="header" href="#failure-mode-1-notebook-only-training">Failure Mode 1. Notebook-Only Training</a></h3>
+<p>The experiment works once in a fragile notebook and cannot be inspected or rerun properly.</p>
+<p>Fix:</p>
+<ul>
+<li>move the core logic into a reusable project structure</li>
+</ul>
+<h3 id="failure-mode-2-architecture-obsession"><a class="header" href="#failure-mode-2-architecture-obsession">Failure Mode 2. Architecture Obsession</a></h3>
+<p>The learner keeps changing models before stabilizing the data and training loop.</p>
+<p>Fix:</p>
+<ul>
+<li>debug the training harness before escalating complexity</li>
+</ul>
+<h3 id="failure-mode-3-silent-split-mistakes"><a class="header" href="#failure-mode-3-silent-split-mistakes">Failure Mode 3. Silent Split Mistakes</a></h3>
+<p>The model appears strong because split logic or preprocessing boundaries are wrong.</p>
+<p>Fix:</p>
+<ul>
+<li>make split handling explicit and reviewable</li>
+</ul>
+<h3 id="failure-mode-4-irreproducible-wins"><a class="header" href="#failure-mode-4-irreproducible-wins">Failure Mode 4. Irreproducible Wins</a></h3>
+<p>The result cannot be recreated, so no one knows whether the gain is real.</p>
+<p>Fix:</p>
+<ul>
+<li>log seeds, configs, checkpoint identity, and dataset versions</li>
+</ul>
+<h3 id="failure-mode-5-training-logs-without-meaning"><a class="header" href="#failure-mode-5-training-logs-without-meaning">Failure Mode 5. Training Logs Without Meaning</a></h3>
+<p>The script records numbers, but not the ones that help decisions.</p>
+<p>Fix:</p>
+<ul>
+<li>log signals that explain behavior, not just activity</li>
+</ul>
+<h2 id="chapter-summary"><a class="header" href="#chapter-summary">Chapter Summary</a></h2>
+<p>Neural networks become practical only when the project around them becomes disciplined. A good neural system is not only a model definition. It is a clear data pipeline, a stable training loop, interpretable logs, reproducibility habits, and a debugging routine. That is what lets a neural project mature from a working demo into real engineering.</p>
+<h2 id="use-this-skill-now"><a class="header" href="#use-this-skill-now">Use This Skill Now</a></h2>
+<p>After this chapter, open <a href="../reader-skills/ml-neural-project.html">Reader Skill: ML Neural Project</a>.</p>
+<p>Use it on one notebook-style experiment and turn that experiment into a reproducible project plan. If the plan still feels vague, that is exactly the engineering gap the skill is meant to reveal.</p>
+<h2 id="extension-exercises"><a class="header" href="#extension-exercises">Extension Exercises</a></h2>
+<ol>
+<li>Sketch the folder or module structure for a small neural training project.</li>
+<li>Write a debugging checklist for a model whose validation accuracy is stagnant.</li>
+<li>Define what must be logged to make one training run reviewable.</li>
+<li>Draft a short project README for a support-ticket classifier experiment.</li>
+</ol>
+<h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
+<ul>
+<li><a href="../references.html">References</a></li>
+<li><a href="../chapter-09/README.html">Chapter 9. Sequence Models, Attention, and Transformers</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapter-07/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapter-09/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapter-07/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapter-09/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

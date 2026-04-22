@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="560" viewBox="0 0 1440 560" fill="none">
+  <rect width="1440" height="560" rx="28" fill="#F8F7FF"/>
+  <text x="68" y="90" fill="#17324D" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="700">From Book to AI-Driven Course Video</text>
+  <text x="68" y="132" fill="#4A6078" font-family="Helvetica, Arial, sans-serif" font-size="20">If the manuscript is built around runnable cases and reusable figures, it becomes a video-production system rather than just a text asset.</text>
+
+  <g>
+    <rect x="72" y="220" width="170" height="120" rx="22" fill="#FFF2D8"/>
+    <text x="98" y="272" fill="#8A5A00" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">Chapter</text>
+    <text x="98" y="304" fill="#6D5B3D" font-family="Helvetica, Arial, sans-serif" font-size="18">concept, case,</text>
+    <text x="98" y="330" fill="#6D5B3D" font-family="Helvetica, Arial, sans-serif" font-size="18">teaching claim</text>
+  </g>
+  <g>
+    <rect x="294" y="220" width="170" height="120" rx="22" fill="#E8F6FF"/>
+    <text x="320" y="272" fill="#0A5874" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">Example</text>
+    <text x="320" y="304" fill="#4D6571" font-family="Helvetica, Arial, sans-serif" font-size="18">brief, data,</text>
+    <text x="320" y="330" fill="#4D6571" font-family="Helvetica, Arial, sans-serif" font-size="18">script, output</text>
+  </g>
+  <g>
+    <rect x="516" y="220" width="170" height="120" rx="22" fill="#EAF3EA"/>
+    <text x="542" y="272" fill="#276749" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">Visuals</text>
+    <text x="542" y="304" fill="#45634D" font-family="Helvetica, Arial, sans-serif" font-size="18">figure, flow,</text>
+    <text x="542" y="330" fill="#45634D" font-family="Helvetica, Arial, sans-serif" font-size="18">terminal snapshot</text>
+  </g>
+  <g>
+    <rect x="738" y="220" width="170" height="120" rx="22" fill="#F3ECFF"/>
+    <text x="764" y="272" fill="#5B3F9B" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">Script</text>
+    <text x="764" y="304" fill="#5E5873" font-family="Helvetica, Arial, sans-serif" font-size="18">voiceover,</text>
+    <text x="764" y="330" fill="#5E5873" font-family="Helvetica, Arial, sans-serif" font-size="18">scene rhythm</text>
+  </g>
+  <g>
+    <rect x="960" y="220" width="170" height="120" rx="22" fill="#FFECEF"/>
+    <text x="986" y="272" fill="#A61E4D" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">Slides</text>
+    <text x="986" y="304" fill="#704E58" font-family="Helvetica, Arial, sans-serif" font-size="18">captions,</text>
+    <text x="986" y="330" fill="#704E58" font-family="Helvetica, Arial, sans-serif" font-size="18">annotations, timing</text>
+  </g>
+  <g>
+    <rect x="1182" y="220" width="186" height="120" rx="22" fill="#FFF7E8"/>
+    <text x="1210" y="272" fill="#8A5A00" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">AI Course Video</text>
+    <text x="1210" y="304" fill="#6D5B3D" font-family="Helvetica, Arial, sans-serif" font-size="18">narration,</text>
+    <text x="1210" y="330" fill="#6D5B3D" font-family="Helvetica, Arial, sans-serif" font-size="18">screen sequence</text>
+  </g>
+
+  <path d="M242 280H294" stroke="#35506B" stroke-width="6" stroke-linecap="round"/>
+  <path d="M464 280H516" stroke="#35506B" stroke-width="6" stroke-linecap="round"/>
+  <path d="M686 280H738" stroke="#35506B" stroke-width="6" stroke-linecap="round"/>
+  <path d="M908 280H960" stroke="#35506B" stroke-width="6" stroke-linecap="round"/>
+  <path d="M1130 280H1182" stroke="#35506B" stroke-width="6" stroke-linecap="round"/>
+
+  <rect x="258" y="404" width="924" height="84" rx="20" fill="#17324D"/>
+  <text x="300" y="455" fill="#F8FAFC" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">Best practice: every chapter should leave behind one figure, one runnable case, one output screenshot, and one reusable skill prompt.</text>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="40" x2="1480" y2="860" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#0F766E"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#FFFFFF" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <rect x="56" y="52" width="1488" height="796" rx="36" fill="#020617" fill-opacity="0.24" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <rect x="74" y="70" width="418" height="760" rx="28" fill="#0F172A" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <rect x="522" y="70" width="972" height="332" rx="28" fill="#10262A" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <rect x="522" y="430" width="972" height="400" rx="28" fill="#0F172A" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <text x="106" y="118" fill="#F8FAFC" font-size="42" font-weight="700" font-family="Arial, sans-serif">Trees, Ensembles, and Strong Baselines</text>
+  <text x="106" y="156" fill="#99F6E4" font-size="22" font-family="Arial, sans-serif">Chapter 05 evidence panel</text>
+  <text x="106" y="212" fill="#99F6E4" font-size="18" letter-spacing="2" font-family="Arial, sans-serif">ANCHOR CASE</text>
+  <text x="106" y="246" fill="#F8FAFC" font-size="24" font-weight="600" text-anchor="start" font-family="Arial, sans-serif"><tspan x="106" dy="0">Case: fraud detection and</tspan><tspan x="106" dy="30">structured risk scoring</tspan></text>
+  <text x="106" y="372" fill="#99F6E4" font-size="18" letter-spacing="2" font-family="Arial, sans-serif">ARTIFACT FOCUS</text>
+  <text x="106" y="406" fill="#F8FAFC" font-size="24" font-weight="600" text-anchor="start" font-family="Arial, sans-serif"><tspan x="106" dy="0">Artifact: benchmark-style</tspan><tspan x="106" dy="30">comparison memo</tspan></text>
+  <text x="106" y="532" fill="#99F6E4" font-size="18" letter-spacing="2" font-family="Arial, sans-serif">MAIN SKILL</text>
+  <text x="106" y="566" fill="#F8FAFC" font-size="22" font-weight="600" text-anchor="start" font-family="Arial, sans-serif"><tspan x="106" dy="0">Skill: ML Tabular Model</tspan><tspan x="106" dy="28">Review</tspan></text>
+  <text x="106" y="676" fill="#99F6E4" font-size="18" letter-spacing="2" font-family="Arial, sans-serif">LESSON GOAL</text>
+  <text x="106" y="710" fill="#F8FAFC" font-size="22" font-weight="600" text-anchor="start" font-family="Arial, sans-serif"><tspan x="106" dy="0">Goal: tabular problems</tspan><tspan x="106" dy="28">deserve strong baseline</tspan><tspan x="106" dy="28">families before</tspan><tspan x="106" dy="28">prestige-driven escalation</tspan></text>
+  <text x="558" y="114" fill="#99F6E4" font-size="18" letter-spacing="2" font-family="Arial, sans-serif">SKILL PROMPT</text>
+  <rect x="558" y="136" width="900" height="240" rx="20" fill="#020617" fill-opacity="0.44" stroke="#FFFFFF" stroke-opacity="0.08"/>
+  <text x="586" y="182" fill="#E2E8F0" font-size="26" font-weight="500" text-anchor="start" font-family="Arial, sans-serif"><tspan x="586" dy="0">Use $ml-tabular-model-review to compare naive, linear,</tspan><tspan x="586" dy="30">tree, and ensemble baselines for a fraud detection</tspan><tspan x="586" dy="30">task. Include split strategy, slice behavior, leakage</tspan><tspan x="586" dy="30">notes, and a justified recommendation.</tspan></text>
+  <text x="558" y="474" fill="#99F6E4" font-size="18" letter-spacing="2" font-family="Arial, sans-serif">ARTIFACT CAPTURE</text>
+  <rect x="558" y="496" width="900" height="304" rx="20" fill="#020617" fill-opacity="0.44" stroke="#FFFFFF" stroke-opacity="0.08"/>
+  <text x="586" y="542" fill="#F8FAFC" font-size="26" font-weight="500" text-anchor="start" font-family="Arial, sans-serif"><tspan x="586" dy="0">Artifact focus: benchmark-style comparison memo</tspan><tspan x="586" dy="30">Case: fraud detection and structured risk scoring</tspan><tspan x="586" dy="30">Judgment: tabular problems deserve strong baseline</tspan><tspan x="586" dy="30">families before prestige-driven escalation</tspan><tspan x="586" dy="30">Reuse the delivery-time example output to illustrate how</tspan><tspan x="586" dy="30">one</tspan><tspan x="586" dy="30">comparison memo should be structured before moving to</tspan><tspan x="586" dy="30">richer</tspan></text>
+</svg>

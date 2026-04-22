@@ -1,0 +1,8 @@
+file '/Users/xiaol/x/PaperX/books/machine-learning-full-course-by-ai/course/chapter-04-first-models/video-output/01-scene-01-title.mp4'
+file '/Users/xiaol/x/PaperX/books/machine-learning-full-course-by-ai/course/chapter-04-first-models/video-output/02-scene-02-baseline-ladder.mp4'
+file '/Users/xiaol/x/PaperX/books/machine-learning-full-course-by-ai/course/chapter-04-first-models/video-output/03-scene-03-case-brief.mp4'
+file '/Users/xiaol/x/PaperX/books/machine-learning-full-course-by-ai/course/chapter-04-first-models/video-output/04-scene-04-demo-command.mp4'
+file '/Users/xiaol/x/PaperX/books/machine-learning-full-course-by-ai/course/chapter-04-first-models/video-output/05-scene-05-evidence-panel.mp4'
+file '/Users/xiaol/x/PaperX/books/machine-learning-full-course-by-ai/course/chapter-04-first-models/video-output/06-scene-06-weight-reading.mp4'
+file '/Users/xiaol/x/PaperX/books/machine-learning-full-course-by-ai/course/chapter-04-first-models/video-output/07-scene-07-skill-prompt.mp4'
+file '/Users/xiaol/x/PaperX/books/machine-learning-full-course-by-ai/course/chapter-04-first-models/video-output/08-scene-08-close.mp4'

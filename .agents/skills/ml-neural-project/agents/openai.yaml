@@ -1,0 +1,4 @@
+interface:
+  display_name: "ML Neural Project"
+  short_description: "Structure neural experiments for reproducibility and debugging."
+  default_prompt: "Use $ml-neural-project to turn a neural network experiment into a reproducible project with explicit split rules, config boundaries, logging, validation, checkpointing, and a debug checklist."

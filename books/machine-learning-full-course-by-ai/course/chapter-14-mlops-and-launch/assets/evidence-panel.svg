@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="40" x2="1480" y2="860" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#0369A1"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#FFFFFF" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <rect x="56" y="52" width="1488" height="796" rx="36" fill="#020617" fill-opacity="0.24" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <rect x="74" y="70" width="418" height="760" rx="28" fill="#101827" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <rect x="522" y="70" width="972" height="332" rx="28" fill="#0F2C45" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <rect x="522" y="430" width="972" height="400" rx="28" fill="#101827" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <text x="106" y="118" fill="#F8FAFC" font-size="42" font-weight="700" font-family="Arial, sans-serif">Training, Serving, and MLOps</text>
+  <text x="106" y="156" fill="#BAE6FD" font-size="22" font-family="Arial, sans-serif">Chapter 14 evidence panel</text>
+  <text x="106" y="212" fill="#BAE6FD" font-size="18" letter-spacing="2" font-family="Arial, sans-serif">ANCHOR CASE</text>
+  <text x="106" y="246" fill="#F8FAFC" font-size="24" font-weight="600" text-anchor="start" font-family="Arial, sans-serif"><tspan x="106" dy="0">Case: support-ticket triage</tspan><tspan x="106" dy="30">rollout</tspan></text>
+  <text x="106" y="372" fill="#BAE6FD" font-size="18" letter-spacing="2" font-family="Arial, sans-serif">ARTIFACT FOCUS</text>
+  <text x="106" y="406" fill="#F8FAFC" font-size="24" font-weight="600" text-anchor="start" font-family="Arial, sans-serif"><tspan x="106" dy="0">Artifact: launch-readiness</tspan><tspan x="106" dy="30">review</tspan></text>
+  <text x="106" y="532" fill="#BAE6FD" font-size="18" letter-spacing="2" font-family="Arial, sans-serif">MAIN SKILL</text>
+  <text x="106" y="566" fill="#F8FAFC" font-size="22" font-weight="600" text-anchor="start" font-family="Arial, sans-serif"><tspan x="106" dy="0">Skill: ML Launch Readiness</tspan></text>
+  <text x="106" y="676" fill="#BAE6FD" font-size="18" letter-spacing="2" font-family="Arial, sans-serif">LESSON GOAL</text>
+  <text x="106" y="710" fill="#F8FAFC" font-size="22" font-weight="600" text-anchor="start" font-family="Arial, sans-serif"><tspan x="106" dy="0">Goal: a model is not</tspan><tspan x="106" dy="28">launch-ready until the</tspan><tspan x="106" dy="28">service, monitoring, and</tspan><tspan x="106" dy="28">rollback plan are real</tspan></text>
+  <text x="558" y="114" fill="#BAE6FD" font-size="18" letter-spacing="2" font-family="Arial, sans-serif">SKILL PROMPT</text>
+  <rect x="558" y="136" width="900" height="240" rx="20" fill="#020617" fill-opacity="0.44" stroke="#FFFFFF" stroke-opacity="0.08"/>
+  <text x="586" y="182" fill="#E2E8F0" font-size="26" font-weight="500" text-anchor="start" font-family="Arial, sans-serif"><tspan x="586" dy="0">Use $ml-launch-readiness to review whether a</tspan><tspan x="586" dy="30">support-ticket triage model is ready for production</tspan><tspan x="586" dy="30">rollout, including serving mode, monitoring gaps,</tspan><tspan x="586" dy="30">drift exposure, rollback, and deployment gates.</tspan></text>
+  <text x="558" y="474" fill="#BAE6FD" font-size="18" letter-spacing="2" font-family="Arial, sans-serif">ARTIFACT CAPTURE</text>
+  <rect x="558" y="496" width="900" height="304" rx="20" fill="#020617" fill-opacity="0.44" stroke="#FFFFFF" stroke-opacity="0.08"/>
+  <text x="586" y="542" fill="#F8FAFC" font-size="26" font-weight="500" text-anchor="start" font-family="Arial, sans-serif"><tspan x="586" dy="0">Artifact focus: launch-readiness review</tspan><tspan x="586" dy="30">Case: support-ticket triage rollout</tspan><tspan x="586" dy="30">Judgment: a model is not launch-ready until the service,</tspan><tspan x="586" dy="30">monitoring, and rollback plan are real</tspan><tspan x="586" dy="30">Prepare one launch review memo and one rollout gate slide.</tspan></text>
+</svg>

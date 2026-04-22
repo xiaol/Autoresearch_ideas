@@ -1,0 +1,20 @@
+[book]
+title = "Machine Learning Full Course by AI"
+authors = ["OpenAI Codex with Xiaol"]
+language = "en"
+src = "src"
+description = "An AI-native machine learning course book from beginner foundations to production engineering."
+
+[build]
+build-dir = "book"
+create-missing = false
+
+[output.html]
+default-theme = "light"
+preferred-dark-theme = "navy"
+mathjax-support = true
+git-repository-url = "https://github.com/xiaol/Autoresearch_ideas"
+
+[output.html.fold]
+enable = true
+level = 1

@@ -1,0 +1,4 @@
+interface:
+  display_name: "ML Ranking Review"
+  short_description: "Review recommenders as decision loops, not scoreboards."
+  default_prompt: "Use $ml-ranking-review to review a recommendation or ranking system by examining objective choice, metric stack, feedback loops, exploration sufficiency, offline-online mismatch, and rollout readiness."

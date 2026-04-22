@@ -1,0 +1,4 @@
+interface:
+  display_name: "ML Launch Readiness"
+  short_description: "Review serving, monitoring, and rollout readiness."
+  default_prompt: "Use $ml-launch-readiness to review whether an ML system is ready for production rollout by checking serving mode, monitoring, latency, cost, rollback, drift exposure, and deployment gates."

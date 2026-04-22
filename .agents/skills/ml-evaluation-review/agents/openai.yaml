@@ -1,0 +1,4 @@
+interface:
+  display_name: "ML Evaluation Review"
+  short_description: "Pressure-test whether model results are trustworthy."
+  default_prompt: "Use $ml-evaluation-review to review a machine learning result by checking metric-task fit, class imbalance, slice failures, thresholding, calibration, and experiment attribution."

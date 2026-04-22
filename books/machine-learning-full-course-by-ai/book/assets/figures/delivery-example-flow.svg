@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="520" viewBox="0 0 1400 520" fill="none">
+  <rect width="1400" height="520" rx="28" fill="#FFFDF8"/>
+  <text x="64" y="88" fill="#16324F" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="700">Delivery-Time Prediction Example</text>
+  <text x="64" y="128" fill="#47637B" font-family="Helvetica, Arial, sans-serif" font-size="20">A tiny tabular case that connects runnable code to baseline and review skills.</text>
+
+  <rect x="76" y="188" width="230" height="126" rx="22" fill="#FFF2D8"/>
+  <text x="108" y="236" fill="#8A5A00" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">brief.md</text>
+  <text x="108" y="270" fill="#6D5B3D" font-family="Helvetica, Arial, sans-serif" font-size="18">decision supported</text>
+  <text x="108" y="296" fill="#6D5B3D" font-family="Helvetica, Arial, sans-serif" font-size="18">prediction moment</text>
+
+  <rect x="362" y="188" width="230" height="126" rx="22" fill="#E8F6FF"/>
+  <text x="394" y="236" fill="#0A5874" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">delivery_time_data.csv</text>
+  <text x="394" y="270" fill="#4D6571" font-family="Helvetica, Arial, sans-serif" font-size="18">distance, prep, load,</text>
+  <text x="394" y="296" fill="#4D6571" font-family="Helvetica, Arial, sans-serif" font-size="18">weather, rush hour</text>
+
+  <rect x="648" y="188" width="230" height="126" rx="22" fill="#EAF3EA"/>
+  <text x="680" y="236" fill="#276749" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">run_baseline.py</text>
+  <text x="680" y="270" fill="#45634D" font-family="Helvetica, Arial, sans-serif" font-size="18">mean baseline</text>
+  <text x="680" y="296" fill="#45634D" font-family="Helvetica, Arial, sans-serif" font-size="18">linear regression</text>
+
+  <rect x="934" y="188" width="230" height="126" rx="22" fill="#F3ECFF"/>
+  <text x="966" y="236" fill="#5B3F9B" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">Observed Output</text>
+  <text x="966" y="270" fill="#5E5873" font-family="Helvetica, Arial, sans-serif" font-size="18">MAE comparison</text>
+  <text x="966" y="296" fill="#5E5873" font-family="Helvetica, Arial, sans-serif" font-size="18">weight signs</text>
+
+  <path d="M306 251H362" stroke="#37506B" stroke-width="6" stroke-linecap="round"/>
+  <path d="M592 251H648" stroke="#37506B" stroke-width="6" stroke-linecap="round"/>
+  <path d="M878 251H934" stroke="#37506B" stroke-width="6" stroke-linecap="round"/>
+
+  <rect x="410" y="364" width="580" height="98" rx="22" fill="#FFECEF"/>
+  <text x="448" y="406" fill="#A61E4D" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">Apply Skills</text>
+  <text x="448" y="438" fill="#704E58" font-family="Helvetica, Arial, sans-serif" font-size="20">$ml-baseline-builder  •  $ml-tabular-model-review  •  $ml-data-readiness</text>
+</svg>

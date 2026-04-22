@@ -1,0 +1,4 @@
+interface:
+  display_name: "ML Adaptation Decision"
+  short_description: "Choose prompting, retrieval, or fine-tuning with discipline."
+  default_prompt: "Use $ml-adaptation-decision to choose between prompting, retrieval, fine-tuning, PEFT, or a smaller bespoke model using explicit task, cost, latency, grounding, and maintenance criteria."

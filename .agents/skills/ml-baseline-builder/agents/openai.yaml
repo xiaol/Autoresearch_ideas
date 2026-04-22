@@ -1,0 +1,4 @@
+interface:
+  display_name: "ML Baseline Builder"
+  short_description: "Choose honest first baselines before complexity."
+  default_prompt: "Use $ml-baseline-builder to define a naive baseline, an interpretable baseline, shared metrics, slice checks, and whether a more complex model is justified."

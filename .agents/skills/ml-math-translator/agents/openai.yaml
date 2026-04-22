@@ -1,0 +1,4 @@
+interface:
+  display_name: "ML Math Translator"
+  short_description: "Translate ML notation into intuition, shapes, code, and checks."
+  default_prompt: "Use $ml-math-translator to explain a machine learning formula or notation block in plain language, annotate symbol meanings and shapes, connect it to code, and surface one likely misconception or edge case."

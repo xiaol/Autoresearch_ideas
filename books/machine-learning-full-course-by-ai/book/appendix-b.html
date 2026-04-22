@@ -1,0 +1,574 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Appendix B. Reader Skill Catalog - Machine Learning Full Course by AI</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="An AI-native machine learning course book from beginner foundations to production engineering.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d7827a28.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-6024a431.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Machine Learning Full Course by AI</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/xiaol/Autoresearch_ideas" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="appendix-b-reader-skill-catalog"><a class="header" href="#appendix-b-reader-skill-catalog">Appendix B. Reader Skill Catalog</a></h1>
+<p>This appendix maps the book’s harness ideas to actual local skills included in this repository so readers can try them directly.</p>
+<p>These are not only chapter metaphors. They are real local skills in this repository. A reader can invoke them in a Codex-style environment with <code>$skill-name</code>.</p>
+<p>Because mdBook only renders pages inside the book source tree, this appendix links to mirrored in-book skill pages. The source-of-truth skill files still live under <code>.agents/skills/</code> in the repository.</p>
+<p>If you want the step-by-step workflow first, begin with <a href="how-to-use-reader-skills.html">How to Use Reader Skills with This Book</a>.</p>
+<h2 id="available-local-skills"><a class="header" href="#available-local-skills">Available Local Skills</a></h2>
+<h3 id="1-ml-math-translator"><a class="header" href="#1-ml-math-translator">1. ML Math Translator</a></h3>
+<p>In-book page:</p>
+<ul>
+<li><a href="reader-skills/ml-math-translator.html">ML Math Translator</a></li>
+</ul>
+<p>Source skill in the repository:</p>
+<p><code>.agents/skills/ml-math-translator/SKILL.md</code></p>
+<p>Try it now:</p>
+<pre><code class="language-text">Use $ml-math-translator to explain w &lt;- w - eta * grad_w L for a beginner. Define every symbol, annotate shapes, give a tiny numeric example, map it to NumPy-style code, and name one common mistake.
+</code></pre>
+<p>Best use cases:</p>
+<ul>
+<li>gradient descent updates</li>
+<li>cross-entropy loss</li>
+<li>matrix multiplications in linear models</li>
+<li>attention equations in transformers</li>
+</ul>
+<p>Book references:</p>
+<ul>
+<li><a href="chapter-01/README.html">Chapter 1</a></li>
+<li><a href="chapter-02/README.html">Chapter 2</a></li>
+</ul>
+<h3 id="2-ml-problem-framer"><a class="header" href="#2-ml-problem-framer">2. ML Problem Framer</a></h3>
+<p>In-book page:</p>
+<ul>
+<li><a href="reader-skills/ml-problem-framer.html">ML Problem Framer</a></li>
+</ul>
+<p>Source skill in the repository:</p>
+<p><code>.agents/skills/ml-problem-framer/SKILL.md</code></p>
+<p>Try it now:</p>
+<pre><code class="language-text">Use $ml-problem-framer to turn this request into a framing memo: "We want to predict which support tickets should be escalated to a senior engineer." Include the decision supported, prediction moment, label definition, leakage risks, cost asymmetries, and the first baseline worth trying.
+</code></pre>
+<p>Best use cases:</p>
+<ul>
+<li>churn prediction requests</li>
+<li>fraud detection ideas</li>
+<li>support triage systems</li>
+<li>ranking or recommendation proposals</li>
+</ul>
+<p>Book references:</p>
+<ul>
+<li><a href="chapter-03/README.html">Chapter 3</a></li>
+</ul>
+<h3 id="3-ml-baseline-builder"><a class="header" href="#3-ml-baseline-builder">3. ML Baseline Builder</a></h3>
+<p>In-book page:</p>
+<ul>
+<li><a href="reader-skills/ml-baseline-builder.html">ML Baseline Builder</a></li>
+</ul>
+<p>Source skill in the repository:</p>
+<p><code>.agents/skills/ml-baseline-builder/SKILL.md</code></p>
+<p>Try it now:</p>
+<pre><code class="language-text">Use $ml-baseline-builder to design a first comparison plan for a delivery-time prediction task. Include the naive baseline, the first interpretable baseline, the shared comparison metric, critical slices, and one reason a more complex model may or may not be justified.
+</code></pre>
+<p>Best use cases:</p>
+<ul>
+<li>first model planning</li>
+<li>regression or classification baselines</li>
+<li>baseline justification memos</li>
+<li>early model-family decisions</li>
+</ul>
+<p>Book references:</p>
+<ul>
+<li><a href="chapter-04/README.html">Chapter 4</a></li>
+</ul>
+<h3 id="4-ml-tabular-model-review"><a class="header" href="#4-ml-tabular-model-review">4. ML Tabular Model Review</a></h3>
+<p>In-book page:</p>
+<ul>
+<li><a href="reader-skills/ml-tabular-model-review.html">ML Tabular Model Review</a></li>
+</ul>
+<p>Source skill in the repository:</p>
+<p><code>.agents/skills/ml-tabular-model-review/SKILL.md</code></p>
+<p>Try it now:</p>
+<pre><code class="language-text">Use $ml-tabular-model-review to compare naive, linear, tree, and boosted-tree baselines for a fraud detection task. Include split strategy, slice comparison, leakage notes, calibration concerns, and a justified recommendation.
+</code></pre>
+<p>Best use cases:</p>
+<ul>
+<li>structured tabular ML benchmarks</li>
+<li>fraud and risk models</li>
+<li>boosted-tree versus linear tradeoffs</li>
+<li>slice-based model comparison</li>
+</ul>
+<p>Book references:</p>
+<ul>
+<li><a href="chapter-05/README.html">Chapter 5</a></li>
+</ul>
+<h3 id="5-ml-evaluation-review"><a class="header" href="#5-ml-evaluation-review">5. ML Evaluation Review</a></h3>
+<p>In-book page:</p>
+<ul>
+<li><a href="reader-skills/ml-evaluation-review.html">ML Evaluation Review</a></li>
+</ul>
+<p>Source skill in the repository:</p>
+<p><code>.agents/skills/ml-evaluation-review/SKILL.md</code></p>
+<p>Try it now:</p>
+<pre><code class="language-text">Use $ml-evaluation-review to review this fraud model result: AUC 0.94, recall 0.61 at the current threshold, precision 0.12, and weak performance on new merchants. Tell me what the main metric hides, whether thresholding or calibration matters, which slices are critical, and whether the experiment supports the claim that the new model is better.
+</code></pre>
+<p>Best use cases:</p>
+<ul>
+<li>imbalanced classification results</li>
+<li>model comparison summaries</li>
+<li>thresholding decisions</li>
+<li>deployment readiness reviews</li>
+</ul>
+<p>Book references:</p>
+<ul>
+<li><a href="chapter-01/README.html">Chapter 1</a></li>
+<li><a href="chapter-06/README.html">Chapter 6</a></li>
+</ul>
+<h3 id="6-ml-training-diagnostics"><a class="header" href="#6-ml-training-diagnostics">6. ML Training Diagnostics</a></h3>
+<p>In-book page:</p>
+<ul>
+<li><a href="reader-skills/ml-training-diagnostics.html">ML Training Diagnostics</a></li>
+</ul>
+<p>Source skill in the repository:</p>
+<p><code>.agents/skills/ml-training-diagnostics/SKILL.md</code></p>
+<p>Try it now:</p>
+<pre><code class="language-text">Use $ml-training-diagnostics to diagnose this training run: training accuracy rises quickly, validation accuracy stays flat, and the loss oscillates after the fifth epoch. Rank the likely causes, propose low-cost diagnostics, and recommend the next experiment that preserves attribution.
+</code></pre>
+<p>Best use cases:</p>
+<ul>
+<li>oscillating loss</li>
+<li>early overfitting</li>
+<li>train-validation mismatch</li>
+<li>suspiciously good or bad runs</li>
+</ul>
+<p>Book references:</p>
+<ul>
+<li><a href="chapter-07/README.html">Chapter 7</a></li>
+</ul>
+<h3 id="7-ml-neural-project"><a class="header" href="#7-ml-neural-project">7. ML Neural Project</a></h3>
+<p>In-book page:</p>
+<ul>
+<li><a href="reader-skills/ml-neural-project.html">ML Neural Project</a></li>
+</ul>
+<p>Source skill in the repository:</p>
+<p><code>.agents/skills/ml-neural-project/SKILL.md</code></p>
+<p>Try it now:</p>
+<pre><code class="language-text">Use $ml-neural-project to turn a support-ticket classifier experiment into a reproducible project plan. Include config boundaries, split rules, model module boundaries, logging, validation, checkpointing, and a practical debug checklist.
+</code></pre>
+<p>Best use cases:</p>
+<ul>
+<li>PyTorch or JAX experiment structure</li>
+<li>reproducibility planning</li>
+<li>team handoff for neural projects</li>
+<li>turning notebook work into projects</li>
+</ul>
+<p>Book references:</p>
+<ul>
+<li><a href="chapter-08/README.html">Chapter 8</a></li>
+</ul>
+<h3 id="8-ml-architecture-reader"><a class="header" href="#8-ml-architecture-reader">8. ML Architecture Reader</a></h3>
+<p>In-book page:</p>
+<ul>
+<li><a href="reader-skills/ml-architecture-reader.html">ML Architecture Reader</a></li>
+</ul>
+<p>Source skill in the repository:</p>
+<p><code>.agents/skills/ml-architecture-reader/SKILL.md</code></p>
+<p>Try it now:</p>
+<pre><code class="language-text">Use $ml-architecture-reader to explain what attention changes compared with recurrent models. State the original task pressure, the mechanism change, the claimed gain, one tradeoff, when it should help, and when it may not matter.
+</code></pre>
+<p>Best use cases:</p>
+<ul>
+<li>reading transformer papers</li>
+<li>sequence-model comparisons</li>
+<li>architecture notes</li>
+<li>translating research claims into engineering judgment</li>
+</ul>
+<p>Book references:</p>
+<ul>
+<li><a href="chapter-09/README.html">Chapter 9</a></li>
+</ul>
+<h3 id="9-ml-adaptation-decision"><a class="header" href="#9-ml-adaptation-decision">9. ML Adaptation Decision</a></h3>
+<p>In-book page:</p>
+<ul>
+<li><a href="reader-skills/ml-adaptation-decision.html">ML Adaptation Decision</a></li>
+</ul>
+<p>Source skill in the repository:</p>
+<p><code>.agents/skills/ml-adaptation-decision/SKILL.md</code></p>
+<p>Try it now:</p>
+<pre><code class="language-text">Use $ml-adaptation-decision to choose between prompting, retrieval, and fine-tuning for an enterprise support assistant. Consider domain specificity, available labeled data, latency budget, cost budget, grounding requirements, and what would justify escalating to a heavier method.
+</code></pre>
+<p>Best use cases:</p>
+<ul>
+<li>LLM product planning</li>
+<li>retrieval versus fine-tuning decisions</li>
+<li>cost and latency tradeoffs</li>
+<li>adaptation strategy reviews</li>
+</ul>
+<p>Book references:</p>
+<ul>
+<li><a href="chapter-10/README.html">Chapter 10</a></li>
+</ul>
+<h3 id="10-ml-retrieval-evaluation"><a class="header" href="#10-ml-retrieval-evaluation">10. ML Retrieval Evaluation</a></h3>
+<p>In-book page:</p>
+<ul>
+<li><a href="reader-skills/ml-retrieval-evaluation.html">ML Retrieval Evaluation</a></li>
+</ul>
+<p>Source skill in the repository:</p>
+<p><code>.agents/skills/ml-retrieval-evaluation/SKILL.md</code></p>
+<p>Try it now:</p>
+<pre><code class="language-text">Use $ml-retrieval-evaluation to review a company knowledge search system. Define what relevance means, summarize practical retrieval metrics, show representative good and bad results, classify failure patterns, and decide whether the main issue is representation, indexing, or ranking.
+</code></pre>
+<p>Best use cases:</p>
+<ul>
+<li>semantic search quality review</li>
+<li>knowledge retrieval systems</li>
+<li>query-set evaluation</li>
+<li>diagnosis of embedding versus ranking issues</li>
+</ul>
+<p>Book references:</p>
+<ul>
+<li><a href="chapter-11/README.html">Chapter 11</a></li>
+</ul>
+<h3 id="11-ml-ranking-review"><a class="header" href="#11-ml-ranking-review">11. ML Ranking Review</a></h3>
+<p>In-book page:</p>
+<ul>
+<li><a href="reader-skills/ml-ranking-review.html">ML Ranking Review</a></li>
+</ul>
+<p>Source skill in the repository:</p>
+<p><code>.agents/skills/ml-ranking-review/SKILL.md</code></p>
+<p>Try it now:</p>
+<pre><code class="language-text">Use $ml-ranking-review to review a recommendation feed system. Include the system objective, what that objective leaves out, the metric stack, feedback loop risks, whether exploration is sufficient, whether offline gains are likely to hold online, and a rollout recommendation.
+</code></pre>
+<p>Best use cases:</p>
+<ul>
+<li>recommender systems</li>
+<li>ranking models with online effects</li>
+<li>offline versus online evaluation</li>
+<li>exploration and feedback-loop review</li>
+</ul>
+<p>Book references:</p>
+<ul>
+<li><a href="chapter-12/README.html">Chapter 12</a></li>
+</ul>
+<h3 id="12-ml-data-readiness"><a class="header" href="#12-ml-data-readiness">12. ML Data Readiness</a></h3>
+<p>In-book page:</p>
+<ul>
+<li><a href="reader-skills/ml-data-readiness.html">ML Data Readiness</a></li>
+</ul>
+<p>Source skill in the repository:</p>
+<p><code>.agents/skills/ml-data-readiness/SKILL.md</code></p>
+<p>Try it now:</p>
+<pre><code class="language-text">Use $ml-data-readiness to review a delivery-time prediction dataset built from orders, courier events, weather snapshots, and customer support logs. Check timestamp semantics, feature freshness, join risks, leakage, train-serve mismatches, and ownership of the critical features.
+</code></pre>
+<p>Best use cases:</p>
+<ul>
+<li>multi-table tabular datasets</li>
+<li>feature-store reviews</li>
+<li>leakage audits</li>
+<li>pre-training data checks</li>
+</ul>
+<p>Book references:</p>
+<ul>
+<li><a href="chapter-13/README.html">Chapter 13</a></li>
+</ul>
+<h3 id="13-ml-launch-readiness"><a class="header" href="#13-ml-launch-readiness">13. ML Launch Readiness</a></h3>
+<p>In-book page:</p>
+<ul>
+<li><a href="reader-skills/ml-launch-readiness.html">ML Launch Readiness</a></li>
+</ul>
+<p>Source skill in the repository:</p>
+<p><code>.agents/skills/ml-launch-readiness/SKILL.md</code></p>
+<p>Try it now:</p>
+<pre><code class="language-text">Use $ml-launch-readiness to review whether a support-ticket triage model is ready for production rollout. We have strong offline metrics, an online scoring service, a draft monitoring plan, and a basic rollback path. Tell me the serving-mode implications, missing deployment gates, monitoring gaps, drift exposure, and whether we should launch, do a limited rollout, or delay.
+</code></pre>
+<p>Best use cases:</p>
+<ul>
+<li>first production launches</li>
+<li>staged rollouts</li>
+<li>cost and latency reviews</li>
+<li>monitoring and rollback planning</li>
+</ul>
+<p>Book references:</p>
+<ul>
+<li><a href="chapter-14/README.html">Chapter 14</a></li>
+</ul>
+<h3 id="14-ml-risk-review"><a class="header" href="#14-ml-risk-review">14. ML Risk Review</a></h3>
+<p>In-book page:</p>
+<ul>
+<li><a href="reader-skills/ml-risk-review.html">ML Risk Review</a></li>
+</ul>
+<p>Source skill in the repository:</p>
+<p><code>.agents/skills/ml-risk-review/SKILL.md</code></p>
+<p>Try it now:</p>
+<pre><code class="language-text">Use $ml-risk-review to review the risks of a support assistant that sometimes hallucinates policy answers. Identify main failure surfaces, who is harmed, which harms are likely or hidden, whether human review is actually effective, what risks remain unacceptable, and what monitoring signals should force redesign or rollback.
+</code></pre>
+<p>Best use cases:</p>
+<ul>
+<li>safety review before launch</li>
+<li>incident follow-up</li>
+<li>human-in-the-loop workflow review</li>
+<li>residual-risk documentation</li>
+</ul>
+<p>Book references:</p>
+<ul>
+<li><a href="chapter-15/README.html">Chapter 15</a></li>
+</ul>
+<h3 id="15-ml-professional-growth"><a class="header" href="#15-ml-professional-growth">15. ML Professional Growth</a></h3>
+<p>In-book page:</p>
+<ul>
+<li><a href="reader-skills/ml-professional-growth.html">ML Professional Growth</a></li>
+</ul>
+<p>Source skill in the repository:</p>
+<p><code>.agents/skills/ml-professional-growth/SKILL.md</code></p>
+<p>Try it now:</p>
+<pre><code class="language-text">Use $ml-professional-growth to review my current ML profile. My recent artifacts are a fraud model project, a retrieval demo, and a launch-readiness memo. Tell me my current strengths, current weaknesses, one specialization direction to explore next, one portfolio artifact to create, one communication habit to improve, and the next review checkpoint.
+</code></pre>
+<p>Best use cases:</p>
+<ul>
+<li>quarterly growth reviews</li>
+<li>portfolio planning</li>
+<li>specialization decisions</li>
+<li>turning projects into evidence of judgment</li>
+</ul>
+<p>Book references:</p>
+<ul>
+<li><a href="chapter-16/README.html">Chapter 16</a></li>
+</ul>
+<h2 id="how-readers-should-use-them"><a class="header" href="#how-readers-should-use-them">How Readers Should Use Them</a></h2>
+<p>The intended progression is:</p>
+<ol>
+<li>Learn the concept in the chapter.</li>
+<li>Open the in-book skill page in the HTML version.</li>
+<li>Invoke the corresponding skill directly with <code>$skill-name</code> if you are using Codex.</li>
+<li>Reuse the same structure on a new problem of your own.</li>
+<li>Compare the skill output with your own reasoning.</li>
+</ol>
+<p>For a fuller workflow, use <a href="how-to-use-reader-skills.html">How to Use Reader Skills with This Book</a> together with this appendix.</p>
+<p>If a reader is using this repository inside Codex, the fifteen skills above are ready to use as real local skills. If a reader is using another environment, the in-book pages and the <code>SKILL.md</code> files still serve as reusable harness specifications and prompt scaffolds.</p>
+<p>This is the book’s central claim made practical: learning should leave behind reusable working systems, not only notes.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="appendix-a.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="reader-skills/ml-math-translator.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="appendix-a.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="reader-skills/ml-math-translator.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

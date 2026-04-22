@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="520" viewBox="0 0 1400 520" fill="none">
+  <rect width="1400" height="520" rx="28" fill="#F7FCFB"/>
+  <text x="64" y="88" fill="#17324D" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="700">Knowledge Search Retrieval Example</text>
+  <text x="64" y="128" fill="#47637B" font-family="Helvetica, Arial, sans-serif" font-size="20">A small search case that makes retrieval evaluation visible before readers scale to embeddings and larger indexes.</text>
+
+  <rect x="76" y="188" width="220" height="126" rx="22" fill="#FFF2D8"/>
+  <text x="108" y="236" fill="#8A5A00" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">brief.md</text>
+  <text x="108" y="270" fill="#6D5B3D" font-family="Helvetica, Arial, sans-serif" font-size="18">goal and scope</text>
+  <text x="108" y="296" fill="#6D5B3D" font-family="Helvetica, Arial, sans-serif" font-size="18">why this case matters</text>
+
+  <rect x="340" y="188" width="220" height="126" rx="22" fill="#E8F6FF"/>
+  <text x="372" y="236" fill="#0A5874" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">documents.csv</text>
+  <text x="372" y="270" fill="#4D6571" font-family="Helvetica, Arial, sans-serif" font-size="18">tiny corpus</text>
+  <text x="372" y="296" fill="#4D6571" font-family="Helvetica, Arial, sans-serif" font-size="18">queries.csv + labels</text>
+
+  <rect x="604" y="188" width="220" height="126" rx="22" fill="#EAF3EA"/>
+  <text x="636" y="236" fill="#276749" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">run_retrieval_eval.py</text>
+  <text x="636" y="270" fill="#45634D" font-family="Helvetica, Arial, sans-serif" font-size="18">tokenize</text>
+  <text x="636" y="296" fill="#45634D" font-family="Helvetica, Arial, sans-serif" font-size="18">score + rank</text>
+
+  <rect x="868" y="188" width="220" height="126" rx="22" fill="#F3ECFF"/>
+  <text x="900" y="236" fill="#5B3F9B" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">Observed Output</text>
+  <text x="900" y="270" fill="#5E5873" font-family="Helvetica, Arial, sans-serif" font-size="18">top hits per query</text>
+  <text x="900" y="296" fill="#5E5873" font-family="Helvetica, Arial, sans-serif" font-size="18">top-1 accuracy</text>
+
+  <path d="M296 251H340" stroke="#37506B" stroke-width="6" stroke-linecap="round"/>
+  <path d="M560 251H604" stroke="#37506B" stroke-width="6" stroke-linecap="round"/>
+  <path d="M824 251H868" stroke="#37506B" stroke-width="6" stroke-linecap="round"/>
+
+  <rect x="1112" y="188" width="220" height="126" rx="22" fill="#FFECEF"/>
+  <text x="1144" y="236" fill="#A61E4D" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700">Apply Skills</text>
+  <text x="1144" y="270" fill="#704E58" font-family="Helvetica, Arial, sans-serif" font-size="18">$ml-retrieval-evaluation</text>
+  <text x="1144" y="296" fill="#704E58" font-family="Helvetica, Arial, sans-serif" font-size="18">$ml-architecture-reader</text>
+
+  <path d="M1088 251H1112" stroke="#37506B" stroke-width="6" stroke-linecap="round"/>
+</svg>

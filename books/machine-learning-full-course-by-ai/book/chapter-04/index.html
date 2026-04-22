@@ -1,0 +1,572 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 4. First Models: Linear Models and Nearest Neighbors - Machine Learning Full Course by AI</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="An AI-native machine learning course book from beginner foundations to production engineering.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-d7827a28.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-6024a431.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Machine Learning Full Course by AI</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/xiaol/Autoresearch_ideas" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="chapter-4-first-models-linear-models-and-nearest-neighbors"><a class="header" href="#chapter-4-first-models-linear-models-and-nearest-neighbors">Chapter 4. First Models: Linear Models and Nearest Neighbors</a></h1>
+<p>The first serious models you learn matter more than many people realize.</p>
+<p>Not because they will always be the best production models.</p>
+<p>Not because the industry has stopped moving.</p>
+<p>But because these models teach some of the most durable ideas in machine learning:</p>
+<ul>
+<li>what a feature really is</li>
+<li>what a baseline is supposed to do</li>
+<li>how a decision boundary emerges</li>
+<li>how scaling changes behavior</li>
+<li>why interpretability and discipline often beat premature complexity</li>
+</ul>
+<p>In this chapter we will use two cases.</p>
+<p>The first is our recurring delivery-time prediction problem, where linear regression gives us a natural first model.</p>
+<p>The second is support-ticket urgency classification, where a nearest-neighbor baseline helps us think about similarity before we rush into heavier machinery.</p>
+<h2 id="41-why-first-models-matter"><a class="header" href="#41-why-first-models-matter">4.1 Why First Models Matter</a></h2>
+<p>Beginners often assume that simple models are stepping stones to be discarded quickly. That is the wrong mindset.</p>
+<p>Simple models are not only educational. They are diagnostic.</p>
+<p>A good first model helps you answer questions like:</p>
+<ul>
+<li>are the features informative at all</li>
+<li>is the target stable enough to learn</li>
+<li>is the task linearly structured or obviously nonlinear</li>
+<li>does the data pipeline make sense</li>
+<li>does a complicated model have any reason to exist</li>
+</ul>
+<p>The habit you want to build is this:</p>
+<p>Before reaching for sophistication, earn the right to need it.</p>
+<p>That is what baselines are for.</p>
+<h2 id="42-case-one-delivery-time-prediction-with-linear-regression"><a class="header" href="#42-case-one-delivery-time-prediction-with-linear-regression">4.2 Case One: Delivery-Time Prediction with Linear Regression</a></h2>
+<p>Return to the logistics platform from Chapter 2.</p>
+<p>We want to predict delivery time using features like:</p>
+<ul>
+<li>distance</li>
+<li>item count</li>
+<li>weather</li>
+<li>traffic</li>
+<li>restaurant load</li>
+</ul>
+<p>This is a regression problem because the target is a number.</p>
+<p>The natural first baseline is <strong>linear regression</strong>.</p>
+<h3 id="the-basic-idea"><a class="header" href="#the-basic-idea">The basic idea</a></h3>
+<p>Linear regression assumes the prediction can be written as a weighted combination of the features:</p>
+<p>$$
+\hat{y} = x \cdot w + b
+$$</p>
+<p>This is powerful for two reasons.</p>
+<p>First, it is easy to understand.</p>
+<p>Second, when it fails, the pattern of failure often teaches you something important:</p>
+<ul>
+<li>the relationship may be nonlinear</li>
+<li>the features may be badly scaled</li>
+<li>critical interactions may be missing</li>
+<li>the target may be noisier than expected</li>
+</ul>
+<h3 id="what-linear-regression-teaches"><a class="header" href="#what-linear-regression-teaches">What linear regression teaches</a></h3>
+<p>It teaches that a model is a structured argument about relevance.</p>
+<p>Each weight says:</p>
+<ul>
+<li>this feature matters more</li>
+<li>this feature matters less</li>
+<li>this feature may matter in the opposite direction</li>
+</ul>
+<p>That is why linear models are pedagogically valuable. They make the model’s structure inspectable.</p>
+<h3 id="a-healthy-expectation"><a class="header" href="#a-healthy-expectation">A healthy expectation</a></h3>
+<p>Linear regression will not capture everything. Delivery time may rise nonlinearly under traffic spikes or restaurant overload.</p>
+<p>That is fine.</p>
+<p>The goal of the first model is not perfection. The goal is clarity:</p>
+<ul>
+<li>can we get a sensible baseline</li>
+<li>do the signs of the weights make intuitive sense</li>
+<li>where does the model break</li>
+</ul>
+<h2 id="43-regression-versus-classification"><a class="header" href="#43-regression-versus-classification">4.3 Regression Versus Classification</a></h2>
+<p>Before we move on, it is worth drawing a clean distinction.</p>
+<h3 id="regression"><a class="header" href="#regression">Regression</a></h3>
+<p>Predict a continuous value.</p>
+<p>Examples:</p>
+<ul>
+<li>delivery time</li>
+<li>house price</li>
+<li>demand forecast</li>
+</ul>
+<h3 id="classification"><a class="header" href="#classification">Classification</a></h3>
+<p>Predict a category or class.</p>
+<p>Examples:</p>
+<ul>
+<li>urgent versus not urgent</li>
+<li>fraud versus legitimate</li>
+<li>churn versus retain</li>
+</ul>
+<p>This sounds obvious, but the distinction matters because the model output, loss function, and evaluation metrics all change with the task.</p>
+<p>In regression, you care about how far off the number is.</p>
+<p>In classification, you care about which class is chosen, how confident the model is, and what the costs of different mistakes are.</p>
+<h2 id="44-case-two-support-ticket-urgency-with-logistic-regression"><a class="header" href="#44-case-two-support-ticket-urgency-with-logistic-regression">4.4 Case Two: Support-Ticket Urgency with Logistic Regression</a></h2>
+<p>Now imagine a support platform that receives thousands of tickets per day.</p>
+<p>The business wants to route:</p>
+<ul>
+<li>urgent tickets quickly</li>
+<li>ordinary tickets normally</li>
+</ul>
+<p>That is a classification problem.</p>
+<p>One good first model is <strong>logistic regression</strong>.</p>
+<h3 id="why-logistic-regression-matters"><a class="header" href="#why-logistic-regression-matters">Why logistic regression matters</a></h3>
+<p>Logistic regression is one of the most useful models in ML education because it sits at a productive boundary:</p>
+<ul>
+<li>still simple enough to understand</li>
+<li>still strong enough to be useful</li>
+<li>naturally connected to probability</li>
+<li>often competitive on real data when features are reasonable</li>
+</ul>
+<p>It predicts a score that can be interpreted as probability after the logistic transformation:</p>
+<p>$$
+P(y=1 \mid x) = \sigma(x \cdot w + b)
+$$</p>
+<p>where (\sigma) is the sigmoid function.</p>
+<p>Plain English:</p>
+<ul>
+<li>compute a weighted score</li>
+<li>squash it into a value between 0 and 1</li>
+<li>interpret that value as class probability</li>
+</ul>
+<h3 id="why-this-is-helpful"><a class="header" href="#why-this-is-helpful">Why this is helpful</a></h3>
+<p>Now the model is not only giving a class label. It is giving a probability-like score.</p>
+<p>That lets us reason about:</p>
+<ul>
+<li>thresholds</li>
+<li>confidence</li>
+<li>calibration</li>
+<li>asymmetric costs</li>
+</ul>
+<p>If urgent tickets are rare, we may not want to classify based on a naive threshold of 0.5. That decision should depend on operational cost.</p>
+<p>This is one reason logistic regression is such a good bridge model. It connects feature-based thinking to decision-making.</p>
+<h2 id="45-nearest-neighbors-similarity-as-a-model"><a class="header" href="#45-nearest-neighbors-similarity-as-a-model">4.5 Nearest Neighbors: Similarity as a Model</a></h2>
+<p>Not every baseline has to learn weights.</p>
+<p>Sometimes the question is simpler:</p>
+<ul>
+<li>which past examples look most like the current one</li>
+</ul>
+<p>That is the core idea behind <strong>nearest neighbors</strong>.</p>
+<p>For support-ticket urgency, a nearest-neighbor baseline might say:</p>
+<ul>
+<li>find the tickets with text or metadata most similar to this new ticket</li>
+<li>inspect how those were labeled</li>
+<li>use that neighborhood to classify the new one</li>
+</ul>
+<h3 id="why-nearest-neighbors-matters"><a class="header" href="#why-nearest-neighbors-matters">Why nearest neighbors matters</a></h3>
+<p>It teaches an entirely different intuition from linear models.</p>
+<p>Linear models say:</p>
+<ul>
+<li>combine features globally using learned weights</li>
+</ul>
+<p>Nearest neighbors says:</p>
+<ul>
+<li>classify locally by similarity</li>
+</ul>
+<p>This is a very important conceptual distinction. Some tasks are better understood through local structure than through one global linear rule.</p>
+<h3 id="the-hidden-lesson"><a class="header" href="#the-hidden-lesson">The hidden lesson</a></h3>
+<p>Nearest neighbors also forces you to think hard about:</p>
+<ul>
+<li>distance metrics</li>
+<li>feature scaling</li>
+<li>representation quality</li>
+</ul>
+<p>If one feature is measured in thousands and another in tiny decimals, the larger-scale feature can dominate distance unless you scale the inputs carefully.</p>
+<p>That is why nearest neighbors is both simple and educational. It exposes assumptions that other models can hide.</p>
+<h2 id="46-feature-scaling-and-geometry"><a class="header" href="#46-feature-scaling-and-geometry">4.6 Feature Scaling and Geometry</a></h2>
+<p>Feature scaling sounds like a preprocessing detail. It is actually part of the geometry of the problem.</p>
+<p>Suppose we use:</p>
+<ul>
+<li>distance in kilometers</li>
+<li>item count</li>
+<li>traffic score</li>
+<li>support-ticket word count</li>
+</ul>
+<p>If one feature ranges from 0 to 10,000 and another from 0 to 1, then raw comparisons can become distorted.</p>
+<p>This matters especially for:</p>
+<ul>
+<li>nearest neighbors</li>
+<li>logistic regression with regularization</li>
+<li>gradient-based optimization</li>
+</ul>
+<p>Scaling helps ensure that features participate more comparably in optimization or distance calculations.</p>
+<p>The broader lesson is useful:</p>
+<p>Model behavior is often shaped not only by architecture, but by representation and scale.</p>
+<h2 id="47-regularization-prefer-simpler-explanations-when-possible"><a class="header" href="#47-regularization-prefer-simpler-explanations-when-possible">4.7 Regularization: Prefer Simpler Explanations When Possible</a></h2>
+<p>Once a model can fit training data, another question appears:</p>
+<ul>
+<li>how hard should we let it fit</li>
+</ul>
+<p><strong>Regularization</strong> is one family of answers.</p>
+<p>In plain language, regularization tells the model:</p>
+<ul>
+<li>explain the data, but do not become unnecessarily wild</li>
+</ul>
+<p>For linear models, regularization often means penalizing large weights.</p>
+<p>That can help when:</p>
+<ul>
+<li>features are noisy</li>
+<li>features are correlated</li>
+<li>the model is overreacting to quirks in the training set</li>
+</ul>
+<p>This matters because overfitting does not begin only with deep networks. Even simple models can become brittle when the data is messy or the feature space is badly engineered.</p>
+<h2 id="48-baseline-discipline"><a class="header" href="#48-baseline-discipline">4.8 Baseline Discipline</a></h2>
+<p>Let us state one of the strongest habits in practical ML:</p>
+<p><strong>Always know what your new idea is beating.</strong></p>
+<p>This sounds trivial. It is not.</p>
+<p>A weak baseline can make mediocre progress look impressive.</p>
+<p>A strong baseline can save a team months of wasted effort.</p>
+<p>For delivery-time prediction, your baseline progression might be:</p>
+<ol>
+<li>Predict the average delivery time.</li>
+<li>Predict by simple grouped averages.</li>
+<li>Linear regression.</li>
+<li>Add regularization and better features.</li>
+</ol>
+<p>For support-ticket urgency:</p>
+<ol>
+<li>Majority class prediction.</li>
+<li>Keyword heuristic.</li>
+<li>Logistic regression.</li>
+<li>Nearest-neighbor comparison.</li>
+</ol>
+<p>This layering matters because it turns improvement into evidence rather than theater.</p>
+<h2 id="49-from-simple-models-to-better-questions"><a class="header" href="#49-from-simple-models-to-better-questions">4.9 From Simple Models to Better Questions</a></h2>
+<p>An underrated benefit of first models is that they sharpen the next question.</p>
+<p>After a linear regression baseline, you may ask:</p>
+<ul>
+<li>are interactions missing</li>
+<li>are features nonlinear</li>
+<li>are there systematic slice errors</li>
+</ul>
+<p>After logistic regression, you may ask:</p>
+<ul>
+<li>are the classes separable with current features</li>
+<li>are we thresholding well</li>
+<li>do we need richer representations</li>
+</ul>
+<p>After nearest neighbors, you may ask:</p>
+<ul>
+<li>is the distance measure wrong</li>
+<li>do we need embeddings</li>
+<li>are the raw features too crude</li>
+</ul>
+<p>This is what strong baselines do. They generate better next steps.</p>
+<h2 id="410-harness-lab-build-a-baseline-comparison-harness"><a class="header" href="#410-harness-lab-build-a-baseline-comparison-harness">4.10 Harness Lab: Build a Baseline Comparison Harness</a></h2>
+<p>We now turn the chapter into a reusable workflow.</p>
+<p>Here is a simple <strong>Baseline Comparison Harness</strong>.</p>
+<h3 id="purpose"><a class="header" href="#purpose">Purpose</a></h3>
+<p>Ensure that every new modeling effort begins with interpretable baselines and explicit comparison rules.</p>
+<h3 id="inputs"><a class="header" href="#inputs">Inputs</a></h3>
+<ul>
+<li>task type</li>
+<li>target definition</li>
+<li>available features</li>
+<li>operational constraints</li>
+</ul>
+<h3 id="required-outputs"><a class="header" href="#required-outputs">Required outputs</a></h3>
+<ol>
+<li>Simplest naive baseline</li>
+<li>First interpretable model</li>
+<li>Metric to compare on</li>
+<li>Slice checks</li>
+<li>One reason a more complex model may be justified</li>
+<li>One reason it may not be justified</li>
+</ol>
+<h3 id="minimal-workflow"><a class="header" href="#minimal-workflow">Minimal workflow</a></h3>
+<ol>
+<li>Define the task clearly.</li>
+<li>Choose a naive baseline.</li>
+<li>Choose a first interpretable model.</li>
+<li>Compare them on the same split.</li>
+<li>Inspect where each fails.</li>
+<li>Only then consider richer models.</li>
+</ol>
+<h3 id="evidence-artifact"><a class="header" href="#evidence-artifact">Evidence artifact</a></h3>
+<p>Produce a one-page comparison memo:</p>
+<ul>
+<li>task</li>
+<li>baselines tried</li>
+<li>metrics</li>
+<li>failure patterns</li>
+<li>recommendation for the next model class</li>
+</ul>
+<p>This memo prevents complexity from arriving as a reflex.</p>
+<h2 id="411-common-failure-modes"><a class="header" href="#411-common-failure-modes">4.11 Common Failure Modes</a></h2>
+<h3 id="failure-mode-1-skipping-the-baseline"><a class="header" href="#failure-mode-1-skipping-the-baseline">Failure Mode 1. Skipping the Baseline</a></h3>
+<p>The team jumps to a complex model before learning whether simple structure already solves much of the problem.</p>
+<p>Fix:</p>
+<ul>
+<li>require at least one naive baseline and one interpretable baseline</li>
+</ul>
+<h3 id="failure-mode-2-confusing-interpretability-with-weakness"><a class="header" href="#failure-mode-2-confusing-interpretability-with-weakness">Failure Mode 2. Confusing Interpretability with Weakness</a></h3>
+<p>The learner assumes a simpler model is only for beginners.</p>
+<p>Fix:</p>
+<ul>
+<li>treat simple models as instruments for understanding the task</li>
+</ul>
+<h3 id="failure-mode-3-ignoring-scale"><a class="header" href="#failure-mode-3-ignoring-scale">Failure Mode 3. Ignoring Scale</a></h3>
+<p>Nearest neighbors or regularized models behave strangely because the features are on incompatible scales.</p>
+<p>Fix:</p>
+<ul>
+<li>inspect feature ranges and normalize when appropriate</li>
+</ul>
+<h3 id="failure-mode-4-using-the-wrong-loss-for-the-task"><a class="header" href="#failure-mode-4-using-the-wrong-loss-for-the-task">Failure Mode 4. Using the Wrong Loss for the Task</a></h3>
+<p>The model may be technically implemented but conceptually mismatched to regression or classification.</p>
+<p>Fix:</p>
+<ul>
+<li>restate the task type and output before selecting the model</li>
+</ul>
+<h3 id="failure-mode-5-believing-a-better-metric-without-understanding-why"><a class="header" href="#failure-mode-5-believing-a-better-metric-without-understanding-why">Failure Mode 5. Believing a Better Metric Without Understanding Why</a></h3>
+<p>The score improved, but the team cannot explain what changed structurally.</p>
+<p>Fix:</p>
+<ul>
+<li>tie every improvement to either features, representation, thresholding, or model capacity</li>
+</ul>
+<h2 id="chapter-summary"><a class="header" href="#chapter-summary">Chapter Summary</a></h2>
+<p>Linear regression, logistic regression, and nearest neighbors are not disposable beginner tools. They teach the geometry of machine learning, the meaning of similarity, the importance of scaling, and the discipline of baselines. A first model should make the task more legible, not merely produce a score. The goal is not to stay simple forever. The goal is to make every increase in complexity feel earned.</p>
+<h2 id="use-this-skill-now"><a class="header" href="#use-this-skill-now">Use This Skill Now</a></h2>
+<p>After this chapter, open <a href="../reader-skills/ml-baseline-builder.html">Reader Skill: ML Baseline Builder</a>.</p>
+<p>Run the delivery-time example from <a href="../examples.html">Appendix C. Runnable Example Cases</a> or use one of your own tasks. Ask the skill for the naive baseline, the first interpretable baseline, the shared metric, and the slices that matter. Then write down where your own judgment agrees or disagrees.</p>
+<h2 id="extension-exercises"><a class="header" href="#extension-exercises">Extension Exercises</a></h2>
+<ol>
+<li>Build a linear regression baseline for a small regression dataset and interpret the weight signs.</li>
+<li>Train a logistic regression classifier and compare threshold choices rather than only the default prediction rule.</li>
+<li>Run a nearest-neighbor baseline with and without feature scaling and observe the difference.</li>
+<li>Write a one-page baseline comparison memo for one task you care about.</li>
+</ol>
+<h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
+<ul>
+<li><a href="../references.html">References</a></li>
+<li><a href="../chapter-05/README.html">Chapter 5. Trees, Ensembles, and Strong Baselines</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapter-03/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapter-05/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapter-03/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapter-05/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

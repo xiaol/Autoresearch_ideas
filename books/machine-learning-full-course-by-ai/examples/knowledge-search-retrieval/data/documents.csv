@@ -1,0 +1,7 @@
+doc_id,title,text
+1,Reset MFA,"To reset multi-factor authentication, go to Security Settings and choose Reset MFA."
+2,VPN Setup,"Install the company VPN client, sign in with SSO, and verify device trust."
+3,Expense Policy,"Meals under the travel policy can be reimbursed when receipts are attached."
+4,Password Rotation,"Passwords for internal tools should be rotated every 90 days."
+5,Laptop Replacement,"Employees can request a laptop replacement through the IT service portal."
+6,Incident Escalation,"Critical production incidents should be escalated to the on-call engineer immediately."

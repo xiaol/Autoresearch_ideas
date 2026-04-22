@@ -1,32 +1,72 @@
 # auto_research_llm_ideas
 
-Research scaffolding for a next-gen **Universal Transformer** variant with matrix-valued recurrence, inspired by M2RNN and RWKV v8 ideas (DeepEmbed and ROSA), plus a video production kit.
+`auto_research_llm_ideas` is primarily a paper workspace: a growing collection of self-contained research-paper packages, supporting benchmark code, and lightweight artifacts used to draft, test, and ship new ideas.
 
-**Status:** pilot research artifact. The repo now includes a configurable UniMatrix model zoo, runnable benchmark scripts, multiple paper packages, and measured pilot findings. It does not claim broad SOTA yet.
+**Current focus:** the `papers/` directory is the center of gravity. Each paper folder is meant to keep the manuscript, key assets, and any handoff-ready package files close together, while the rest of the repo provides the experiment code, notes, and figure-generation infrastructure that feed those papers.
+
+**Status:** active research artifact. The repo now includes a paper library, runnable benchmark scripts, multiple model families, and measured pilot results. It should be read as a working research workshop, not as a broad SOTA claim.
 
 Large generated outputs are intentionally excluded from git by default:
 - experiment dumps under `results/`
 - rendered media under `video/renders/` and `video/voiceover/`
 
-The repo is meant to ship the reproducible research code, paper sources, and lightweight assets. Heavy outputs can be regenerated locally from the included scripts.
+The repo is meant to ship reproducible research code, paper sources, and lightweight assets. Heavy outputs can be regenerated locally from the included scripts.
+
+## Papers First
+
+The main deliverable in this repo is the paper collection under `papers/`. These folders are the easiest way to browse the research output directly.
+
+**Current paper packages**
+- `papers/persistent_compiled_knowledge_agent_memory/` - *Persistent Compiled Knowledge as Agent Memory*, a paper on Andrej Karpathy's LLM Wiki pattern as durable agent memory infrastructure, with PaperX analysis assets and `main.pdf`.
+- `papers/associative_state_universal_transformers/` - *Associative-State Universal Transformers*, the main UniMatrix manuscript package with self-contained LaTeX sources and figures.
+- `papers/generic_triple_latent/` - *Generic Triple-Latent Compression with Gated Associative Retrieval*, a standalone paper package with finalized paper artifacts and supporting figure/code assets.
+- `papers/recurrent_ffn/` - *Replacing Transformer FFNs with Localized Recurrent Memory*, a standalone recurrent-memory paper draft with local bibliography and build files.
+- `papers/arc_agi2_grid_native/` - *Short-Long State Memory for Sub-Million Grid-Native ARC-AGI-2 Reasoning*, including the paper draft plus arXiv submission materials.
+- `papers/on_device_meta_learning_agents/` - *Decoupling Learning from Inference: The Rise of On-Device Meta-Learning Paradigms for Agents*, with paper source markdown, LaTeX, and PDF artifact.
+- `papers/on_policy_self_distillation/` - *GOLD-HAM: On-Policy Distillation for Selective Storage in Hybrid Associative Memory Architectures*, with source PDFs, figures, and compiled manuscript.
+- `papers/lpm_performance_model/` - *LPM 1.0: End-to-End Real-Time Video Character Performance*, with the manuscript plus a large set of extracted page and figure assets.
+- `papers/reward_hacking/` - *Reward Hacking in Agentic AI Systems: From Vulnerabilities to Architectural Solutions*, with the LaTeX source and compiled paper artifact.
+- `papers/rwkv_concurrent_rollout/` - *Concurrent Rollout Search with Fixed-Size RWKV State*, with compiled manuscript and rendered page previews.
+- `papers/jepa_rosa/` - JEPA-ROSA starter workspace with concept framing and experiment plan for a future paper package.
+- `papers/generic_triple_latent_arxiv/` - arXiv-oriented export package for the generic triple-latent paper.
+
+If you only read one part of the repo, start with `papers/` and then follow references from each package into `docs/`, `experiments/`, `results/`, or `assets/` as needed.
 
 **Repo Map**
-- `docs/01_literature_summary.md` – concise source recap
-- `docs/02_architecture_proposal.md` – the proposed UniMatrix architecture
-- `docs/03_training_eval_plan.md` – training and evaluation plan
-- `docs/04_open_questions.md` – risks and unknowns
-- `docs/05_lm_engine_integration.md` – where to hook into LM Engine
-- `docs/06_architecture_gallery.md` – PNG diagrams for each variant
-- `docs/07_higher_order_benchmark_audit.md` – corrected triple-interaction benchmark notes
-- `docs/08_generic_latent_followup.md` – generic benchmark follow-up for untyped latent compression
-- `docs/09_recurrent_ffn_paper_plan.md` – benchmark-first plan for a recurrent FFN paper with result-dependent framing
-- `model/` – PyTorch skeleton for a matrix-state RNN with ROSA wiring
-- `configs/` – example config
-- `experiments/` – language-model, memory, and throughput benchmarks
-- `papers/` – standalone paper packages for the main UniMatrix paper and follow-up drafts
+- `papers/` – primary paper library with manuscript packages, handoff artifacts, and research-paper snapshots
+- `docs/` – literature summaries, architecture notes, benchmark audits, and paper-planning documents
+- `experiments/` – runnable language-model, reasoning, memory, and throughput benchmarks that feed the papers
+- `model/` – PyTorch model implementations and research baselines
+- `configs/` – example training and evaluation configs
 - `results/` – local experiment outputs; large generated files are excluded from git by default
-- `video/` – script, storyboard, and Manim/TTS production code; heavy renders and audio are excluded from git
-- `references/` – citation links and bibtex
+- `video/` – script, storyboard, and production code for video explainers tied to selected papers
+- `references/` – citation links and bibliography material
+
+## Book and Skill Package
+
+This repo now also includes a full book package:
+
+- `books/machine-learning-full-course-by-ai/` – the complete mdBook source, built HTML, review PDF, runnable examples, and course-production workspace
+
+The book is not only a manuscript. It is paired with real local reader skills:
+
+- `.agents/skills/` – reusable ML skills such as `ml-math-translator`, `ml-problem-framer`, `ml-baseline-builder`, `ml-evaluation-review`, `ml-retrieval-evaluation`, and related review skills
+
+Good starting points:
+
+- `books/machine-learning-full-course-by-ai/README.md`
+- `books/machine-learning-full-course-by-ai/book/index.html`
+- `books/machine-learning-full-course-by-ai/src/how-to-use-reader-skills.md`
+- `books/machine-learning-full-course-by-ai/src/appendix-b.md`
+
+The intended workflow is:
+
+1. Read a chapter.
+2. Run the matching example or inspect the chapter case.
+3. Invoke the matching reader skill.
+4. Save the result as a reusable memo, review, or checklist.
+
+That package is meant to make the repo useful not only for paper-writing and experiments, but also for AI-native machine learning learning and teaching.
 
 ## LM Engine Next Move
 

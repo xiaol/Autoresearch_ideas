@@ -1,0 +1,467 @@
+1
+00:00:00,000 --> 00:00:04,043
+Chapter four. First models.
+
+2
+00:00:04,043 --> 00:00:08,087
+In this lesson, we will treat the first model as a
+professional instrument, not a warm-up exercise.
+
+3
+00:00:08,087 --> 00:00:12,130
+A beginner often asks, what model should I use?
+
+4
+00:00:12,130 --> 00:00:16,173
+A professional asks a sharper question: what have I
+learned from the simplest model that could possibly work?
+
+5
+00:00:16,173 --> 00:00:20,217
+That first model gives us a reference point.
+
+6
+00:00:20,217 --> 00:00:24,260
+Without it, we cannot honestly say what complexity is
+buying.
+
+7
+00:00:24,260 --> 00:00:28,641
+Here is the professional question. Not, can we train a
+powerful model.
+
+8
+00:00:28,641 --> 00:00:33,023
+The question is, what decision improves because this model
+exists?
+
+9
+00:00:33,023 --> 00:00:37,404
+A first model gives the team a measurement baseline. It
+also gives the team a shared language.
+
+10
+00:00:37,404 --> 00:00:41,786
+Product can ask whether the prediction changes the
+customer experience.
+
+11
+00:00:41,786 --> 00:00:46,167
+Operations can ask whether the prediction changes
+intervention timing.
+
+12
+00:00:46,167 --> 00:00:50,549
+Engineering can ask whether the improvement is worth the
+serving cost.
+
+13
+00:00:50,549 --> 00:00:54,930
+That is how model choice moves from taste into evidence.
+
+14
+00:00:54,930 --> 00:00:59,347
+This lesson is baseline discipline.
+
+15
+00:00:59,347 --> 00:01:03,764
+A naive baseline shows what happens when we barely model
+anything.
+
+16
+00:01:03,764 --> 00:01:08,181
+An interpretable baseline lets the data speak through a
+simple structure.
+
+17
+00:01:08,181 --> 00:01:12,599
+A richer model comes later, only after the simple model
+reveals what it can and cannot explain.
+
+18
+00:01:12,599 --> 00:01:17,016
+This ladder is important because each step earns the next.
+
+19
+00:01:17,016 --> 00:01:21,433
+If a linear model already solves the business problem, a
+neural network may add cost without adding value.
+
+20
+00:01:21,433 --> 00:01:25,850
+If the simple model fails in clear ways, those failures
+tell us what to try next.
+
+21
+00:01:25,850 --> 00:01:30,591
+Our case is delivery-time prediction. At dispatch time, we
+estimate when the order will arrive.
+
+22
+00:01:30,591 --> 00:01:35,333
+That supports customer communication and late-delivery
+intervention.
+
+23
+00:01:35,333 --> 00:01:40,074
+This is important because the model is not just predicting
+a number.
+
+24
+00:01:40,074 --> 00:01:44,816
+It is shaping expectations, staffing decisions, and
+escalation workflows.
+
+25
+00:01:44,816 --> 00:01:49,557
+If the estimate is too optimistic, customers become
+frustrated.
+
+26
+00:01:49,557 --> 00:01:54,299
+If it is too pessimistic, the business may over-correct
+and waste operational attention.
+
+27
+00:01:54,299 --> 00:01:59,040
+So even in a small example, the prediction sits inside a
+real decision loop.
+
+28
+00:01:59,040 --> 00:02:04,032
+The prediction moment matters.
+
+29
+00:02:04,032 --> 00:02:09,023
+At dispatch time, the model may know distance, preparation
+time, courier load, weather, and rush hour.
+
+30
+00:02:09,023 --> 00:02:14,015
+It may not know anything that happens after delivery.
+
+31
+00:02:14,015 --> 00:02:19,007
+This single boundary prevents many accidental leakage
+problems.
+
+32
+00:02:19,007 --> 00:02:23,998
+For example, if we accidentally include the actual arrival
+delay, or a support ticket created after the delivery, the
+model may look amazing offline and fail in production.
+
+33
+00:02:23,998 --> 00:02:28,990
+A first model should make this boundary explicit before
+training starts.
+
+34
+00:02:28,990 --> 00:02:34,108
+The dataset is intentionally small and inspectable. Each
+row is a past delivery.
+
+35
+00:02:34,108 --> 00:02:39,227
+The target is total delivery minutes. The features are
+simple operational signals.
+
+36
+00:02:39,227 --> 00:02:44,345
+This is a good first-model setup because a learner can
+reason about every input.
+
+37
+00:02:44,345 --> 00:02:49,463
+Distance should usually increase time. Bad weather should
+usually increase time.
+
+38
+00:02:49,463 --> 00:02:54,582
+Rush hour should usually increase time.
+
+39
+00:02:54,582 --> 00:02:59,700
+When a feature has an unexpected direction, that does not
+automatically mean the model is wrong, but it gives us a
+concrete question to investigate.
+
+40
+00:02:59,700 --> 00:03:05,020
+Before training, we ask three leakage questions. Would
+this feature be known at prediction time?
+
+41
+00:03:05,020 --> 00:03:10,340
+Was the label created after the outcome? Did train and
+test share future information?
+
+42
+00:03:10,340 --> 00:03:15,660
+A simple first model makes suspicious results easier to
+notice.
+
+43
+00:03:15,660 --> 00:03:20,980
+If the first model is unbelievably accurate, we should not
+celebrate immediately.
+
+44
+00:03:20,980 --> 00:03:26,300
+We should ask whether the data split, timestamp logic, or
+feature pipeline accidentally gave the model information
+from the future.
+
+45
+00:03:26,300 --> 00:03:32,015
+Now run the local example. The goal is not scale; it is
+judgment.
+
+46
+00:03:32,015 --> 00:03:37,730
+We compare a naive mean baseline with linear regression on
+the same delivery-time task.
+
+47
+00:03:37,730 --> 00:03:43,445
+Both models see the same split and the same metric, so the
+comparison is fair.
+
+48
+00:03:43,445 --> 00:03:49,160
+This is the habit to copy in real work: keep the data,
+metric, and evaluation window fixed while the model
+changes.
+
+49
+00:03:49,160 --> 00:03:53,240
+The naive baseline predicts the average delivery time.
+
+50
+00:03:53,240 --> 00:03:57,320
+It ignores distance, weather, courier load, and rush hour.
+
+51
+00:03:57,320 --> 00:04:01,400
+That sounds weak, but it answers an essential question.
+
+52
+00:04:01,400 --> 00:04:05,480
+How much error exists before the model learns any
+structure?
+
+53
+00:04:05,480 --> 00:04:09,560
+This number protects us from self-deception.
+
+54
+00:04:09,560 --> 00:04:13,640
+If a fancy model barely beats the average, then the model
+may be impressive technically but weak for this decision.
+
+55
+00:04:13,640 --> 00:04:18,092
+Next we train a linear regression baseline.
+
+56
+00:04:18,092 --> 00:04:22,543
+It is still simple, but now the model can use structure.
+
+57
+00:04:22,543 --> 00:04:26,995
+It can learn that distance, weather, and rush hour change
+expected time.
+
+58
+00:04:26,995 --> 00:04:31,447
+The value is that performance and explanation remain
+inspectable. Training is fast.
+
+59
+00:04:31,447 --> 00:04:35,898
+Serving is cheap. The coefficients can be read by a human.
+
+60
+00:04:35,898 --> 00:04:40,350
+For many production problems, that combination is not a
+compromise; it is a serious engineering advantage.
+
+61
+00:04:40,350 --> 00:04:45,127
+Here is the key result. The naive mean baseline has mean
+absolute error nine point one two.
+
+62
+00:04:45,127 --> 00:04:49,903
+Linear regression drops it to one point nine four. That is
+not a small cosmetic improvement.
+
+63
+00:04:49,903 --> 00:04:54,680
+It is evidence that the simple operational features
+contain usable structure.
+
+64
+00:04:54,680 --> 00:04:59,457
+Mean absolute error is easy to explain: on average, how
+many minutes are we wrong?
+
+65
+00:04:59,457 --> 00:05:04,233
+So the improvement is not just a leaderboard number.
+
+66
+00:05:04,233 --> 00:05:09,010
+It translates into a much tighter estimate for the people
+using the system.
+
+67
+00:05:09,010 --> 00:05:13,366
+We can inspect the learned weights.
+
+68
+00:05:13,366 --> 00:05:17,721
+Distance, weather severity, and rush hour all push
+delivery time upward.
+
+69
+00:05:17,721 --> 00:05:22,077
+That direction makes operational sense.
+
+70
+00:05:22,077 --> 00:05:26,433
+The negative preparation-time weight deserves review,
+because it may reflect process timing or dataset quirks.
+
+71
+00:05:26,433 --> 00:05:30,789
+Interpretability helps us find those questions early.
+
+72
+00:05:30,789 --> 00:05:35,144
+This is why simple models are not only for beginners.
+
+73
+00:05:35,144 --> 00:05:39,500
+A professional engineer uses them to find bugs,
+assumptions, and business questions before the system
+becomes harder to understand.
+
+74
+00:05:39,500 --> 00:05:45,385
+Now use the ML Baseline Builder skill.
+
+75
+00:05:45,385 --> 00:05:51,270
+It forces us to name the metric, the evidence, and the
+next justified escalation.
+
+76
+00:05:51,270 --> 00:05:57,155
+Instead of saying, the score looks good, we ask what the
+score proves, what it does not prove, and whether a richer
+model is justified.
+
+77
+00:05:57,155 --> 00:06:03,040
+For this case, the skill should point out that the linear
+baseline is meaningfully better than naive, but it has not
+yet proven robustness across restaurants, weather
+conditions, or courier-load extremes.
+
+78
+00:06:03,040 --> 00:06:07,820
+After the first model, do not jump straight to a bigger
+model. Check error slices.
+
+79
+00:06:07,820 --> 00:06:12,600
+Inspect outliers. Test whether predictions are calibrated
+enough for decisions.
+
+80
+00:06:12,600 --> 00:06:17,380
+Review leakage again. Only then should we try richer trees
+or ensembles.
+
+81
+00:06:17,380 --> 00:06:22,160
+A decision gate is not a delay tactic.
+
+82
+00:06:22,160 --> 00:06:26,940
+It is how we avoid spending a week on complexity when the
+next useful action is a one-hour data review.
+
+83
+00:06:26,940 --> 00:06:32,470
+Here are common mistakes. Skipping the naive baseline.
+Changing the metric between models.
+
+84
+00:06:32,470 --> 00:06:38,000
+Celebrating only the aggregate score. Ignoring slice
+failures.
+
+85
+00:06:38,000 --> 00:06:43,530
+Explaining results after the model has already been
+chosen.
+
+86
+00:06:43,530 --> 00:06:49,060
+First-model discipline protects us from all five. The
+danger is not simplicity.
+
+87
+00:06:49,060 --> 00:06:54,590
+The danger is unmeasured complexity, where the team cannot
+tell whether a larger model improved the decision or
+merely made the pipeline harder to reason about.
+
+88
+00:06:54,590 --> 00:07:00,898
+Your practice task is simple. Choose one prediction
+moment. Write one naive baseline.
+
+89
+00:07:00,898 --> 00:07:07,206
+Train one interpretable baseline. Compare one metric.
+Review one failure slice.
+
+90
+00:07:07,206 --> 00:07:13,514
+Then ask the professional question: what did complexity
+buy?
+
+91
+00:07:13,514 --> 00:07:19,822
+If you can answer that clearly, you are not just running
+machine learning code.
+
+92
+00:07:19,822 --> 00:07:26,130
+You are building engineering judgment that transfers to
+fraud detection, recommendation, search, forecasting, and
+almost every applied machine learning system.
+
+93
+00:07:26,130 --> 00:07:31,738
+The goal is not to stay simple forever. The goal is to
+know what complexity buys.
+
+94
+00:07:31,738 --> 00:07:37,345
+A first model should teach you something before a larger
+model enters the room.
+
+95
+00:07:37,345 --> 00:07:42,952
+Keep one sentence from this chapter: complexity should
+earn its place.
+
+96
+00:07:42,952 --> 00:07:48,560
+In the next lessons, that sentence will guide how we
+evaluate models, diagnose failures, and decide when a more
+powerful method is truly worth it.

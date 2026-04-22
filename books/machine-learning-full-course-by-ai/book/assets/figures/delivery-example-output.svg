@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="520" viewBox="0 0 1320 520" fill="none">
+  <rect width="1320" height="520" rx="26" fill="#0F172A"/>
+  <rect x="28" y="28" width="1264" height="464" rx="18" fill="#111827" stroke="#334155" stroke-width="2"/>
+  <circle cx="68" cy="66" r="9" fill="#F87171"/>
+  <circle cx="98" cy="66" r="9" fill="#FBBF24"/>
+  <circle cx="128" cy="66" r="9" fill="#34D399"/>
+  <text x="158" y="73" fill="#CBD5E1" font-family="Menlo, Monaco, monospace" font-size="18">python3 examples/delivery-time-prediction/scripts/run_baseline.py</text>
+
+  <text x="60" y="128" fill="#F8FAFC" font-family="Menlo, Monaco, monospace" font-size="24">Delivery-Time Prediction Example</text>
+  <text x="60" y="168" fill="#E2E8F0" font-family="Menlo, Monaco, monospace" font-size="22">Train rows: 14</text>
+  <text x="60" y="200" fill="#E2E8F0" font-family="Menlo, Monaco, monospace" font-size="22">Test rows: 6</text>
+
+  <text x="60" y="258" fill="#FCD34D" font-family="Menlo, Monaco, monospace" font-size="22">Naive mean baseline MAE: 9.12</text>
+  <text x="60" y="292" fill="#86EFAC" font-family="Menlo, Monaco, monospace" font-size="22">Linear regression MAE: 1.94</text>
+
+  <text x="60" y="346" fill="#93C5FD" font-family="Menlo, Monaco, monospace" font-size="22">Linear weights:</text>
+  <text x="60" y="378" fill="#E2E8F0" font-family="Menlo, Monaco, monospace" font-size="20">distance_km:   11.706</text>
+  <text x="60" y="406" fill="#E2E8F0" font-family="Menlo, Monaco, monospace" font-size="20">prep_minutes:  -2.477</text>
+  <text x="60" y="434" fill="#E2E8F0" font-family="Menlo, Monaco, monospace" font-size="20">courier_load:   1.639</text>
+  <text x="420" y="378" fill="#E2E8F0" font-family="Menlo, Monaco, monospace" font-size="20">weather_score:  3.495</text>
+  <text x="420" y="406" fill="#E2E8F0" font-family="Menlo, Monaco, monospace" font-size="20">is_rush_hour:   7.014</text>
+  <text x="420" y="434" fill="#E2E8F0" font-family="Menlo, Monaco, monospace" font-size="20">bias:          22.039</text>
+</svg>

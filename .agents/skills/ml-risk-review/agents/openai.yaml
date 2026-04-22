@@ -1,0 +1,4 @@
+interface:
+  display_name: "ML Risk Review"
+  short_description: "Turn safety concerns into concrete system review."
+  default_prompt: "Use $ml-risk-review to review an ML or AI system for concrete failure surfaces, harmed groups, mitigation gaps, unacceptable residual risks, and monitoring or escalation plans."

@@ -1,0 +1,14 @@
+Delivery-Time Prediction Example
+Train rows: 14
+Test rows: 6
+
+Naive mean baseline MAE: 9.12
+Linear regression MAE: 1.94
+
+Linear weights:
+  distance_km: 11.706
+  prep_minutes: -2.477
+  courier_load: 1.639
+  weather_score: 3.495
+  is_rush_hour: 7.014
+  bias: 22.039

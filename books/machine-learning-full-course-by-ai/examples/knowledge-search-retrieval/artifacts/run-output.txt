@@ -1,0 +1,27 @@
+Knowledge Search Retrieval Example
+
+Query: how do i reset my mfa
+Expected doc: 1
+Top hit: 1 | Reset MFA | ok=True
+
+Query: what is the process for vpn access
+Expected doc: 2
+Top hit: 2 | VPN Setup | ok=True
+
+Query: can i expense a meal during travel
+Expected doc: 3
+Top hit: 3 | Expense Policy | ok=True
+
+Query: when do i rotate passwords
+Expected doc: 4
+Top hit: 4 | Password Rotation | ok=True
+
+Query: how to request a new laptop
+Expected doc: 5
+Top hit: 5 | Laptop Replacement | ok=True
+
+Query: who handles critical incidents
+Expected doc: 6
+Top hit: 6 | Incident Escalation | ok=True
+
+Top-1 accuracy: 100.00%

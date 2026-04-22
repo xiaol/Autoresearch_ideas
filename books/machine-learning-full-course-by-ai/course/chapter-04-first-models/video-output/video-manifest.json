@@ -1,0 +1,75 @@
+{
+  "title": "Machine Learning Full Course by AI | Chapter 04 Example Video",
+  "voice": "Alex",
+  "rate": "182",
+  "fps": 30,
+  "source_brief": "/Users/xiaol/x/PaperX/books/machine-learning-full-course-by-ai/examples/delivery-time-prediction/artifacts/brief.md",
+  "source_output": "/Users/xiaol/x/PaperX/books/machine-learning-full-course-by-ai/examples/delivery-time-prediction/artifacts/run-output.txt",
+  "scenes": [
+    {
+      "index": 1,
+      "slug": "scene-01-title",
+      "duration_seconds": 14.13,
+      "slide": "01-scene-01-title.png",
+      "audio": "01-scene-01-title.aiff",
+      "segment": "01-scene-01-title.mp4"
+    },
+    {
+      "index": 2,
+      "slug": "scene-02-baseline-ladder",
+      "duration_seconds": 21.11,
+      "slide": "02-scene-02-baseline-ladder.png",
+      "audio": "02-scene-02-baseline-ladder.aiff",
+      "segment": "02-scene-02-baseline-ladder.mp4"
+    },
+    {
+      "index": 3,
+      "slug": "scene-03-case-brief",
+      "duration_seconds": 22.46,
+      "slide": "03-scene-03-case-brief.png",
+      "audio": "03-scene-03-case-brief.aiff",
+      "segment": "03-scene-03-case-brief.mp4"
+    },
+    {
+      "index": 4,
+      "slug": "scene-04-demo-command",
+      "duration_seconds": 13.08,
+      "slide": "04-scene-04-demo-command.png",
+      "audio": "04-scene-04-demo-command.aiff",
+      "segment": "04-scene-04-demo-command.mp4"
+    },
+    {
+      "index": 5,
+      "slug": "scene-05-evidence-panel",
+      "duration_seconds": 18.41,
+      "slide": "05-scene-05-evidence-panel.png",
+      "audio": "05-scene-05-evidence-panel.aiff",
+      "segment": "05-scene-05-evidence-panel.mp4"
+    },
+    {
+      "index": 6,
+      "slug": "scene-06-weight-reading",
+      "duration_seconds": 19.55,
+      "slide": "06-scene-06-weight-reading.png",
+      "audio": "06-scene-06-weight-reading.aiff",
+      "segment": "06-scene-06-weight-reading.mp4"
+    },
+    {
+      "index": 7,
+      "slug": "scene-07-skill-prompt",
+      "duration_seconds": 19.08,
+      "slide": "07-scene-07-skill-prompt.png",
+      "audio": "07-scene-07-skill-prompt.aiff",
+      "segment": "07-scene-07-skill-prompt.mp4"
+    },
+    {
+      "index": 8,
+      "slug": "scene-08-close",
+      "duration_seconds": 13.33,
+      "slide": "08-scene-08-close.png",
+      "audio": "08-scene-08-close.aiff",
+      "segment": "08-scene-08-close.mp4"
+    }
+  ],
+  "final_video": "/Users/xiaol/x/PaperX/books/machine-learning-full-course-by-ai/course/chapter-04-first-models/video-output/chapter-04-example-video.mp4"
+}

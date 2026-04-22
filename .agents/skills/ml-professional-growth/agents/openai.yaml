@@ -1,0 +1,4 @@
+interface:
+  display_name: "ML Professional Growth"
+  short_description: "Turn career growth into artifacts, review, and evidence."
+  default_prompt: "Use $ml-professional-growth to review an ML learner or engineer's strengths, weaknesses, next specialization direction, portfolio artifact, communication habit, and next review checkpoint."

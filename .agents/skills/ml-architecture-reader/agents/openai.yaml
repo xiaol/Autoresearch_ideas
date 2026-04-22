@@ -1,0 +1,4 @@
+interface:
+  display_name: "ML Architecture Reader"
+  short_description: "Turn model papers into engineering judgment."
+  default_prompt: "Use $ml-architecture-reader to turn an architecture paper or model explainer into a structured note covering task pressure, mechanism change, gains, tradeoffs, and whether the method would matter in practice."

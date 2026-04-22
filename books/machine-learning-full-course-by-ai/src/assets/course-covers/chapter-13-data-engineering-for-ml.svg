@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="40" x2="1480" y2="860" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#0369A1"/>
+    </linearGradient>
+    <radialGradient id="haloA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1320 180) rotate(90) scale(340 340)">
+      <stop offset="0%" stop-color="#FB7185" stop-opacity="0.34"/>
+      <stop offset="100%" stop-color="#FB7185" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="haloB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1420 760) rotate(90) scale(320 320)">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#FFFFFF" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <circle cx="1320" cy="180" r="340" fill="url(#haloA)"/>
+  <circle cx="1420" cy="760" r="320" fill="url(#haloB)"/>
+  <rect x="88" y="82" width="1424" height="736" rx="42" fill="#020617" fill-opacity="0.28" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="2"/>
+  <rect x="112" y="108" width="14" height="684" rx="7" fill="#FB7185"/>
+  <rect x="1328" y="112" width="116" height="116" rx="22" fill="#FFFFFF" fill-opacity="0.05" stroke="#FFFFFF" stroke-opacity="0.12"/>
+  <rect x="1280" y="160" width="212" height="212" rx="34" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <text x="148" y="156" fill="#E2E8F0" font-size="26" letter-spacing="4" font-family="Arial, sans-serif">MACHINE LEARNING FULL COURSE BY AI</text>
+  <rect x="148" y="196" width="473" height="54" rx="27" fill="#0C4A6E" fill-opacity="0.92" stroke="#FFFFFF" stroke-opacity="0.14"/>
+  <text x="178" y="231" fill="#F8FAFC" font-size="25" font-family="Arial, sans-serif">Part 4. Retrieval, Ranking, and Systems</text>
+  <text x="1290" y="214" fill="#BAE6FD" font-size="34" text-anchor="end" font-family="Arial, sans-serif">Chapter 13</text>
+  <text x="1448" y="792" fill="#FFFFFF" fill-opacity="0.08" font-size="160" text-anchor="end" font-weight="700" font-family="Arial, sans-serif">13</text>
+  <text x="148" y="342" fill="#F8FAFC" font-size="74" font-weight="700" font-family="Arial, sans-serif">Data Engineering for ML</text><text x="148" y="434" fill="#F8FAFC" font-size="74" font-weight="700" font-family="Arial, sans-serif">Teams</text>
+  <text x="148" y="650" fill="#BAE6FD" font-size="32" font-family="Arial, sans-serif">Fix data pipelines before blaming the model.</text>
+  <text x="148" y="770" fill="#F8FAFC" fill-opacity="0.82" font-size="24" letter-spacing="2" font-family="Arial, sans-serif">FROM MANUSCRIPT TO VIDEO LESSON</text>
+  <text x="148" y="804" fill="#CBD5E1" fill-opacity="0.72" font-size="20" font-family="Arial, sans-serif">Use as chapter opener, thumbnail base, or editing placeholder.</text>
+</svg>
