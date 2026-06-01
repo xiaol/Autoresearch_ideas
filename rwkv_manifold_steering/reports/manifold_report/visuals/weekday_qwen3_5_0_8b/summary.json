@@ -1,0 +1,424 @@
+{
+  "backend": "qwen",
+  "model": "Qwen/Qwen3.5-0.8B-Base",
+  "task": "weekday",
+  "labels": [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+  ],
+  "target": "decoder block output / residual stream after selected transformer block",
+  "best_layer": 2,
+  "pca_dim": 16,
+  "num_steps": 50,
+  "n_carrier_prompts": 16,
+  "linear_endpoint_mode": "matched",
+  "base_accuracy": 0.14285714285714285,
+  "layer_metrics": [
+    {
+      "layer": 0.0,
+      "nearest_centroid_accuracy": 0.22448979591836735,
+      "between_within_ratio": 0.00634159566834569
+    },
+    {
+      "layer": 1.0,
+      "nearest_centroid_accuracy": 0.16326530612244897,
+      "between_within_ratio": 0.004268585238605738
+    },
+    {
+      "layer": 2.0,
+      "nearest_centroid_accuracy": 0.24489795918367346,
+      "between_within_ratio": 0.0031883604824543
+    },
+    {
+      "layer": 3.0,
+      "nearest_centroid_accuracy": 0.22448979591836735,
+      "between_within_ratio": 0.0011607907945290208
+    },
+    {
+      "layer": 4.0,
+      "nearest_centroid_accuracy": 0.1836734693877551,
+      "between_within_ratio": 0.001412763143889606
+    },
+    {
+      "layer": 5.0,
+      "nearest_centroid_accuracy": 0.12244897959183673,
+      "between_within_ratio": 0.0017886025598272681
+    },
+    {
+      "layer": 6.0,
+      "nearest_centroid_accuracy": 0.10204081632653061,
+      "between_within_ratio": 0.0018815636867657304
+    },
+    {
+      "layer": 7.0,
+      "nearest_centroid_accuracy": 0.14285714285714285,
+      "between_within_ratio": 0.0021363317500799894
+    },
+    {
+      "layer": 8.0,
+      "nearest_centroid_accuracy": 0.12244897959183673,
+      "between_within_ratio": 0.002229548990726471
+    },
+    {
+      "layer": 9.0,
+      "nearest_centroid_accuracy": 0.14285714285714285,
+      "between_within_ratio": 0.0021976898424327374
+    },
+    {
+      "layer": 10.0,
+      "nearest_centroid_accuracy": 0.14285714285714285,
+      "between_within_ratio": 0.00228892476297915
+    },
+    {
+      "layer": 11.0,
+      "nearest_centroid_accuracy": 0.14285714285714285,
+      "between_within_ratio": 0.0026161284185945988
+    },
+    {
+      "layer": 12.0,
+      "nearest_centroid_accuracy": 0.16326530612244897,
+      "between_within_ratio": 0.0033939797431230545
+    },
+    {
+      "layer": 13.0,
+      "nearest_centroid_accuracy": 0.14285714285714285,
+      "between_within_ratio": 0.0028203362599015236
+    },
+    {
+      "layer": 14.0,
+      "nearest_centroid_accuracy": 0.16326530612244897,
+      "between_within_ratio": 0.002737321425229311
+    },
+    {
+      "layer": 15.0,
+      "nearest_centroid_accuracy": 0.14285714285714285,
+      "between_within_ratio": 0.0021204424556344748
+    },
+    {
+      "layer": 16.0,
+      "nearest_centroid_accuracy": 0.14285714285714285,
+      "between_within_ratio": 0.002711828565225005
+    },
+    {
+      "layer": 17.0,
+      "nearest_centroid_accuracy": 0.10204081632653061,
+      "between_within_ratio": 0.002908675465732813
+    },
+    {
+      "layer": 18.0,
+      "nearest_centroid_accuracy": 0.14285714285714285,
+      "between_within_ratio": 0.0029967608861625195
+    },
+    {
+      "layer": 19.0,
+      "nearest_centroid_accuracy": 0.1836734693877551,
+      "between_within_ratio": 0.0012897717533633113
+    },
+    {
+      "layer": 20.0,
+      "nearest_centroid_accuracy": 0.16326530612244897,
+      "between_within_ratio": 0.0012259449576959014
+    },
+    {
+      "layer": 21.0,
+      "nearest_centroid_accuracy": 0.1836734693877551,
+      "between_within_ratio": 0.001206322805956006
+    },
+    {
+      "layer": 22.0,
+      "nearest_centroid_accuracy": 0.22448979591836735,
+      "between_within_ratio": 0.0009676283225417137
+    },
+    {
+      "layer": 23.0,
+      "nearest_centroid_accuracy": 0.24489795918367346,
+      "between_within_ratio": 0.0013772081583738327
+    }
+  ],
+  "isometry": {
+    "pearson_r_geometric": 0.8567248122258615,
+    "pearson_r_linear": 0.5373864897263517,
+    "n_pairs": 1071,
+    "n_vertices": 49,
+    "n_excluded_same_geodesic": 105,
+    "report_path": "outputs/report_weekday_qwen_matched/isometry_report.png"
+  },
+  "visualization": {
+    "isometry_3d_html": "outputs/report_weekday_qwen_matched/isometry_3d.html",
+    "steering_3d_html": "outputs/report_weekday_qwen_matched/steering_3d.html",
+    "steering_gif": "outputs/report_weekday_qwen_matched/steering_movement.gif",
+    "activation_3d_components": "0,1,2",
+    "behavior_3d_components": "0,1,2"
+  },
+  "path": {
+    "start": "Monday",
+    "end": "Thursday",
+    "scores": {
+      "geometric": {
+        "coherence_mean": 0.0773485004901886,
+        "coherence_worst": 0.0721936747431755,
+        "distance_from_behavior_manifold_mean": 0.520252145466359,
+        "distance_from_geodesic_mean": 0.5535328388214111
+      },
+      "linear": {
+        "coherence_mean": 0.07764036953449249,
+        "coherence_worst": 0.07280204445123672,
+        "distance_from_behavior_manifold_mean": 0.5227992033498463,
+        "distance_from_geodesic_mean": 0.5561314821243286
+      }
+    },
+    "endpoint_diagnostics": {
+      "start_hidden_l2": 0.0,
+      "start_behavior_prob_l1": 0.0,
+      "start_behavior_prob_l2": 0.0,
+      "start_geometric_concept_mass": 0.07799245417118073,
+      "start_linear_concept_mass": 0.07799245417118073,
+      "end_hidden_l2": 0.0,
+      "end_behavior_prob_l1": 0.0,
+      "end_behavior_prob_l2": 0.0,
+      "end_geometric_concept_mass": 0.07794415205717087,
+      "end_linear_concept_mass": 0.07794415205717087
+    },
+    "argmax_by_mode": {
+      "geometric": [
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday"
+      ],
+      "linear": [
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday",
+        "Monday"
+      ]
+    }
+  },
+  "carrier_prompts": [
+    {
+      "entity": "Monday",
+      "number_word": "one",
+      "number": 1,
+      "result": "Tuesday",
+      "result_index": 1,
+      "prompt": "User: What day comes one days after Monday?\n\nAssistant:"
+    },
+    {
+      "entity": "Monday",
+      "number_word": "two",
+      "number": 2,
+      "result": "Wednesday",
+      "result_index": 2,
+      "prompt": "User: What day comes two days after Monday?\n\nAssistant:"
+    },
+    {
+      "entity": "Monday",
+      "number_word": "three",
+      "number": 3,
+      "result": "Thursday",
+      "result_index": 3,
+      "prompt": "User: What day comes three days after Monday?\n\nAssistant:"
+    },
+    {
+      "entity": "Monday",
+      "number_word": "four",
+      "number": 4,
+      "result": "Friday",
+      "result_index": 4,
+      "prompt": "User: What day comes four days after Monday?\n\nAssistant:"
+    },
+    {
+      "entity": "Monday",
+      "number_word": "five",
+      "number": 5,
+      "result": "Saturday",
+      "result_index": 5,
+      "prompt": "User: What day comes five days after Monday?\n\nAssistant:"
+    },
+    {
+      "entity": "Monday",
+      "number_word": "six",
+      "number": 6,
+      "result": "Sunday",
+      "result_index": 6,
+      "prompt": "User: What day comes six days after Monday?\n\nAssistant:"
+    },
+    {
+      "entity": "Monday",
+      "number_word": "seven",
+      "number": 7,
+      "result": "Monday",
+      "result_index": 0,
+      "prompt": "User: What day comes seven days after Monday?\n\nAssistant:"
+    },
+    {
+      "entity": "Tuesday",
+      "number_word": "one",
+      "number": 1,
+      "result": "Wednesday",
+      "result_index": 2,
+      "prompt": "User: What day comes one days after Tuesday?\n\nAssistant:"
+    },
+    {
+      "entity": "Tuesday",
+      "number_word": "two",
+      "number": 2,
+      "result": "Thursday",
+      "result_index": 3,
+      "prompt": "User: What day comes two days after Tuesday?\n\nAssistant:"
+    },
+    {
+      "entity": "Tuesday",
+      "number_word": "three",
+      "number": 3,
+      "result": "Friday",
+      "result_index": 4,
+      "prompt": "User: What day comes three days after Tuesday?\n\nAssistant:"
+    },
+    {
+      "entity": "Tuesday",
+      "number_word": "four",
+      "number": 4,
+      "result": "Saturday",
+      "result_index": 5,
+      "prompt": "User: What day comes four days after Tuesday?\n\nAssistant:"
+    },
+    {
+      "entity": "Tuesday",
+      "number_word": "five",
+      "number": 5,
+      "result": "Sunday",
+      "result_index": 6,
+      "prompt": "User: What day comes five days after Tuesday?\n\nAssistant:"
+    },
+    {
+      "entity": "Tuesday",
+      "number_word": "six",
+      "number": 6,
+      "result": "Monday",
+      "result_index": 0,
+      "prompt": "User: What day comes six days after Tuesday?\n\nAssistant:"
+    },
+    {
+      "entity": "Tuesday",
+      "number_word": "seven",
+      "number": 7,
+      "result": "Tuesday",
+      "result_index": 1,
+      "prompt": "User: What day comes seven days after Tuesday?\n\nAssistant:"
+    },
+    {
+      "entity": "Wednesday",
+      "number_word": "one",
+      "number": 1,
+      "result": "Thursday",
+      "result_index": 3,
+      "prompt": "User: What day comes one days after Wednesday?\n\nAssistant:"
+    },
+    {
+      "entity": "Wednesday",
+      "number_word": "two",
+      "number": 2,
+      "result": "Friday",
+      "result_index": 4,
+      "prompt": "User: What day comes two days after Wednesday?\n\nAssistant:"
+    }
+  ]
+}

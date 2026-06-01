@@ -20,6 +20,7 @@ The repo is meant to ship the reproducible research code, paper sources, and lig
 - `docs/07_higher_order_benchmark_audit.md` – corrected triple-interaction benchmark notes
 - `docs/08_generic_latent_followup.md` – generic benchmark follow-up for untyped latent compression
 - `docs/09_recurrent_ffn_paper_plan.md` – benchmark-first plan for a recurrent FFN paper with result-dependent framing
+- `rwkv_manifold_steering/` – Goodfire-style manifold steering reproduction and RWKV/Qwen cyclic-concept extension, with matched-endpoint metrics and PCA dimensionality-reduction notes
 - `model/` – PyTorch skeleton for a matrix-state RNN with ROSA wiring
 - `configs/` – example config
 - `experiments/` – language-model, memory, and throughput benchmarks

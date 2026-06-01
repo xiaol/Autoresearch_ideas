@@ -1,0 +1,26 @@
+{
+  "rwkv_artifacts": "outputs/report_month_rwkv_matched",
+  "qwen_artifacts": "outputs/report_month_qwen_matched",
+  "rwkv_label": "RWKV-0.1B",
+  "qwen_label": "Qwen3.5-0.8B",
+  "sample_count": 256,
+  "mean_weekday_centroid_hellinger_distance": 0.14772961589465378,
+  "max_weekday_centroid_hellinger_distance": 0.1505060272474781,
+  "label_count": 12,
+  "centroid_hellinger_distance_by_label": {
+    "January": 0.14860622644071317,
+    "February": 0.14826959956165667,
+    "March": 0.14872852605837966,
+    "April": 0.14212271351400957,
+    "May": 0.14924248580254576,
+    "June": 0.14765188481316888,
+    "July": 0.1505060272474781,
+    "August": 0.14854868545578367,
+    "September": 0.14781294899475325,
+    "October": 0.1455530349775991,
+    "November": 0.14968714559104782,
+    "December": 0.14602611227870965
+  },
+  "mean_curve_hellinger_distance": 0.14771584002160612,
+  "max_curve_hellinger_distance": 0.15057114412842743
+}

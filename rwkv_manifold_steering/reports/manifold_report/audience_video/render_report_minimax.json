@@ -1,0 +1,355 @@
+{
+  "video": "reports/manifold_report/audience_video/neural_geometry_rwkv_insight_minimax.mp4",
+  "source_video": "reports/manifold_report/audience_video/neural_geometry_rwkv_insight_long_silent.mp4",
+  "srt": "reports/manifold_report/audience_video/neural_geometry_rwkv_insight_minimax.srt",
+  "wav": "reports/manifold_report/audience_video/minimax_audio/neural_geometry_rwkv_insight_minimax.wav",
+  "mp3": "reports/manifold_report/audience_video/minimax_audio/neural_geometry_rwkv_insight_minimax.mp3",
+  "contact_sheet": "reports/manifold_report/audience_video/neural_geometry_rwkv_insight_minimax_contact_sheet.jpg",
+  "narration_markdown": "reports/manifold_report/audience_video/narration_minimax.md",
+  "tts": {
+    "provider": "MiniMax",
+    "model": "speech-2.8-hd",
+    "voice_a": "English_captivating_female1",
+    "voice_b": "English_CaptivatingStoryteller",
+    "speed": 1.0,
+    "pitch": 0,
+    "volume": 1.0,
+    "normalization": "ffmpeg loudnorm=I=-20:TP=-1.5:LRA=11"
+  },
+  "duration_seconds": 461.0,
+  "audio_duration_seconds": 460.921354,
+  "segments": 36,
+  "max_speed_factor": 1.0,
+  "speaker_labels_stripped_for_tts": true,
+  "supported_tts_tags": [
+    "(breath)",
+    "(chuckle)",
+    "(sighs)",
+    "(laughs)",
+    "<#0.4#>"
+  ],
+  "streams": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "index": 0,
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1920,
+        "height": 1080,
+        "r_frame_rate": "24/1"
+      },
+      {
+        "index": 1,
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      },
+      {
+        "index": 2,
+        "codec_name": "mov_text",
+        "codec_type": "subtitle",
+        "r_frame_rate": "0/0"
+      }
+    ],
+    "format": {
+      "duration": "461.000000"
+    }
+  },
+  "segment_reports": [
+    {
+      "segment": 1,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 21.744,
+      "target_duration": 21.994,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 2,
+      "speaker": "B",
+      "voice": "English_CaptivatingStoryteller",
+      "raw_duration": 5.904,
+      "target_duration": 6.154,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 3,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 7.272,
+      "target_duration": 7.522000000000002,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 4,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 14.724,
+      "target_duration": 14.974000000000004,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 5,
+      "speaker": "B",
+      "voice": "English_CaptivatingStoryteller",
+      "raw_duration": 2.34,
+      "target_duration": 2.5900000000000034,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 6,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 21.492,
+      "target_duration": 21.35299999999998,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 7,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 14.652,
+      "target_duration": 14.902000000000001,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 8,
+      "speaker": "B",
+      "voice": "English_CaptivatingStoryteller",
+      "raw_duration": 5.652,
+      "target_duration": 5.902000000000001,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 9,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 10.44,
+      "target_duration": 10.689999999999998,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 10,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 23.616,
+      "target_duration": 23.866,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 11,
+      "speaker": "B",
+      "voice": "English_CaptivatingStoryteller",
+      "raw_duration": 4.068,
+      "target_duration": 4.318000000000012,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 12,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 7.38,
+      "target_duration": 7.6299999999999955,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 13,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 19.512,
+      "target_duration": 19.762,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 14,
+      "speaker": "B",
+      "voice": "English_CaptivatingStoryteller",
+      "raw_duration": 9.396,
+      "target_duration": 9.646000000000015,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 15,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 2.268,
+      "target_duration": 2.5180000000000007,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 16,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 21.168,
+      "target_duration": 21.418000000000006,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 17,
+      "speaker": "B",
+      "voice": "English_CaptivatingStoryteller",
+      "raw_duration": 3.744,
+      "target_duration": 3.9939999999999998,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 18,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 6.444,
+      "target_duration": 6.693999999999988,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 19,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 17.352,
+      "target_duration": 17.602000000000004,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 20,
+      "speaker": "B",
+      "voice": "English_CaptivatingStoryteller",
+      "raw_duration": 10.044,
+      "target_duration": 10.294000000000011,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 21,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 1.152,
+      "target_duration": 1.4019999999999868,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 22,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 15.588,
+      "target_duration": 15.838000000000022,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 23,
+      "speaker": "B",
+      "voice": "English_CaptivatingStoryteller",
+      "raw_duration": 8.676,
+      "target_duration": 8.925999999999988,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 24,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 3.744,
+      "target_duration": 3.994000000000028,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 25,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 19.62,
+      "target_duration": 19.870000000000005,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 26,
+      "speaker": "B",
+      "voice": "English_CaptivatingStoryteller",
+      "raw_duration": 2.7,
+      "target_duration": 2.9499999999999886,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 27,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 14.076,
+      "target_duration": 14.326000000000022,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 28,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 17.928,
+      "target_duration": 18.177999999999997,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 29,
+      "speaker": "B",
+      "voice": "English_CaptivatingStoryteller",
+      "raw_duration": 5.688,
+      "target_duration": 5.937999999999988,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 30,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 15.156,
+      "target_duration": 15.406000000000006,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 31,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 23.688,
+      "target_duration": 23.937999999999988,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 32,
+      "speaker": "B",
+      "voice": "English_CaptivatingStoryteller",
+      "raw_duration": 2.556,
+      "target_duration": 2.805999999999983,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 33,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 7.416,
+      "target_duration": 7.665999999999997,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 34,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 12.528,
+      "target_duration": 12.77800000000002,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 35,
+      "speaker": "B",
+      "voice": "English_CaptivatingStoryteller",
+      "raw_duration": 5.652,
+      "target_duration": 5.901999999999987,
+      "speed_factor": 1.0
+    },
+    {
+      "segment": 36,
+      "speaker": "A",
+      "voice": "English_captivating_female1",
+      "raw_duration": 16.992,
+      "target_duration": 17.24200000000002,
+      "speed_factor": 1.0
+    }
+  ],
+  "source_article": "https://www.goodfire.ai/research/the-world-inside-neural-networks",
+  "source_paper": "arXiv:2605.05115",
+  "skills": {
+    "paper_blackboard_video": "paper-blackboard-video skill used during local production"
+  }
+}

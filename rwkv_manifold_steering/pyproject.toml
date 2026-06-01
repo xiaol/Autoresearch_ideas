@@ -1,0 +1,36 @@
+[project]
+name = "rwkv-manifold-steering"
+version = "0.1.0"
+description = "Standalone RWKV-7 hidden-state manifold steering experiments."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "huggingface-hub>=0.35.0",
+    "matplotlib>=3.8.0",
+    "numpy>=1.26.0",
+    "pillow>=10.0.0",
+    "plotly>=6.0.0",
+    "scikit-learn>=1.4.0",
+    "torch>=2.4.0",
+    "transformers>=4.57.0",
+    "tqdm>=4.66.0",
+]
+
+[project.scripts]
+rwkv-weekday-manifold = "rwkv_manifold_steering.weekday_manifold:main"
+qwen-weekday-manifold = "rwkv_manifold_steering.qwen_weekday_manifold:main"
+compare-weekday-manifolds = "rwkv_manifold_steering.compare_models:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+rwkv_manifold_steering = [
+    "rwkv_vocab_v20230424.txt",
+    "cuda/*.cu",
+    "cuda/*.cpp",
+]

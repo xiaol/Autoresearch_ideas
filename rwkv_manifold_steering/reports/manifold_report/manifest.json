@@ -1,0 +1,22 @@
+{
+  "report_markdown": "reports/manifold_report/REPORT.md",
+  "report_html": "reports/manifold_report/index.html",
+  "metrics_csv": "reports/manifold_report/metrics.csv",
+  "metrics_json": "reports/manifold_report/metrics.json",
+  "manim_scene": "reports/manifold_report/animation/manifold_report_scene.py",
+  "manim_video": "reports/manifold_report/animation/manim_matched_endpoint_report.mp4",
+  "manim_contact_sheet": "reports/manifold_report/animation/manim_contact_sheet.jpg",
+  "fallback_video": "reports/manifold_report/animation/matched_endpoint_report.mp4",
+  "contact_sheet": "reports/manifold_report/animation/matched_endpoint_contact_sheet.jpg",
+  "note": "Manim scene source is provided; fallback MP4 is rendered directly from saved experiment trajectories.",
+  "audience_video": "reports/manifold_report/audience_video/neural_geometry_rwkv_insight.mp4",
+  "audience_contact_sheet": "reports/manifold_report/audience_video/neural_geometry_rwkv_insight_contact_sheet.jpg",
+  "audience_manifest": "reports/manifold_report/audience_video/audience_video_manifest.json",
+  "audience_video_minimax": "reports/manifold_report/audience_video/neural_geometry_rwkv_insight_minimax.mp4",
+  "audience_video_minimax_srt": "reports/manifold_report/audience_video/neural_geometry_rwkv_insight_minimax.srt",
+  "audience_video_minimax_contact_sheet": "reports/manifold_report/audience_video/neural_geometry_rwkv_insight_minimax_contact_sheet.jpg",
+  "audience_video_minimax_report": "reports/manifold_report/audience_video/render_report_minimax.json",
+  "audience_video_minimax_narration": "reports/manifold_report/audience_video/narration_minimax.md",
+  "audience_video_long_silent": "reports/manifold_report/audience_video/neural_geometry_rwkv_insight_long_silent.mp4",
+  "audience_video_long_silent_manifest": "reports/manifold_report/audience_video/audience_video_manifest_narrated.json"
+}

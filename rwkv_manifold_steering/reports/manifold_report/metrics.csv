@@ -1,0 +1,5 @@
+task,model,layer,base_accuracy,isometry_geometric_r,isometry_linear_r,geometric_behavior_distance,linear_behavior_distance,geometric_geodesic_distance,linear_geodesic_distance,endpoint_hidden_l2_start,endpoint_hidden_l2_end,endpoint_behavior_l1_start,endpoint_behavior_l1_end,run_dir
+weekday,RWKV-7 0.1B,11,0.1428571429,0.9485235559,0.8906151342,0.01283335994,0.01326604184,0.01619405299,0.01668276452,0,0,0,0,outputs/report_weekday_rwkv_matched
+weekday,Qwen3.5 0.8B,2,0.1428571429,0.8567248122,0.5373864897,0.5202521455,0.5227992033,0.5535328388,0.5561314821,0,0,0,0,outputs/report_weekday_qwen_matched
+month,RWKV-7 0.1B,5,0.08333333333,0.9893030157,0.2103404501,1.9227664,1.921577546,1.942705989,1.941540837,0,0,0,0,outputs/report_month_rwkv_matched
+month,Qwen3.5 0.8B,20,0.08333333333,0.9154983047,0.7439587049,0.06381324916,0.06391005449,0.07148326933,0.07175631076,0,0,0,0,outputs/report_month_qwen_matched

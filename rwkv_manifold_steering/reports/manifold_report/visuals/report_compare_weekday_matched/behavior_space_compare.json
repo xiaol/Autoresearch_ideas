@@ -1,0 +1,21 @@
+{
+  "rwkv_artifacts": "outputs/report_weekday_rwkv_matched",
+  "qwen_artifacts": "outputs/report_weekday_qwen_matched",
+  "rwkv_label": "RWKV-0.1B",
+  "qwen_label": "Qwen3.5-0.8B",
+  "sample_count": 256,
+  "mean_weekday_centroid_hellinger_distance": 0.12700827261359135,
+  "max_weekday_centroid_hellinger_distance": 0.13018170000403947,
+  "label_count": 7,
+  "centroid_hellinger_distance_by_label": {
+    "Monday": 0.12935669651786297,
+    "Tuesday": 0.12890867551819216,
+    "Wednesday": 0.12147559409453813,
+    "Thursday": 0.12164585682581001,
+    "Friday": 0.12800115903934348,
+    "Saturday": 0.12948822629535334,
+    "Sunday": 0.13018170000403947
+  },
+  "mean_curve_hellinger_distance": 0.126998470860654,
+  "max_curve_hellinger_distance": 0.1301918679312427
+}

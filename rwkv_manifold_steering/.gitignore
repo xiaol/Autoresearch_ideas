@@ -1,0 +1,9 @@
+/.venv/
+/artifacts/
+/models/
+/outputs/
+/__pycache__/
+*.egg-info/
+*.pyc
+*.so
+.cache/

@@ -1,0 +1,317 @@
+{
+  "backend": "rwkv",
+  "model": "local RWKV-7 0.1B .pth checkpoint via RWKV_MODEL_PATH",
+  "task": "month",
+  "labels": [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ],
+  "target": "x[-1] after selected RWKV block",
+  "best_layer": 5,
+  "pca_dim": 16,
+  "num_steps": 40,
+  "n_carrier_prompts": 12,
+  "linear_endpoint_mode": "matched",
+  "base_accuracy": 0.08333333333333333,
+  "layer_metrics": [
+    {
+      "layer": 0.0,
+      "nearest_centroid_accuracy": 0.11805555555555555,
+      "between_within_ratio": 0.0007017033640295267
+    },
+    {
+      "layer": 1.0,
+      "nearest_centroid_accuracy": 0.11805555555555555,
+      "between_within_ratio": 0.0002348512498429045
+    },
+    {
+      "layer": 2.0,
+      "nearest_centroid_accuracy": 0.10416666666666667,
+      "between_within_ratio": 0.00018863522564060986
+    },
+    {
+      "layer": 3.0,
+      "nearest_centroid_accuracy": 0.1111111111111111,
+      "between_within_ratio": 0.0002126237377524376
+    },
+    {
+      "layer": 4.0,
+      "nearest_centroid_accuracy": 0.1111111111111111,
+      "between_within_ratio": 0.0002839581575244665
+    },
+    {
+      "layer": 5.0,
+      "nearest_centroid_accuracy": 0.11805555555555555,
+      "between_within_ratio": 0.001863804180175066
+    },
+    {
+      "layer": 6.0,
+      "nearest_centroid_accuracy": 0.06944444444444445,
+      "between_within_ratio": 0.0030672787688672543
+    },
+    {
+      "layer": 7.0,
+      "nearest_centroid_accuracy": 0.0763888888888889,
+      "between_within_ratio": 0.002762433374300599
+    },
+    {
+      "layer": 8.0,
+      "nearest_centroid_accuracy": 0.0763888888888889,
+      "between_within_ratio": 0.0013320191064849496
+    },
+    {
+      "layer": 9.0,
+      "nearest_centroid_accuracy": 0.09722222222222222,
+      "between_within_ratio": 0.00024264323292300105
+    },
+    {
+      "layer": 10.0,
+      "nearest_centroid_accuracy": 0.1111111111111111,
+      "between_within_ratio": 0.00033267622347921133
+    },
+    {
+      "layer": 11.0,
+      "nearest_centroid_accuracy": 0.09027777777777778,
+      "between_within_ratio": 0.00040025688940659165
+    }
+  ],
+  "isometry": {
+    "pearson_r_geometric": 0.9893030157380409,
+    "pearson_r_linear": 0.21034045012998698,
+    "n_pairs": 9966,
+    "n_vertices": 144,
+    "n_excluded_same_geodesic": 330,
+    "report_path": "outputs/report_month_rwkv_matched/isometry_report.png"
+  },
+  "visualization": {
+    "isometry_3d_html": "outputs/report_month_rwkv_matched/isometry_3d.html",
+    "steering_3d_html": "outputs/report_month_rwkv_matched/steering_3d.html",
+    "steering_gif": "outputs/report_month_rwkv_matched/steering_movement.gif",
+    "activation_3d_components": "0,1,2",
+    "behavior_3d_components": "0,1,2"
+  },
+  "path": {
+    "start": "January",
+    "end": "April",
+    "scores": {
+      "geometric": {
+        "coherence_mean": 0.26323965191841125,
+        "coherence_worst": 0.2616468667984009,
+        "distance_from_behavior_manifold_mean": 1.922766400130256,
+        "distance_from_geodesic_mean": 1.9427059888839722
+      },
+      "linear": {
+        "coherence_mean": 0.26308614015579224,
+        "coherence_worst": 0.2614363729953766,
+        "distance_from_behavior_manifold_mean": 1.9215775464900562,
+        "distance_from_geodesic_mean": 1.9415408372879028
+      }
+    },
+    "endpoint_diagnostics": {
+      "start_hidden_l2": 0.0,
+      "start_behavior_prob_l1": 0.0,
+      "start_behavior_prob_l2": 0.0,
+      "start_geometric_concept_mass": 0.2632542550563812,
+      "start_linear_concept_mass": 0.2632542550563812,
+      "end_hidden_l2": 0.0,
+      "end_behavior_prob_l1": 0.0,
+      "end_behavior_prob_l2": 0.0,
+      "end_geometric_concept_mass": 0.2626054286956787,
+      "end_linear_concept_mass": 0.2626054286956787
+    },
+    "argmax_by_mode": {
+      "geometric": [
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January"
+      ],
+      "linear": [
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January",
+        "January"
+      ]
+    }
+  },
+  "carrier_prompts": [
+    {
+      "entity": "January",
+      "number_word": "one",
+      "number": 1,
+      "result": "February",
+      "result_index": 1,
+      "prompt": "User: What month comes one months after January?\n\nAssistant:"
+    },
+    {
+      "entity": "January",
+      "number_word": "two",
+      "number": 2,
+      "result": "March",
+      "result_index": 2,
+      "prompt": "User: What month comes two months after January?\n\nAssistant:"
+    },
+    {
+      "entity": "January",
+      "number_word": "three",
+      "number": 3,
+      "result": "April",
+      "result_index": 3,
+      "prompt": "User: What month comes three months after January?\n\nAssistant:"
+    },
+    {
+      "entity": "January",
+      "number_word": "four",
+      "number": 4,
+      "result": "May",
+      "result_index": 4,
+      "prompt": "User: What month comes four months after January?\n\nAssistant:"
+    },
+    {
+      "entity": "January",
+      "number_word": "five",
+      "number": 5,
+      "result": "June",
+      "result_index": 5,
+      "prompt": "User: What month comes five months after January?\n\nAssistant:"
+    },
+    {
+      "entity": "January",
+      "number_word": "six",
+      "number": 6,
+      "result": "July",
+      "result_index": 6,
+      "prompt": "User: What month comes six months after January?\n\nAssistant:"
+    },
+    {
+      "entity": "January",
+      "number_word": "seven",
+      "number": 7,
+      "result": "August",
+      "result_index": 7,
+      "prompt": "User: What month comes seven months after January?\n\nAssistant:"
+    },
+    {
+      "entity": "January",
+      "number_word": "eight",
+      "number": 8,
+      "result": "September",
+      "result_index": 8,
+      "prompt": "User: What month comes eight months after January?\n\nAssistant:"
+    },
+    {
+      "entity": "January",
+      "number_word": "nine",
+      "number": 9,
+      "result": "October",
+      "result_index": 9,
+      "prompt": "User: What month comes nine months after January?\n\nAssistant:"
+    },
+    {
+      "entity": "January",
+      "number_word": "ten",
+      "number": 10,
+      "result": "November",
+      "result_index": 10,
+      "prompt": "User: What month comes ten months after January?\n\nAssistant:"
+    },
+    {
+      "entity": "January",
+      "number_word": "eleven",
+      "number": 11,
+      "result": "December",
+      "result_index": 11,
+      "prompt": "User: What month comes eleven months after January?\n\nAssistant:"
+    },
+    {
+      "entity": "January",
+      "number_word": "twelve",
+      "number": 12,
+      "result": "January",
+      "result_index": 0,
+      "prompt": "User: What month comes twelve months after January?\n\nAssistant:"
+    }
+  ]
+}
