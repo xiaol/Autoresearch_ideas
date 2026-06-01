@@ -1,5 +1,11 @@
 # Method Notes
 
+References:
+
+- Goodfire article: <https://www.goodfire.ai/research/the-world-inside-neural-networks>
+- Paper: *Steering Along Manifolds to Control Neural Networks*, arXiv:2605.05115
+- Related video reference: <https://youtu.be/dhzSHkCi5tY>
+
 ## Original Method
 
 The Goodfire manifold-steering method tests whether a model's internal activation geometry lines up with output behavior geometry.
@@ -62,4 +68,3 @@ For the reported runs:
 - 3D visualizations use PCA with `n_components=3`.
 
 This is a linear dimensionality reduction step. No UMAP, t-SNE, autoencoder, or learned nonlinear dimension reducer is used.
-

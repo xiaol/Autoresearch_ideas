@@ -7,6 +7,7 @@ The experiment follows the idea from:
 - Goodfire article: <https://www.goodfire.ai/research/the-world-inside-neural-networks>
 - Paper: *Steering Along Manifolds to Control Neural Networks*, arXiv:2605.05115
 - Original codebase used as reference: <https://github.com/goodfire-ai/causalab/tree/manifold_steering>
+- Related video reference: <https://youtu.be/dhzSHkCi5tY>
 
 ## What This Adds
 
