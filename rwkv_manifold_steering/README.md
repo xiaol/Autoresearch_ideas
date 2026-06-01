@@ -27,10 +27,27 @@ This removes endpoint mismatch as a behavior-space confound.
 - `reports/manifold_report/metrics.json`: reproduced matched-endpoint metrics.
 - `reports/manifold_report/visuals/*/summary.json`: per-run summaries.
 - `reports/manifold_report/visuals/*/*.png`: selected plots from the reproduced runs.
+- `reports/manifold_report/visuals/*/steering_movement.gif`: behavior-space steering animations.
 - `reports/manifold_report/audience_video/`: narration source, MiniMax render report, and contact sheet.
 - `docs/`: method notes, reproduction guide, and audience Q&A.
 
-Large generated MP4/GIF/HTML artifacts are not included here by default. They can be regenerated from the scripts and saved report outputs.
+Large generated MP4/HTML artifacts are not included here by default. They can be regenerated from the scripts and saved report outputs.
+
+## Visual Preview
+
+In the GIFs below, the square is manifold steering and the dot/circle is the linear steering baseline. The connected labels are the natural concept path in behavior space.
+
+### Weekdays
+
+| RWKV-7 0.1B | Qwen3.5 0.8B |
+| --- | --- |
+| ![RWKV weekday steering](reports/manifold_report/visuals/weekday_rwkv-7_0_1b/steering_movement.gif) | ![Qwen weekday steering](reports/manifold_report/visuals/weekday_qwen3_5_0_8b/steering_movement.gif) |
+
+### Months
+
+| RWKV-7 0.1B | Qwen3.5 0.8B |
+| --- | --- |
+| ![RWKV month steering](reports/manifold_report/visuals/month_rwkv-7_0_1b/steering_movement.gif) | ![Qwen month steering](reports/manifold_report/visuals/month_qwen3_5_0_8b/steering_movement.gif) |
 
 ## Setup
 
