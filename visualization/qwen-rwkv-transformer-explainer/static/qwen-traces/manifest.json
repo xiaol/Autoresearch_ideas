@@ -1,0 +1,62 @@
+[
+  {
+    "index": 0,
+    "prompt": "The sun rises in the",
+    "path": "example-0.json",
+    "modelId": "/home/xiaol/.cache/huggingface/hub/models--Qwen--Qwen3.5-0.8B-Base/snapshots/dc7cdfe2ee4154fa7e30f5b51ca41bfa40174e68",
+    "modelMeta": {
+      "layer_num": 24,
+      "attention_head_num": 8,
+      "dimension": 1024,
+      "vocab_size": 248320
+    }
+  },
+  {
+    "index": 1,
+    "prompt": "Machine learning models learn from training",
+    "path": "example-1.json",
+    "modelId": "/home/xiaol/.cache/huggingface/hub/models--Qwen--Qwen3.5-0.8B-Base/snapshots/dc7cdfe2ee4154fa7e30f5b51ca41bfa40174e68",
+    "modelMeta": {
+      "layer_num": 24,
+      "attention_head_num": 8,
+      "dimension": 1024,
+      "vocab_size": 248320
+    }
+  },
+  {
+    "index": 2,
+    "prompt": "A language model predicts the next",
+    "path": "example-2.json",
+    "modelId": "/home/xiaol/.cache/huggingface/hub/models--Qwen--Qwen3.5-0.8B-Base/snapshots/dc7cdfe2ee4154fa7e30f5b51ca41bfa40174e68",
+    "modelMeta": {
+      "layer_num": 24,
+      "attention_head_num": 8,
+      "dimension": 1024,
+      "vocab_size": 248320
+    }
+  },
+  {
+    "index": 3,
+    "prompt": "Attention helps tokens focus on relevant",
+    "path": "example-3.json",
+    "modelId": "/home/xiaol/.cache/huggingface/hub/models--Qwen--Qwen3.5-0.8B-Base/snapshots/dc7cdfe2ee4154fa7e30f5b51ca41bfa40174e68",
+    "modelMeta": {
+      "layer_num": 24,
+      "attention_head_num": 8,
+      "dimension": 1024,
+      "vocab_size": 248320
+    }
+  },
+  {
+    "index": 4,
+    "prompt": "A small language model can answer simple",
+    "path": "example-4.json",
+    "modelId": "/home/xiaol/.cache/huggingface/hub/models--Qwen--Qwen3.5-0.8B-Base/snapshots/dc7cdfe2ee4154fa7e30f5b51ca41bfa40174e68",
+    "modelMeta": {
+      "layer_num": 24,
+      "attention_head_num": 8,
+      "dimension": 1024,
+      "vocab_size": 248320
+    }
+  }
+]

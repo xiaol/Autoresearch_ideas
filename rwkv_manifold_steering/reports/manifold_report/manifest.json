@@ -18,8 +18,5 @@
   "audience_video_minimax_report": "reports/manifold_report/audience_video/render_report_minimax.json",
   "audience_video_minimax_narration": "reports/manifold_report/audience_video/narration_minimax.md",
   "audience_video_long_silent": "reports/manifold_report/audience_video/neural_geometry_rwkv_insight_long_silent.mp4",
-  "audience_video_long_silent_manifest": "reports/manifold_report/audience_video/audience_video_manifest_narrated.json",
-  "trace_comparison_video": "reports/manifold_report/audience_video/transformer_rwkv_trace_comparison/qwen_rwkv_trace_comparison_plus20db.mp4",
-  "trace_comparison_subtitles": "reports/manifold_report/audience_video/transformer_rwkv_trace_comparison/qwen_rwkv_trace_comparison.srt",
-  "trace_comparison_manifest": "reports/manifold_report/audience_video/transformer_rwkv_trace_comparison/manifest.json"
+  "audience_video_long_silent_manifest": "reports/manifold_report/audience_video/audience_video_manifest_narrated.json"
 }

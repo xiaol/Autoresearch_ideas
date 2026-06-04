@@ -1,0 +1,107 @@
+[
+  {
+    "index": 0,
+    "prompt": "The sun rises in the",
+    "sampled": {
+      "rank": 0,
+      "tokenId": 30723,
+      "token": " east",
+      "logit": 5.40234375,
+      "scaledLogit": 6.7529296875,
+      "expLogit": 1.0,
+      "probability": 0.7482926845550537,
+      "topKLogit": 6.7529296875
+    },
+    "modelId": "/home/xiaol/X/models/rwkv7-g1/rwkv7a-g1d-0.1b-20260212-ctx8192.pth",
+    "modelMeta": {
+      "layer_num": 12,
+      "attention_head_num": 12,
+      "dimension": 768,
+      "vocab_size": 65536
+    }
+  },
+  {
+    "index": 1,
+    "prompt": "Machine learning models learn from training",
+    "sampled": {
+      "rank": 0,
+      "tokenId": 30579,
+      "token": " data",
+      "logit": 5.71484375,
+      "scaledLogit": 7.1435546875,
+      "expLogit": 1.0,
+      "probability": 0.9813558459281921,
+      "topKLogit": 7.1435546875
+    },
+    "modelId": "/home/xiaol/X/models/rwkv7-g1/rwkv7a-g1d-0.1b-20260212-ctx8192.pth",
+    "modelMeta": {
+      "layer_num": 12,
+      "attention_head_num": 12,
+      "dimension": 768,
+      "vocab_size": 65536
+    }
+  },
+  {
+    "index": 2,
+    "prompt": "A language model predicts the next",
+    "sampled": {
+      "rank": 0,
+      "tokenId": 32497,
+      "token": " word",
+      "logit": 4.0234375,
+      "scaledLogit": 5.029296875,
+      "expLogit": 1.0,
+      "probability": 0.7869179248809814,
+      "topKLogit": 5.029296875
+    },
+    "modelId": "/home/xiaol/X/models/rwkv7-g1/rwkv7a-g1d-0.1b-20260212-ctx8192.pth",
+    "modelMeta": {
+      "layer_num": 12,
+      "attention_head_num": 12,
+      "dimension": 768,
+      "vocab_size": 65536
+    }
+  },
+  {
+    "index": 3,
+    "prompt": "Attention helps tokens focus on relevant",
+    "sampled": {
+      "rank": 0,
+      "tokenId": 63637,
+      "token": " information",
+      "logit": 3.771484375,
+      "scaledLogit": 4.71435546875,
+      "expLogit": 1.0,
+      "probability": 0.514611542224884,
+      "topKLogit": 4.71435546875
+    },
+    "modelId": "/home/xiaol/X/models/rwkv7-g1/rwkv7a-g1d-0.1b-20260212-ctx8192.pth",
+    "modelMeta": {
+      "layer_num": 12,
+      "attention_head_num": 12,
+      "dimension": 768,
+      "vocab_size": 65536
+    }
+  },
+  {
+    "index": 4,
+    "prompt": "A small language model can answer simple",
+    "sampled": {
+      "rank": 0,
+      "tokenId": 60312,
+      "token": " questions",
+      "logit": 4.87109375,
+      "scaledLogit": 6.0888671875,
+      "expLogit": 1.0,
+      "probability": 0.9369442462921143,
+      "topKLogit": 6.0888671875
+    },
+    "modelId": "/home/xiaol/X/models/rwkv7-g1/rwkv7a-g1d-0.1b-20260212-ctx8192.pth",
+    "modelMeta": {
+      "layer_num": 12,
+      "attention_head_num": 12,
+      "dimension": 768,
+      "vocab_size": 65536
+    }
+  }
+]

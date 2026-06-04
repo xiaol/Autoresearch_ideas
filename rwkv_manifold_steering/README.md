@@ -30,10 +30,9 @@ This removes endpoint mismatch as a behavior-space confound.
 - `reports/manifold_report/visuals/*/*.png`: selected plots from the reproduced runs.
 - `reports/manifold_report/visuals/*/steering_movement.gif`: behavior-space steering animations.
 - `reports/manifold_report/audience_video/`: narration source, MiniMax render report, and contact sheet.
-- `reports/manifold_report/audience_video/transformer_rwkv_trace_comparison/`: narrated Qwen 0.8B Transformer vs RWKV-7 0.1B trace-comparison video and subtitles.
 - `docs/`: method notes, reproduction guide, and audience Q&A.
 
-Most generated MP4/HTML artifacts are not included here by default. The trace-comparison MP4 is included as an audience-facing visualization artifact.
+Large generated MP4/HTML artifacts are not included here by default. They can be regenerated from the scripts and saved report outputs.
 
 ## Visual Preview
 
