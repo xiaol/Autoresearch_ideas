@@ -20,18 +20,15 @@
     "voice": "English_CaptivatingStoryteller"
   },
   "final_audio": {
-    "profile": "per-beat leveled remux",
+    "profile": "per-beat leveled remux with ending taper",
     "source_profile": "plus-20 dB remux",
-    "target_spoken_window_mean_db": -20.0,
-    "measured_spoken_window_mean_range_db": [
-      -19.6,
-      -18.6
-    ],
-    "measured_spoken_window_mean_span_db": 1.0,
+    "body_spoken_window_mean_db": -18.9,
+    "rwkv_middle_spoken_window_mean_db": -19.9,
+    "ending_spoken_window_mean_db": -21.6,
+    "ending_taper_db_vs_body": -2.7,
     "filters": [
       "per-beat volume correction",
       "alimiter=limit=0.90",
-      "loudnorm=I=-18:TP=-1.5:LRA=7",
       "aresample=48000"
     ]
   }
