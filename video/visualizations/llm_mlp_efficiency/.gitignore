@@ -1,0 +1,13 @@
+node_modules/
+dist/
+qa-screenshots/
+.venv/
+__pycache__/
+*.pyc
+video-captures/
+video-captures-4k/
+narration-assets/voiceover/
+narration-assets/conclusion_voiceover/
+narration-assets/*.mp4
+narration-assets/*_sample.png
+narration-assets/conclusion_insight_t25.png

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:," />
+    <title>LLM Network Visualisation</title>
+  </head>
+  <body>
+    <div id="app" class="app-shell">
+      <aside class="left-panel">
+        <header class="brand-block">
+          <span class="eyebrow">Language model trace</span>
+          <h1>LLM Network Visualisation</h1>
+        </header>
+
+        <label class="field-label" for="modelSelect">Model trace</label>
+        <select id="modelSelect" class="control-select">
+          <option value="qwen35-08b">Qwen3.5 0.8B</option>
+          <option value="rwkv7-01b">RWKV-7 Goose 0.1B</option>
+          <option value="comparison" hidden>Qwen3.5 vs RWKV-7</option>
+          <option value="custom" hidden>Custom JSON</option>
+        </select>
+
+        <dl class="model-stats" aria-label="Model statistics">
+          <div>
+            <dt>Model</dt>
+            <dd id="modelName">Loading</dd>
+          </div>
+          <div>
+            <dt>Layers</dt>
+            <dd id="layerCount">--</dd>
+          </div>
+          <div>
+            <dt>Hidden</dt>
+            <dd id="hiddenSize">--</dd>
+          </div>
+          <div>
+            <dt>Context</dt>
+            <dd id="contextLength">--</dd>
+          </div>
+        </dl>
+
+        <div class="view-mode-control" role="group" aria-label="Visualization mode">
+          <button id="viewMlpButton" class="mode-button active" type="button" aria-pressed="true">
+            MLP Only
+          </button>
+          <button id="viewBlockButton" class="mode-button" type="button" aria-pressed="false">
+            Block Flow
+          </button>
+          <button id="viewCompareButton" class="mode-button" type="button" aria-pressed="false">
+            Compare
+          </button>
+        </div>
+
+        <section class="io-controls" aria-label="Input and output controls">
+          <div class="io-control-header">
+            <span>Input / Output</span>
+            <span id="inputTokenValue" class="mini-badge">Token 0</span>
+          </div>
+          <label class="field-label" for="inputTokenSlider">Input token</label>
+          <input id="inputTokenSlider" class="step-slider" type="range" min="0" max="0" value="0" step="1" />
+
+          <label class="field-label" for="channelSampleSelect">Channel sample</label>
+          <select id="channelSampleSelect" class="control-select">
+            <option value="strong">High activity</option>
+            <option value="spread">Even spread</option>
+            <option value="seeded">Seeded sample</option>
+          </select>
+
+          <label class="field-label" for="outputReadoutSelect">Output readout</label>
+          <select id="outputReadoutSelect" class="control-select">
+            <option value="channels">Residual channels</option>
+            <option value="tokens">Next-token candidates</option>
+          </select>
+        </section>
+
+        <label class="field-label" for="promptInput">Prompt</label>
+        <textarea id="promptInput" rows="7" spellcheck="false"></textarea>
+        <button id="applyPromptButton" class="primary-action" type="button">
+          <i data-lucide="sparkles" aria-hidden="true"></i>
+          <span>Build Local Trace</span>
+        </button>
+
+        <div class="status-strip">
+          <span id="traceStatus">Loading sample trace</span>
+        </div>
+
+        <div class="import-row">
+          <label class="icon-button" for="traceFileInput" title="Load trace JSON">
+            <i data-lucide="upload" aria-hidden="true"></i>
+            <span>Load JSON</span>
+          </label>
+          <input id="traceFileInput" class="visually-hidden" type="file" accept="application/json,.json" />
+          <button id="resetViewButton" class="icon-button" type="button" title="Reset camera">
+            <i data-lucide="rotate-ccw" aria-hidden="true"></i>
+            <span>Reset View</span>
+          </button>
+        </div>
+      </aside>
+
+      <main class="visual-stage">
+        <canvas id="networkCanvas" aria-label="3D LLM network scene"></canvas>
+
+        <div class="stage-toolbar" aria-label="Trace controls">
+          <button id="playPauseButton" class="round-button" type="button" aria-label="Play trace">
+            <i data-lucide="play" aria-hidden="true"></i>
+          </button>
+          <button id="prevStepButton" class="round-button" type="button" aria-label="Previous step">
+            <i data-lucide="skip-back" aria-hidden="true"></i>
+          </button>
+          <button id="nextStepButton" class="round-button" type="button" aria-label="Next step">
+            <i data-lucide="skip-forward" aria-hidden="true"></i>
+          </button>
+          <input id="stepSlider" class="step-slider" type="range" min="0" max="0" value="0" step="1" />
+          <span id="stepLabel" class="step-label">Step 0</span>
+        </div>
+
+        <div id="tokenStrip" class="token-strip" aria-label="Token stream"></div>
+      </main>
+
+      <aside class="right-panel">
+        <section class="panel-section">
+          <div class="section-title-row">
+            <h2>Selected Block</h2>
+            <span id="selectedLayerBadge" class="badge">None</span>
+          </div>
+          <div id="layerDetail" class="layer-detail"></div>
+        </section>
+
+        <section class="panel-section">
+          <div class="section-title-row">
+            <h2>Layer Activity</h2>
+            <span id="activeTokenLabel" class="badge">--</span>
+          </div>
+          <div id="layerList" class="layer-list"></div>
+        </section>
+
+        <section class="panel-section">
+          <div class="section-title-row">
+            <h2 id="outputPanelTitle">Output Channels</h2>
+            <span id="generatedTextLabel" class="badge">--</span>
+          </div>
+          <div id="topTokens" class="top-token-list"></div>
+        </section>
+      </aside>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

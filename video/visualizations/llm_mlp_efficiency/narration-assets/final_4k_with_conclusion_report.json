@@ -1,0 +1,51 @@
+{
+  "finalMp4": "/home/xiaol/X/llm-neural-network-visualisation/narration-assets/mlp_efficiency_4k_with_conclusion.mp4",
+  "finalSrt": "/home/xiaol/X/llm-neural-network-visualisation/narration-assets/mlp_efficiency_4k_with_conclusion.srt",
+  "sourceNarratedMp4": "/home/xiaol/X/llm-neural-network-visualisation/narration-assets/mlp_efficiency_narrated.mp4",
+  "conclusionInsert": "/home/xiaol/X/llm-neural-network-visualisation/narration-assets/conclusion_insight_4k_narrated.mp4",
+  "conclusionBeatMap": "/home/xiaol/X/llm-neural-network-visualisation/narration-assets/conclusion_insight.md",
+  "conclusionRenderer": "/home/xiaol/X/llm-neural-network-visualisation/scripts/render_conclusion_insight.py",
+  "rendererNote": "Manim Community could not be installed because native pangocairo was missing; conclusion was rendered with a standalone Cairo/ffmpeg Manim-style renderer following the manim-animation skill workflow.",
+  "resolution": "3840x2160",
+  "frameRate": "30 fps",
+  "audio": "AAC narration, 48 kHz stereo",
+  "subtitles": "Embedded mov_text plus external SRT",
+  "voiceProvider": "MiniMax",
+  "voiceModel": "speech-2.8-hd",
+  "voiceId": "English_CaptivatingStoryteller",
+  "conclusionMaxSpeedFactor": 1.16325,
+  "normalization": "ffmpeg loudnorm=I=-20:TP=-1.5:LRA=11",
+  "ffprobe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "index": 0,
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 3840,
+        "height": 2160,
+        "avg_frame_rate": "30/1",
+        "duration": "123.200000"
+      },
+      {
+        "index": 1,
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "avg_frame_rate": "0/0",
+        "duration": "123.221333"
+      },
+      {
+        "index": 2,
+        "codec_name": "mov_text",
+        "codec_type": "subtitle",
+        "avg_frame_rate": "0/0",
+        "duration": "123.200000"
+      }
+    ],
+    "format": {
+      "duration": "123.221333",
+      "size": "33455810"
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "frame": {
+    "width": 3840,
+    "height": 2160
+  },
+  "objects": [
+    {
+      "name": "title",
+      "bbox": [
+        260,
+        170,
+        2100,
+        150
+      ],
+      "withinFrame": true
+    },
+    {
+      "name": "scope-scale",
+      "bbox": [
+        260,
+        380,
+        3320,
+        220
+      ],
+      "withinFrame": true
+    },
+    {
+      "name": "qwen-card",
+      "bbox": [
+        340,
+        780,
+        1450,
+        690
+      ],
+      "withinFrame": true
+    },
+    {
+      "name": "rwkv-card",
+      "bbox": [
+        2050,
+        780,
+        1450,
+        690
+      ],
+      "withinFrame": true
+    },
+    {
+      "name": "checklist",
+      "bbox": [
+        520,
+        1620,
+        2800,
+        330
+      ],
+      "withinFrame": true
+    }
+  ]
+}

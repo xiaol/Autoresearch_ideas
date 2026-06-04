@@ -1,0 +1,7 @@
+1
+00:00:00,000 --> 00:00:12,000
+Final insight: this is a per-layer diagnostic, not a full model benchmark. It measures how much a selected block moves the hidden state relative to its estimated compute.
+
+2
+00:00:12,000 --> 00:00:28,000
+In this snapshot, Qwen's FFN is about 22 MFLOPs per token, while RWKV's mix is about 14.2 and shows higher Delta per MFLOP. To claim global efficiency, we still need real intermediate activations, latency, and memory.

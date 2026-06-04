@@ -1,0 +1,22 @@
+{
+  "name": "llm-neural-network-visualisation",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "verify:visual": "node scripts/verify_visual.mjs",
+    "record:videos": "node scripts/record_videos.mjs",
+    "record:videos:4k": "node scripts/record_videos.mjs --preset 4k --out video-captures-4k",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "lucide": "1.17.0",
+    "three": "0.184.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.60.0",
+    "vite": "8.0.16"
+  }
+}

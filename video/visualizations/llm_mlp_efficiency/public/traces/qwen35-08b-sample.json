@@ -1,0 +1,175 @@
+{
+  "schemaVersion": "llm_trace_v1",
+  "traceKind": "synthetic_qwen35_config",
+  "seed": 3508,
+  "model": {
+    "name": "Qwen/Qwen3.5-0.8B",
+    "family": "Qwen3.5",
+    "sourceUrl": "https://huggingface.co/Qwen/Qwen3.5-0.8B",
+    "parameters": "0.8B",
+    "architecture": "Qwen3_5ForConditionalGeneration",
+    "pipeline": "image-text-to-text",
+    "hiddenSize": 1024,
+    "contextLength": 262144,
+    "vocabSize": 248320
+  },
+  "architecture": {
+    "numLayers": 24,
+    "hiddenSize": 1024,
+    "contextLength": 262144,
+    "intermediateSize": 3584,
+    "layout": "6 x (3 x Gated DeltaNet + 1 x Gated Attention)",
+    "layers": [
+      { "index": 0, "name": "Block 01", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 1, "name": "Block 02", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 2, "name": "Block 03", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 3, "name": "Block 04", "kind": "full_attention", "heads": 8, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 4, "name": "Block 05", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 5, "name": "Block 06", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 6, "name": "Block 07", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 7, "name": "Block 08", "kind": "full_attention", "heads": 8, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 8, "name": "Block 09", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 9, "name": "Block 10", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 10, "name": "Block 11", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 11, "name": "Block 12", "kind": "full_attention", "heads": 8, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 12, "name": "Block 13", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 13, "name": "Block 14", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 14, "name": "Block 15", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 15, "name": "Block 16", "kind": "full_attention", "heads": 8, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 16, "name": "Block 17", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 17, "name": "Block 18", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 18, "name": "Block 19", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 19, "name": "Block 20", "kind": "full_attention", "heads": 8, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 20, "name": "Block 21", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 21, "name": "Block 22", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 22, "name": "Block 23", "kind": "linear_attention", "heads": 16, "hiddenSize": 1024, "intermediateSize": 3584 },
+      { "index": 23, "name": "Block 24", "kind": "full_attention", "heads": 8, "hiddenSize": 1024, "intermediateSize": 3584 }
+    ]
+  },
+  "prompt": "Explain why attention heads and MLP blocks can specialize differently in a compact language model.",
+  "generatedText": " They route information through different bottlenecks.",
+  "tokens": [
+    { "index": 0, "text": "Explain", "source": "prompt" },
+    { "index": 1, "text": " why", "source": "prompt" },
+    { "index": 2, "text": " attention", "source": "prompt" },
+    { "index": 3, "text": " heads", "source": "prompt" },
+    { "index": 4, "text": " and", "source": "prompt" },
+    { "index": 5, "text": " MLP", "source": "prompt" },
+    { "index": 6, "text": " blocks", "source": "prompt" },
+    { "index": 7, "text": " can", "source": "prompt" },
+    { "index": 8, "text": " specialize", "source": "prompt" },
+    { "index": 9, "text": " differently", "source": "prompt" },
+    { "index": 10, "text": " in", "source": "prompt" },
+    { "index": 11, "text": " a", "source": "prompt" },
+    { "index": 12, "text": " compact", "source": "prompt" },
+    { "index": 13, "text": " language", "source": "prompt" },
+    { "index": 14, "text": " model", "source": "prompt" },
+    { "index": 15, "text": ".", "source": "prompt" },
+    { "index": 16, "text": " They", "source": "generated" },
+    { "index": 17, "text": " route", "source": "generated" },
+    { "index": 18, "text": " information", "source": "generated" },
+    { "index": 19, "text": " through", "source": "generated" },
+    { "index": 20, "text": " different", "source": "generated" },
+    { "index": 21, "text": " bottlenecks", "source": "generated" },
+    { "index": 22, "text": ".", "source": "generated" }
+  ],
+  "steps": [
+    {
+      "index": 0,
+      "phase": "prompt",
+      "label": "Prompt pass",
+      "activeTokenIndex": 15,
+      "topTokens": [
+        { "token": " They", "probability": 0.34 },
+        { "token": " Attention", "probability": 0.18 },
+        { "token": " Different", "probability": 0.12 },
+        { "token": " In", "probability": 0.08 },
+        { "token": " Because", "probability": 0.07 }
+      ]
+    },
+    {
+      "index": 1,
+      "phase": "decode",
+      "label": "Decode 1",
+      "activeTokenIndex": 16,
+      "generatedToken": " They",
+      "topTokens": [
+        { "token": " route", "probability": 0.27 },
+        { "token": " specialize", "probability": 0.16 },
+        { "token": " process", "probability": 0.13 },
+        { "token": " act", "probability": 0.1 },
+        { "token": " separate", "probability": 0.08 }
+      ]
+    },
+    {
+      "index": 2,
+      "phase": "decode",
+      "label": "Decode 2",
+      "activeTokenIndex": 17,
+      "generatedToken": " route",
+      "topTokens": [
+        { "token": " information", "probability": 0.31 },
+        { "token": " tokens", "probability": 0.17 },
+        { "token": " context", "probability": 0.14 },
+        { "token": " signals", "probability": 0.11 },
+        { "token": " features", "probability": 0.09 }
+      ]
+    },
+    {
+      "index": 3,
+      "phase": "decode",
+      "label": "Decode 3",
+      "activeTokenIndex": 18,
+      "generatedToken": " information",
+      "topTokens": [
+        { "token": " through", "probability": 0.29 },
+        { "token": " across", "probability": 0.16 },
+        { "token": " into", "probability": 0.13 },
+        { "token": " with", "probability": 0.1 },
+        { "token": " between", "probability": 0.08 }
+      ]
+    },
+    {
+      "index": 4,
+      "phase": "decode",
+      "label": "Decode 4",
+      "activeTokenIndex": 19,
+      "generatedToken": " through",
+      "topTokens": [
+        { "token": " different", "probability": 0.33 },
+        { "token": " separate", "probability": 0.18 },
+        { "token": " learned", "probability": 0.12 },
+        { "token": " compact", "probability": 0.09 },
+        { "token": " nonlinear", "probability": 0.07 }
+      ]
+    },
+    {
+      "index": 5,
+      "phase": "decode",
+      "label": "Decode 5",
+      "activeTokenIndex": 20,
+      "generatedToken": " different",
+      "topTokens": [
+        { "token": " bottlenecks", "probability": 0.25 },
+        { "token": " pathways", "probability": 0.2 },
+        { "token": " subspaces", "probability": 0.18 },
+        { "token": " roles", "probability": 0.11 },
+        { "token": " layers", "probability": 0.07 }
+      ]
+    },
+    {
+      "index": 6,
+      "phase": "decode",
+      "label": "Decode 6",
+      "activeTokenIndex": 21,
+      "generatedToken": " bottlenecks",
+      "topTokens": [
+        { "token": ".", "probability": 0.42 },
+        { "token": " and", "probability": 0.14 },
+        { "token": ",", "probability": 0.13 },
+        { "token": " for", "probability": 0.07 },
+        { "token": " during", "probability": 0.05 }
+      ]
+    }
+  ]
+}

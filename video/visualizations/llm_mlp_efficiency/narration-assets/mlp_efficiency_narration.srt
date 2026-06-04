@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:10,000
+We start with the original MLP visualizer style, but the object is now one language-model block. Each dot is a sampled hidden channel for the selected token.
+
+2
+00:00:10,000 --> 00:00:21,000
+Read the columns left to right: residual input, gate-up projection, intermediate activation, and residual output. Green and red lines show the strongest sampled routes between stages.
+
+3
+00:00:21,000 --> 00:00:34,000
+The efficiency card adds compute. MFLOPs per token estimates dense feed-forward cost. Delta per MFLOP asks how much the layer moved the hidden state for that cost.
+
+4
+00:00:34,000 --> 00:00:47,000
+Switching to RWKV keeps the same visual language, but changes the mechanism. The block is now recurrent state, time mix, channel mix, and state output.
+
+5
+00:00:47,000 --> 00:01:02,000
+This RWKV sample has fewer layers and a smaller hidden width, so its per-token compute estimate is lower. The comparison is per-layer, not a full benchmark.
+
+6
+00:01:02,000 --> 00:01:15,000
+In comparison view, Qwen and RWKV use the same prompt and step control. That makes structure, activity concentration, and cost visible under one input.
+
+7
+00:01:15,000 --> 00:01:28,000
+The right panel lines up the shared metrics: route activity, MLP or channel-mix activity, MFLOPs per token, Delta per MFLOP, active units, and top-32 coverage.
+
+8
+00:01:28,000 --> 00:01:35,183
+In short: the original stacked-dot MLP view now runs from LLM traces and shows per-block efficiency.

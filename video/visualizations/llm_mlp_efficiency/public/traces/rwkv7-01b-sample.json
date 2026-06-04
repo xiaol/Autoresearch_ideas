@@ -1,0 +1,166 @@
+{
+  "schemaVersion": "llm_trace_v1",
+  "traceKind": "synthetic_rwkv7_config",
+  "seed": 7010,
+  "model": {
+    "name": "RWKV/RWKV7-Goose-World2.8-0.1B-HF",
+    "displayName": "RWKV-7 Goose 0.1B",
+    "family": "RWKV-7",
+    "sourceUrl": "https://huggingface.co/RWKV/RWKV7-Goose-World2.8-0.1B-HF",
+    "paperUrl": "https://arxiv.org/abs/2503.14456",
+    "parameters": "0.1B class / 191M tensors",
+    "architecture": "RWKV7ForCausalLM",
+    "modelType": "rwkv7",
+    "pipeline": "text-generation",
+    "hiddenSize": 768,
+    "contextLength": 2048,
+    "vocabSize": 65536
+  },
+  "architecture": {
+    "numLayers": 12,
+    "hiddenSize": 768,
+    "contextLength": 2048,
+    "intermediateSize": 3072,
+    "vocabSize": 65536,
+    "blockKind": "rwkv7_block",
+    "hiddenActivation": "sqrelu",
+    "headDim": 64,
+    "hiddenRatio": 4,
+    "timeMixLowRank": {
+      "a": 64,
+      "decay": 64,
+      "gate": 128,
+      "value": 32
+    },
+    "layout": "12 x RWKV-7 recurrent time mix + channel mix",
+    "layers": [
+      { "index": 0, "name": "Block 01", "kind": "rwkv7_block", "heads": 12, "headDim": 64, "hiddenSize": 768, "intermediateSize": 3072 },
+      { "index": 1, "name": "Block 02", "kind": "rwkv7_block", "heads": 12, "headDim": 64, "hiddenSize": 768, "intermediateSize": 3072 },
+      { "index": 2, "name": "Block 03", "kind": "rwkv7_block", "heads": 12, "headDim": 64, "hiddenSize": 768, "intermediateSize": 3072 },
+      { "index": 3, "name": "Block 04", "kind": "rwkv7_block", "heads": 12, "headDim": 64, "hiddenSize": 768, "intermediateSize": 3072 },
+      { "index": 4, "name": "Block 05", "kind": "rwkv7_block", "heads": 12, "headDim": 64, "hiddenSize": 768, "intermediateSize": 3072 },
+      { "index": 5, "name": "Block 06", "kind": "rwkv7_block", "heads": 12, "headDim": 64, "hiddenSize": 768, "intermediateSize": 3072 },
+      { "index": 6, "name": "Block 07", "kind": "rwkv7_block", "heads": 12, "headDim": 64, "hiddenSize": 768, "intermediateSize": 3072 },
+      { "index": 7, "name": "Block 08", "kind": "rwkv7_block", "heads": 12, "headDim": 64, "hiddenSize": 768, "intermediateSize": 3072 },
+      { "index": 8, "name": "Block 09", "kind": "rwkv7_block", "heads": 12, "headDim": 64, "hiddenSize": 768, "intermediateSize": 3072 },
+      { "index": 9, "name": "Block 10", "kind": "rwkv7_block", "heads": 12, "headDim": 64, "hiddenSize": 768, "intermediateSize": 3072 },
+      { "index": 10, "name": "Block 11", "kind": "rwkv7_block", "heads": 12, "headDim": 64, "hiddenSize": 768, "intermediateSize": 3072 },
+      { "index": 11, "name": "Block 12", "kind": "rwkv7_block", "heads": 12, "headDim": 64, "hiddenSize": 768, "intermediateSize": 3072 }
+    ]
+  },
+  "prompt": "Explain how RWKV keeps recurrent state while mixing token information through time and channels.",
+  "generatedText": " It updates state with time mix and channel mix gates.",
+  "tokens": [
+    { "index": 0, "text": "Explain", "source": "prompt" },
+    { "index": 1, "text": " how", "source": "prompt" },
+    { "index": 2, "text": " RWKV", "source": "prompt" },
+    { "index": 3, "text": " keeps", "source": "prompt" },
+    { "index": 4, "text": " recurrent", "source": "prompt" },
+    { "index": 5, "text": " state", "source": "prompt" },
+    { "index": 6, "text": " while", "source": "prompt" },
+    { "index": 7, "text": " mixing", "source": "prompt" },
+    { "index": 8, "text": " token", "source": "prompt" },
+    { "index": 9, "text": " information", "source": "prompt" },
+    { "index": 10, "text": " through", "source": "prompt" },
+    { "index": 11, "text": " time", "source": "prompt" },
+    { "index": 12, "text": " and", "source": "prompt" },
+    { "index": 13, "text": " channels", "source": "prompt" },
+    { "index": 14, "text": ".", "source": "prompt" },
+    { "index": 15, "text": " It", "source": "generated" },
+    { "index": 16, "text": " updates", "source": "generated" },
+    { "index": 17, "text": " state", "source": "generated" },
+    { "index": 18, "text": " with", "source": "generated" },
+    { "index": 19, "text": " time", "source": "generated" },
+    { "index": 20, "text": " mix", "source": "generated" },
+    { "index": 21, "text": " and", "source": "generated" },
+    { "index": 22, "text": " channel", "source": "generated" },
+    { "index": 23, "text": " mix", "source": "generated" },
+    { "index": 24, "text": " gates", "source": "generated" },
+    { "index": 25, "text": ".", "source": "generated" }
+  ],
+  "steps": [
+    {
+      "index": 0,
+      "phase": "prompt",
+      "label": "Prompt pass",
+      "activeTokenIndex": 14,
+      "topTokens": [
+        { "token": " It", "probability": 0.31 },
+        { "token": " The", "probability": 0.17 },
+        { "token": " RWKV", "probability": 0.13 },
+        { "token": " This", "probability": 0.1 },
+        { "token": " State", "probability": 0.07 }
+      ]
+    },
+    {
+      "index": 1,
+      "phase": "decode",
+      "label": "Decode 1",
+      "activeTokenIndex": 15,
+      "generatedToken": " It",
+      "topTokens": [
+        { "token": " updates", "probability": 0.28 },
+        { "token": " carries", "probability": 0.18 },
+        { "token": " mixes", "probability": 0.13 },
+        { "token": " stores", "probability": 0.09 },
+        { "token": " routes", "probability": 0.08 }
+      ]
+    },
+    {
+      "index": 2,
+      "phase": "decode",
+      "label": "Decode 2",
+      "activeTokenIndex": 16,
+      "generatedToken": " updates",
+      "topTokens": [
+        { "token": " state", "probability": 0.33 },
+        { "token": " memory", "probability": 0.16 },
+        { "token": " hidden", "probability": 0.11 },
+        { "token": " context", "probability": 0.1 },
+        { "token": " recurrence", "probability": 0.08 }
+      ]
+    },
+    {
+      "index": 3,
+      "phase": "decode",
+      "label": "Decode 3",
+      "activeTokenIndex": 17,
+      "generatedToken": " state",
+      "topTokens": [
+        { "token": " with", "probability": 0.3 },
+        { "token": " through", "probability": 0.18 },
+        { "token": " across", "probability": 0.13 },
+        { "token": " using", "probability": 0.1 },
+        { "token": " via", "probability": 0.07 }
+      ]
+    },
+    {
+      "index": 4,
+      "phase": "decode",
+      "label": "Decode 4",
+      "activeTokenIndex": 19,
+      "generatedToken": " time",
+      "topTokens": [
+        { "token": " mix", "probability": 0.35 },
+        { "token": " decay", "probability": 0.16 },
+        { "token": " gates", "probability": 0.12 },
+        { "token": " channels", "probability": 0.09 },
+        { "token": " recurrence", "probability": 0.06 }
+      ]
+    },
+    {
+      "index": 5,
+      "phase": "decode",
+      "label": "Decode 5",
+      "activeTokenIndex": 22,
+      "generatedToken": " channel",
+      "topTokens": [
+        { "token": " mix", "probability": 0.38 },
+        { "token": " gates", "probability": 0.18 },
+        { "token": " values", "probability": 0.12 },
+        { "token": " state", "probability": 0.08 },
+        { "token": " output", "probability": 0.06 }
+      ]
+    }
+  ]
+}
