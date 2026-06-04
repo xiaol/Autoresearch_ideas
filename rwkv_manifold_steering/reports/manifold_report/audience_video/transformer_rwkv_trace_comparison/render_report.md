@@ -49,6 +49,14 @@ Plus-20 dB remux:
 - Peak after boost: `max_volume=-0.0 dB`
 - Duration: `484.949s`
 
+Leveled final remux:
+
+- Reason: the raw plus-20 dB remux had a visible loudness ramp. Spoken-window means moved from about `-27.4 dB` at the beginning to about `-11.8 dB` at the end.
+- Audio filter strategy: per-tutorial-beat gain correction, `alimiter=limit=0.90`, `loudnorm=I=-18:TP=-1.5:LRA=7`, then `aresample=48000`.
+- Audio stream: AAC, `48000 Hz`, mono, `224k`.
+- Spoken-window mean after leveling: `-19.6 dB` to `-18.6 dB`, about a `1.0 dB` span across the 19 narration beats.
+- Output path in this repo: `qwen_rwkv_trace_comparison_plus20db.mp4`. The filename is kept for compatibility with the first pushed artifact, but the audio is the leveled remux.
+
 Narration coverage:
 
 - Qwen 0.8B sequence follows the Transformer textbook pages: embeddings, blocks, Q/K/V, attention, MLP, logits/probabilities, sampling, residuals, normalization, dropout.

@@ -5,7 +5,7 @@ Transformer-vs-RWKV visualization.
 
 ## Artifact
 
-- `qwen_rwkv_trace_comparison_plus20db.mp4`: final narrated MP4 with subtitles and a plus-20 dB narration boost.
+- `qwen_rwkv_trace_comparison_plus20db.mp4`: final narrated MP4 with subtitles and per-beat leveled narration. This replaces the raw plus-20 dB remux because the uncorrected version was much louder near the end.
 - `qwen_rwkv_trace_comparison.srt`: subtitle track used in the final mux.
 - `narration_beats.json`: timestamped narration map aligned to the right-bottom tutorial card sequence.
 - `narration_script.md`: short description of the narration structure.
@@ -21,6 +21,7 @@ Transformer-vs-RWKV visualization.
 - Working source app: `/home/xiaol/X/transformer-explainer-qwen`
 - Narration provider: MiniMax `speech-2.8-hd`
 - Voice: `English_CaptivatingStoryteller`
+- Final audio leveling: per-tutorial-beat gain correction, limiter, and EBU R128 loudness normalization.
 
 ## Coverage
 

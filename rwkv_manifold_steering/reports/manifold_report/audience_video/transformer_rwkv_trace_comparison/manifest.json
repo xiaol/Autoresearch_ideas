@@ -20,8 +20,19 @@
     "voice": "English_CaptivatingStoryteller"
   },
   "final_audio": {
-    "boost_db": 20,
-    "mean_volume_db": -19.9,
-    "peak_volume_db": -0.0
+    "profile": "per-beat leveled remux",
+    "source_profile": "plus-20 dB remux",
+    "target_spoken_window_mean_db": -20.0,
+    "measured_spoken_window_mean_range_db": [
+      -19.6,
+      -18.6
+    ],
+    "measured_spoken_window_mean_span_db": 1.0,
+    "filters": [
+      "per-beat volume correction",
+      "alimiter=limit=0.90",
+      "loudnorm=I=-18:TP=-1.5:LRA=7",
+      "aresample=48000"
+    ]
   }
 }
