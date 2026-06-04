@@ -1,0 +1,116 @@
+[
+  {
+    "start": 0.0,
+    "end": 18.0,
+    "title": "Qwen intro",
+    "text": "We start with Qwen zero point eight B. This first card frames the model as a Transformer trace: text becomes tokens, tokens move through stacked blocks, and the output is a probability distribution for the next token."
+  },
+  {
+    "start": 18.0,
+    "end": 38.0,
+    "title": "Autoregressive generation",
+    "text": "The same prompt stays at the top of the screen, so every view is answering one question: given this context, what should the next token be? The tutorial card follows that generation process step by step."
+  },
+  {
+    "start": 38.0,
+    "end": 58.0,
+    "title": "Embeddings",
+    "text": "The embedding pages show the first conversion. Each word piece is mapped into a learned vector. In the diagram, those vectors are the small rectangles feeding the block, one row for each token in the prompt."
+  },
+  {
+    "start": 58.0,
+    "end": 80.0,
+    "title": "Architecture and blocks",
+    "text": "The Transformer block card is important for Qwen. Qwen zero point eight B has stacked blocks, but not every layer is full attention. In this trace, full attention appears only at selected layers, which is why the attention view may label the nearest full-attention block."
+  },
+  {
+    "start": 80.0,
+    "end": 108.0,
+    "title": "Self attention",
+    "text": "The attention section is the classic Transformer mechanism. Each token builds query, key, and value streams. Queries ask what the current token needs, keys describe what previous tokens offer, and values carry the content that will be mixed."
+  },
+  {
+    "start": 108.0,
+    "end": 138.0,
+    "title": "QKV calculation",
+    "text": "The Q K V card expands that calculation. The same token embeddings are multiplied by learned weights to produce queries, keys, and values. The visual goal is to make the matrix multiplication visible, not just name it."
+  },
+  {
+    "start": 138.0,
+    "end": 164.0,
+    "title": "Multi-head attention",
+    "text": "The multi-head card shows why the model splits attention into heads. Each head can focus on a different relation in the prompt, such as position, phrase structure, or the likely continuation after the final word."
+  },
+  {
+    "start": 164.0,
+    "end": 190.0,
+    "title": "Masked attention",
+    "text": "Masked self-attention turns token-to-token comparisons into a causal table. Future tokens are blocked, previous tokens are weighted, and the visible dot pattern is the model's current view of which earlier tokens matter."
+  },
+  {
+    "start": 190.0,
+    "end": 216.0,
+    "title": "MLP",
+    "text": "After attention, the MLP refines each token independently. The card notes that Qwen uses a gated MLP with a SiLU-style activation, so this stage is not another attention table; it is a channel-wise transformation."
+  },
+  {
+    "start": 216.0,
+    "end": 244.0,
+    "title": "Logits and probabilities",
+    "text": "The output pages move from hidden vectors to logits and then probabilities. Logits are raw scores over the vocabulary. Softmax converts them into a distribution, and the bars show which next tokens are most likely."
+  },
+  {
+    "start": 244.0,
+    "end": 278.0,
+    "title": "Sampling controls",
+    "text": "The probability and sampling cards explain the final choice. Temperature reshapes the distribution: lower temperature concentrates probability on the top candidates, while higher temperature gives weaker candidates more room."
+  },
+  {
+    "start": 278.0,
+    "end": 318.0,
+    "title": "Stabilizers",
+    "text": "The remaining Qwen cards cover sampling, residual paths, normalization, and dropout. These are support systems: residuals keep information flowing, normalization keeps scales controlled, and dropout is a training-time regularizer, not an inference-time operation."
+  },
+  {
+    "start": 318.0,
+    "end": 350.0,
+    "title": "Qwen wrap-up",
+    "text": "This completes the Transformer side of the comparison. The key picture is token-to-token interaction: Qwen compares tokens through attention, refines channels through the MLP, and then scores the next token."
+  },
+  {
+    "start": 350.0,
+    "end": 382.0,
+    "title": "RWKV intro",
+    "text": "Now the recording switches to RWKV seven, the zero point one B comparison model. The card makes the central difference explicit: RWKV is recurrent. It processes tokens one at a time and carries a compact state forward."
+  },
+  {
+    "start": 382.0,
+    "end": 405.0,
+    "title": "RWKV architecture",
+    "text": "The RWKV architecture card reorganizes the same language-model task. Embeddings still start the process and probabilities still finish it, but the middle is an RWKV block with Time Mix, recurrent state, and Channel Mix."
+  },
+  {
+    "start": 405.0,
+    "end": 422.0,
+    "title": "Time Mix",
+    "text": "Time Mix creates streams such as read, decay, erase, write, and gate. These are not fake Q, K, and V matrices. They are the signals that decide how the recurrent state should change at the next token."
+  },
+  {
+    "start": 422.0,
+    "end": 452.0,
+    "title": "Recurrent state",
+    "text": "The recurrent state card is the heart of the RWKV view. The state matrix is decayed, an old component can be erased, and a new write is added. The matrix view shows those terms; the manifold view projects how the state moves across tokens."
+  },
+  {
+    "start": 452.0,
+    "end": 468.0,
+    "title": "Channel Mix",
+    "text": "Channel Mix is the feed-forward side of the RWKV block. It mixes the current hidden vector with the previous channel state, applies a squared ReLU-style activation, and projects back to the residual stream."
+  },
+  {
+    "start": 468.0,
+    "end": 484.9,
+    "title": "Comparison close",
+    "text": "The final RWKV cards return to probabilities, sampling, residuals, and normalization. The comparison is now clear: Qwen's Transformer view is token-to-token attention, while RWKV's view is state transition over time."
+  }
+]

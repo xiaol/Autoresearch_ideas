@@ -1,0 +1,27 @@
+{
+  "title": "Qwen/RWKV Trace Comparison Video",
+  "description": "Narrated visualization comparing a Qwen 0.8B Transformer trace with an RWKV-7 0.1B recurrent-state trace.",
+  "source_recording": "/home/xiaol/2026-06-03 23-02-00.mp4",
+  "source_app": "/home/xiaol/X/transformer-explainer-qwen",
+  "video": "qwen_rwkv_trace_comparison_plus20db.mp4",
+  "subtitles": "qwen_rwkv_trace_comparison.srt",
+  "narration_beats": "narration_beats.json",
+  "narration_script": "narration_script.md",
+  "render_report": "render_report.md",
+  "tts_timing_report": "tts_timing_report.json",
+  "contact_sheets": [
+    "contact_sheet_20s.jpg",
+    "textbook_card_sheet.jpg",
+    "rwkv_card_sheet.jpg"
+  ],
+  "tts": {
+    "provider": "MiniMax",
+    "model": "speech-2.8-hd",
+    "voice": "English_CaptivatingStoryteller"
+  },
+  "final_audio": {
+    "boost_db": 20,
+    "mean_volume_db": -19.9,
+    "peak_volume_db": -0.0
+  }
+}

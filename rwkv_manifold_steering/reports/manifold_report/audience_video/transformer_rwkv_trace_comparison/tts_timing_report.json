@@ -1,0 +1,154 @@
+[
+  {
+    "index": 1,
+    "title": "Qwen intro",
+    "slot": 18.0,
+    "raw_duration": 16.2,
+    "speed_factor": 1.0,
+    "adjusted_duration": 16.161104
+  },
+  {
+    "index": 2,
+    "title": "Autoregressive generation",
+    "slot": 20.0,
+    "raw_duration": 14.904,
+    "speed_factor": 1.0,
+    "adjusted_duration": 14.837563
+  },
+  {
+    "index": 3,
+    "title": "Embeddings",
+    "slot": 20.0,
+    "raw_duration": 14.04,
+    "speed_factor": 1.0,
+    "adjusted_duration": 13.990042
+  },
+  {
+    "index": 4,
+    "title": "Architecture and blocks",
+    "slot": 22.0,
+    "raw_duration": 18.684,
+    "speed_factor": 1.0,
+    "adjusted_duration": 18.684
+  },
+  {
+    "index": 5,
+    "title": "Self attention",
+    "slot": 28.0,
+    "raw_duration": 18.144,
+    "speed_factor": 1.0,
+    "adjusted_duration": 18.095479
+  },
+  {
+    "index": 6,
+    "title": "QKV calculation",
+    "slot": 30.0,
+    "raw_duration": 16.056,
+    "speed_factor": 1.0,
+    "adjusted_duration": 15.998563
+  },
+  {
+    "index": 7,
+    "title": "Multi-head attention",
+    "slot": 26.0,
+    "raw_duration": 15.768,
+    "speed_factor": 1.0,
+    "adjusted_duration": 15.697479
+  },
+  {
+    "index": 8,
+    "title": "Masked attention",
+    "slot": 26.0,
+    "raw_duration": 14.292,
+    "speed_factor": 1.0,
+    "adjusted_duration": 14.245479
+  },
+  {
+    "index": 9,
+    "title": "MLP",
+    "slot": 26.0,
+    "raw_duration": 15.804,
+    "speed_factor": 1.0,
+    "adjusted_duration": 15.743167
+  },
+  {
+    "index": 10,
+    "title": "Logits and probabilities",
+    "slot": 28.0,
+    "raw_duration": 15.192,
+    "speed_factor": 1.0,
+    "adjusted_duration": 15.139438
+  },
+  {
+    "index": 11,
+    "title": "Sampling controls",
+    "slot": 34.0,
+    "raw_duration": 15.624,
+    "speed_factor": 1.0,
+    "adjusted_duration": 15.569
+  },
+  {
+    "index": 12,
+    "title": "Stabilizers",
+    "slot": 40.0,
+    "raw_duration": 19.476,
+    "speed_factor": 1.0,
+    "adjusted_duration": 19.476
+  },
+  {
+    "index": 13,
+    "title": "Qwen wrap-up",
+    "slot": 32.0,
+    "raw_duration": 12.78,
+    "speed_factor": 1.0,
+    "adjusted_duration": 12.712938
+  },
+  {
+    "index": 14,
+    "title": "RWKV intro",
+    "slot": 32.0,
+    "raw_duration": 17.64,
+    "speed_factor": 1.0,
+    "adjusted_duration": 17.584625
+  },
+  {
+    "index": 15,
+    "title": "RWKV architecture",
+    "slot": 23.0,
+    "raw_duration": 16.596,
+    "speed_factor": 1.0,
+    "adjusted_duration": 16.544229
+  },
+  {
+    "index": 16,
+    "title": "Time Mix",
+    "slot": 17.0,
+    "raw_duration": 14.652,
+    "speed_factor": 1.0,
+    "adjusted_duration": 14.582167
+  },
+  {
+    "index": 17,
+    "title": "Recurrent state",
+    "slot": 30.0,
+    "raw_duration": 18.108,
+    "speed_factor": 1.0,
+    "adjusted_duration": 18.049042
+  },
+  {
+    "index": 18,
+    "title": "Channel Mix",
+    "slot": 16.0,
+    "raw_duration": 15.408,
+    "speed_factor": 1.0,
+    "adjusted_duration": 15.36
+  },
+  {
+    "index": 19,
+    "title": "Comparison close",
+    "slot": 16.899999999999977,
+    "raw_duration": 16.56,
+    "speed_factor": 1.0006042296072521,
+    "adjusted_duration": 16.509417
+  }
+]
