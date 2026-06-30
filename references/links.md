@@ -6,3 +6,4 @@ These are the primary sources used for the summary and proposal.
 - [EagleFinch] Eagle and Finch: RWKV with Matrix-Valued States and Dynamic Recurrence (arXiv:2404.05892) — https://arxiv.org/abs/2404.05892
 - [GatedDeltaNet] Gated DeltaNet: A Sequential, Linear-Time Architecture for Language Modeling (arXiv:2603.05931) — https://arxiv.org/abs/2603.05931
 - [RWKVv8] RWKV Architecture History (v8/Heron notes: DeepEmbed, ROSA) — https://wiki.rwkv.com/basic/architecture.html
+- [PAT] Towards Automating Scientific Review with Google's Paper Assistant Tool (arXiv:2606.28277) — https://arxiv.org/abs/2606.28277

@@ -17,3 +17,6 @@ Gated DeltaNet is described as a linear attention architecture that replaces the
 ## Immediate Takeaways
 - Matrix-valued recurrent state is a recurring motif (M2RNN, RWKV), suggesting it is a strong backbone for scalable RNN LMs. [M2RNN] [EagleFinch]
 - M2RNN’s state expansion and hybrid results motivate a design that keeps matrix-state recurrence but adds better long-range propagation (ROSA) and embedding-side modulation (DeepEmbed). [M2RNN] [RWKVv8]
+
+## AI for Scientific Review
+The Paper Assistant Tool (PAT) proposes a 4-level taxonomy of AI-human collaboration for scientific review: (L1) AI as formatting checker, (L2) AI-assisted fact-checking, (L3) AI-augmented review, (L4) AI-led verification. PAT uses inference scaling — multi-pass analysis with increasing depth — to surface deeper issues, achieving a 34% improvement over zero-shot recall on the SPOT benchmark for mathematical errors. It was piloted as a pre-submission tool at STOC and ICML, identifying critical errors and suggesting improvements. [PAT]

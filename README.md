@@ -27,6 +27,7 @@ The repo is meant to ship the reproducible research code, paper sources, and lig
 - `papers/` – standalone paper packages for the main UniMatrix paper and follow-up drafts
 - `results/` – local experiment outputs; large generated files are excluded from git by default
 - `video/` – script, storyboard, Manim/TTS production code, and standalone visualization modules; heavy renders and audio are excluded from git
+- `paper_review/` – PAT-style automated paper review tool (multi-pass claim extraction, benchmark audit, math checking)
 - `references/` – citation links and bibtex
 
 ## LM Engine Next Move
