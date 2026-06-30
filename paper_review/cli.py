@@ -44,9 +44,9 @@ def build_parser() -> argparse.ArgumentParser:
         "--level",
         "-l",
         type=int,
-        choices=[1, 2, 3, 4],
+        choices=[1, 2, 3, 4, 5],
         default=1,
-        help="Review depth level (1=surface, 2=claims, 3=audit, 4=full). Default: 1.",
+        help="Review depth level (1=surface, 2=claims, 3=audit, 4=full, 5=ideas). Default: 1.",
     )
 
     parser.add_argument(

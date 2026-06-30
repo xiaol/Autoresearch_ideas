@@ -111,6 +111,15 @@ def run_review(
         )
         report.math_report = math.to_dict()
 
+    # --- Level 5: Research idea generation ---
+    if config.level >= ReviewLevel.IDEA_GENERATION:
+        if verbose:
+            _log("Running Level 5: Research idea generation...")
+        from paper_review.idea_generator import generate_ideas
+
+        ideas = generate_ideas(report, config)
+        report.ideas = [idea.to_dict() for idea in ideas]
+
     # --- Generate summary ---
     summary_parts: List[str] = []
     summary_parts.append(f"Level {config.level} review of {paper_path.name}.")
@@ -144,6 +153,11 @@ def run_review(
             f"Math: {m.get('equation_count', 0)} equations, "
             f"{m.get('theorem_count', 0)} theorems, "
             f"{m.get('proof_count', 0)} proofs."
+        )
+
+    if report.ideas:
+        summary_parts.append(
+            f"Generated {len(report.ideas)} research ideas."
         )
 
     report.summary = " ".join(summary_parts)

@@ -15,12 +15,14 @@ class ReviewLevel(IntEnum):
     Level 2 — AI-assisted fact-checking (claim extraction + validation).
     Level 3 — AI-augmented review (deep audit, methodology checking).
     Level 4 — AI-led verification (adversarial testing, full re-run).
+    Level 5 — AI as research conjecture generator (Moonshine paradigm).
     """
 
     SURFACE_SCAN = 1
     CLAIM_CHECK = 2
     DEEP_AUDIT = 3
     FULL_VERIFICATION = 4
+    IDEA_GENERATION = 5
 
 
 LEVEL_NAMES = {
@@ -28,6 +30,7 @@ LEVEL_NAMES = {
     ReviewLevel.CLAIM_CHECK: "Claim Extraction & Fact-Checking",
     ReviewLevel.DEEP_AUDIT: "Deep Audit & Methodology Review",
     ReviewLevel.FULL_VERIFICATION: "Full Verification & Adversarial Testing",
+    ReviewLevel.IDEA_GENERATION: "Research Idea Generation (Moonshine)",
 }
 
 LEVEL_DESCRIPTIONS = {
@@ -49,6 +52,12 @@ LEVEL_DESCRIPTIONS = {
         "Adversarial claim testing, re-run key experiments, comprehensive verification "
         "of all results. Analogous to PAT Level 4 — AI-led verification."
     ),
+    ReviewLevel.IDEA_GENERATION: (
+        "Generate structured research ideas from Level 1-4 review outputs using four "
+        "strategies: gap-based, methodology, domain translation, and ablation. "
+        "Analogous to Moonshine (arXiv:2606.10806) paradigm — AI as research "
+        "conjecture generator."
+    ),
 }
 
 
@@ -57,7 +66,7 @@ class ReviewConfig:
     """Configuration for a paper review run.
 
     Attributes:
-        level: Review depth level (1-4).
+        level: Review depth level (1-5).
         paper_path: Path to the main LaTeX file to review.
         results_root: Root directory for experiment results (for cross-referencing).
         papers_root: Root directory for paper packages.

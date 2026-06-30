@@ -41,6 +41,7 @@ class ReviewReport:
     validation: Optional[Dict[str, object]] = None
     audit: Optional[Dict[str, object]] = None
     math_report: Optional[Dict[str, object]] = None
+    ideas: Optional[List[Dict[str, object]]] = None
     summary: str = ""
 
     def to_dict(self) -> Dict[str, object]:
@@ -55,6 +56,7 @@ class ReviewReport:
             "validation": self.validation,
             "audit": self.audit,
             "math_report": self.math_report,
+            "ideas": self.ideas,
             "summary": self.summary,
         }
 
@@ -129,6 +131,25 @@ class ReviewReport:
             if self.math_report.get("unresolved_references"):
                 lines.append(f"- Unresolved refs: {', '.join(self.math_report['unresolved_references'][:10])}")
             lines.append("")
+
+        # Generated research ideas
+        if self.ideas:
+            lines.append("## Generated Research Ideas")
+            lines.append("")
+            for i, idea in enumerate(self.ideas, 1):
+                cat = idea.get("category", "unknown")
+                hyp = idea.get("hypothesis", "")
+                rationale = idea.get("rationale", "")
+                experiment = idea.get("suggested_experiment", "")
+                conf = idea.get("confidence", 0.0)
+                lines.append(f"### {i}. [{cat}] Research Idea")
+                lines.append("")
+                lines.append(f"**Hypothesis:** {hyp}")
+                lines.append("")
+                lines.append(f"- **Rationale:** {rationale}")
+                lines.append(f"- **Suggested Experiment:** {experiment}")
+                lines.append(f"- **Confidence:** {conf:.2f}")
+                lines.append("")
 
         # Summary
         if self.summary:
