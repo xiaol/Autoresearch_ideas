@@ -43,6 +43,10 @@ class UniMatrixConfig:
     use_pointer_write_gate: bool = True
     use_pointer_logits: bool = False
     variant_name: str = "unimatrix-core"
+    use_gated_retention: bool = False
+    use_boundary_reset: bool = False
+    boundary_window: int = 8
+    write_gate_hidden: int = 64
 
 
 ModelConfig = UniMatrixConfig
@@ -97,6 +101,15 @@ class UniMatrixBlock(nn.Module):
 
         self.rule_proj = nn.Linear(cfg.d_model, 3 * cfg.n_heads, bias=True) if cfg.use_rule_mix else None
         self.dropout = nn.Dropout(cfg.dropout)
+        self.write_gate_proj = (
+            nn.Sequential(
+                nn.Linear(cfg.d_model, cfg.write_gate_hidden),
+                nn.GELU(),
+                nn.Linear(cfg.write_gate_hidden, cfg.n_heads),
+            )
+            if cfg.use_gated_retention
+            else None
+        )
 
         hidden_dim = int(cfg.mlp_ratio * cfg.d_model)
         self.ffn = nn.Sequential(
@@ -234,8 +247,32 @@ class UniMatrixBlock(nn.Module):
             slot_age = normalized.new_zeros(batch_size, self.cfg.assoc_slots)
             slot_token_ids = token_ids.new_zeros(batch_size, self.cfg.assoc_slots)
 
+        # Precompute boundary mask for AMS² reset
+        if self.cfg.use_boundary_reset:
+            running_mean = torch.cumsum(normalized, dim=1) / torch.arange(
+                1, normalized.size(1) + 1, device=normalized.device
+            ).float().view(1, -1, 1)
+            variance = ((normalized - running_mean) ** 2).mean(dim=-1)
+            if normalized.size(1) > 1:
+                var_change = torch.abs(variance[:, 1:] - variance[:, :-1])
+                var_change = F.pad(var_change, (0, 1), value=0)
+            else:
+                var_change = torch.zeros_like(variance)
+            vc_max = var_change.max(dim=-1, keepdim=True).values + 1e-8
+            boundary_scores = var_change / vc_max
+            self._boundary_mask = (boundary_scores > 0.6).float().unsqueeze(-1)
+        else:
+            self._boundary_mask = None
+
         for token_index in range(normalized.size(1)):
             x_t = normalized[:, token_index]
+
+            # Boundary-aware state reset
+            if self.cfg.use_boundary_reset and token_index > 0 and hasattr(self, '_boundary_mask'):
+                reset = self._boundary_mask[:, token_index:token_index+1]  # (B, 1)
+                if reset.any():
+                    reset_heads = reset.unsqueeze(-1).unsqueeze(-1).float()  # (B, 1, 1, 1)
+                    state = state * (1.0 - reset_heads)
 
             q = torch.tanh(self._reshape(self.q_proj(x_t)))
             k = torch.tanh(self._reshape(self.k_proj(x_t)))
@@ -247,7 +284,12 @@ class UniMatrixBlock(nn.Module):
             symmetric_update = 0.5 * (outer_update + outer_update.transpose(-1, -2))
             update = self._mix_rules(x_t, outer_update, diag_update, symmetric_update)
 
-            retention = torch.sigmoid(self.retention_proj(x_t)).view(x_t.size(0), self.cfg.n_heads, 1, 1)
+            base_retention = torch.sigmoid(self.retention_proj(x_t)).view(x_t.size(0), self.cfg.n_heads, 1, 1)
+            if self.cfg.use_gated_retention and self.write_gate_proj is not None:
+                write_gate = torch.sigmoid(self.write_gate_proj(x_t)).view(x_t.size(0), self.cfg.n_heads, 1, 1)
+                retention = base_retention * (1.0 - write_gate)
+            else:
+                retention = base_retention
             state = retention * state + (1.0 - retention) * update
             state = self._spectral_guard(state)
 
@@ -484,6 +526,19 @@ def variant_config(name: str, vocab_size: int, **overrides: int | float | bool |
             "pointer_merge_threshold": 0.85,
             "use_pointer_write_gate": True,
             "use_pointer_logits": True,
+        },
+        "unimatrix-ams2": {
+            "use_rosa": False,
+            "use_deepembed": False,
+            "use_rule_mix": False,
+            "use_spectral_norm": False,
+            "use_step_embedding": False,
+            "use_assoc_memory": False,
+            "use_gated_retention": True,
+            "use_boundary_reset": True,
+            "boundary_window": 8,
+            "write_gate_hidden": 64,
+            "variant_name": "unimatrix-ams2",
         },
     }
     if name not in presets:
