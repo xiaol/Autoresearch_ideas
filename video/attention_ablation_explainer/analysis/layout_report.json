@@ -1,0 +1,336 @@
+{
+  "scene": "AttentionAblationExplainer",
+  "ok": true,
+  "checks": [
+    {
+      "name": "cold-open dsa",
+      "ok": true,
+      "outer": {
+        "left": -1.485,
+        "right": 1.4849999999999999,
+        "bottom": -1.585,
+        "top": 1.585
+      },
+      "inner": {
+        "left": -1.115625,
+        "right": 1.115625,
+        "bottom": -1.0184375,
+        "top": 1.2
+      },
+      "overflow": {
+        "left": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "top": 0.0
+      }
+    },
+    {
+      "name": "cold-open lsa",
+      "ok": true,
+      "outer": {
+        "left": -1.485,
+        "right": 1.4849999999999999,
+        "bottom": -1.585,
+        "top": 1.585
+      },
+      "inner": {
+        "left": -1.193359375,
+        "right": 1.193359375,
+        "bottom": -0.97546875,
+        "top": 1.2
+      },
+      "overflow": {
+        "left": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "top": 0.0
+      }
+    },
+    {
+      "name": "cold-open csa",
+      "ok": true,
+      "outer": {
+        "left": -1.485,
+        "right": 1.4849999999999999,
+        "bottom": -1.585,
+        "top": 1.585
+      },
+      "inner": {
+        "left": -1.3390625000000003,
+        "right": 1.3390624999999998,
+        "bottom": -1.0184375,
+        "top": 1.2
+      },
+      "overflow": {
+        "left": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "top": 0.0
+      }
+    },
+    {
+      "name": "cold-open hca",
+      "ok": true,
+      "outer": {
+        "left": -1.485,
+        "right": 1.4849999999999999,
+        "bottom": -1.585,
+        "top": 1.585
+      },
+      "inner": {
+        "left": -1.359375,
+        "right": 1.359375,
+        "bottom": -1.0184375,
+        "top": 1.2
+      },
+      "overflow": {
+        "left": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "top": 0.0
+      }
+    },
+    {
+      "name": "vocabulary = 257",
+      "ok": true,
+      "outer": {
+        "left": -2.42,
+        "right": 2.42,
+        "bottom": -0.67,
+        "top": 0.67
+      },
+      "inner": {
+        "left": -2.2735999999999996,
+        "right": 2.2735999999999996,
+        "bottom": -0.4004071095947648,
+        "top": 0.4004071095947648
+      },
+      "overflow": {
+        "left": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "top": 0.0
+      }
+    },
+    {
+      "name": "held fixed",
+      "ok": true,
+      "outer": {
+        "left": -3.0199999999999996,
+        "right": 3.02,
+        "bottom": -0.49499999999999994,
+        "top": 0.49499999999999994
+      },
+      "inner": {
+        "left": -2.8615999999999993,
+        "right": 2.8615999999999997,
+        "bottom": -0.2582697456492637,
+        "top": 0.2582697456492637
+      },
+      "overflow": {
+        "left": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "top": 0.0
+      }
+    },
+    {
+      "name": "but it is an ORACLE",
+      "ok": true,
+      "outer": {
+        "left": -3.62,
+        "right": 3.62,
+        "bottom": -0.8450000000000001,
+        "top": 0.8450000000000001
+      },
+      "inner": {
+        "left": -2.9453125,
+        "right": 2.9453125,
+        "bottom": -0.55839845,
+        "top": 0.55839845
+      },
+      "overflow": {
+        "left": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "top": 0.0
+      }
+    },
+    {
+      "name": "softmax panel",
+      "ok": true,
+      "outer": {
+        "left": -1.1300000000000003,
+        "right": 6.930000000000001,
+        "bottom": -0.38,
+        "top": 1.88
+      },
+      "inner": {
+        "left": -0.23695312500000032,
+        "right": 6.036953125000001,
+        "bottom": -0.06333843750000001,
+        "top": 1.84
+      },
+      "overflow": {
+        "left": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "top": 0.0
+      }
+    },
+    {
+      "name": "CSA vs HCA",
+      "ok": true,
+      "outer": {
+        "left": -4.07,
+        "right": 4.07,
+        "bottom": -0.645,
+        "top": 0.645
+      },
+      "inner": {
+        "left": -3.6421875000000004,
+        "right": 3.6421875000000004,
+        "bottom": -0.4225586,
+        "top": 0.4225586
+      },
+      "overflow": {
+        "left": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "top": 0.0
+      }
+    },
+    {
+      "name": "audit table",
+      "ok": true,
+      "outer": {
+        "left": -3.6990625000000015,
+        "right": 3.6990625000000015,
+        "bottom": -2.276484375,
+        "top": -0.22351562500000002
+      },
+      "inner": {
+        "left": -3.449062500000001,
+        "right": 3.449062500000001,
+        "bottom": -2.126484375,
+        "top": -0.373515625
+      },
+      "overflow": {
+        "left": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "top": 0.0
+      }
+    },
+    {
+      "name": "why it is dangerous",
+      "ok": true,
+      "outer": {
+        "left": -5.72,
+        "right": 5.72,
+        "bottom": -0.67,
+        "top": 0.67
+      },
+      "inner": {
+        "left": -4.795703125000001,
+        "right": 4.795703125000001,
+        "bottom": -0.45458984999999996,
+        "top": 0.45458984999999996
+      },
+      "overflow": {
+        "left": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "top": 0.0
+      }
+    },
+    {
+      "name": "metrics log",
+      "ok": true,
+      "outer": {
+        "left": -6.9799999999999995,
+        "right": -0.8199999999999997,
+        "bottom": -2.83,
+        "top": -0.87
+      },
+      "inner": {
+        "left": -6.489062499999999,
+        "right": -1.3109374999999996,
+        "bottom": -2.604765625,
+        "top": -1.095234375
+      },
+      "overflow": {
+        "left": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "top": 0.0
+      }
+    },
+    {
+      "name": "fixes",
+      "ok": true,
+      "outer": {
+        "left": -3.5199999999999996,
+        "right": 3.52,
+        "bottom": -0.7200000000000001,
+        "top": 0.7200000000000001
+      },
+      "inner": {
+        "left": -3.331640625,
+        "right": 3.3316406250000004,
+        "bottom": -0.42490235,
+        "top": 0.42490235
+      },
+      "overflow": {
+        "left": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "top": 0.0
+      }
+    },
+    {
+      "name": "results table",
+      "ok": true,
+      "outer": {
+        "left": 0.9399999999999998,
+        "right": 7.66,
+        "bottom": -2.31,
+        "top": 0.8099999999999999
+      },
+      "inner": {
+        "left": 1.859375,
+        "right": 6.740625,
+        "bottom": -1.7674218750000001,
+        "top": 0.26742187500000003
+      },
+      "overflow": {
+        "left": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "top": 0.0
+      }
+    },
+    {
+      "name": "boundaries - stated plainly",
+      "ok": true,
+      "outer": {
+        "left": -6.22,
+        "right": 6.22,
+        "bottom": -0.77,
+        "top": 0.77
+      },
+      "inner": {
+        "left": -5.296875,
+        "right": 5.296875,
+        "bottom": -0.45458984999999996,
+        "top": 0.45458984999999996
+      },
+      "overflow": {
+        "left": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "top": 0.0
+      }
+    }
+  ]
+}

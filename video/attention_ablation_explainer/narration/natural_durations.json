@@ -1,0 +1,159 @@
+{
+  "segments": [
+    {
+      "index": 1,
+      "status": "ok",
+      "window": [
+        0.0,
+        41.05
+      ],
+      "window_len": 41.05,
+      "natural_sec": 38.05,
+      "turn_sec": [
+        38.05
+      ],
+      "fits": true
+    },
+    {
+      "index": 2,
+      "status": "ok",
+      "window": [
+        41.05,
+        72.63
+      ],
+      "window_len": 31.58,
+      "natural_sec": 28.58,
+      "turn_sec": [
+        28.58
+      ],
+      "fits": true
+    },
+    {
+      "index": 3,
+      "status": "ok",
+      "window": [
+        72.63,
+        113.68
+      ],
+      "window_len": 41.05,
+      "natural_sec": 38.05,
+      "turn_sec": [
+        38.05
+      ],
+      "fits": true
+    },
+    {
+      "index": 4,
+      "status": "ok",
+      "window": [
+        113.68,
+        154.19
+      ],
+      "window_len": 40.51,
+      "natural_sec": 37.51,
+      "turn_sec": [
+        37.51
+      ],
+      "fits": true
+    },
+    {
+      "index": 5,
+      "status": "ok",
+      "window": [
+        154.19,
+        188.51
+      ],
+      "window_len": 34.32,
+      "natural_sec": 31.32,
+      "turn_sec": [
+        31.32
+      ],
+      "fits": true
+    },
+    {
+      "index": 6,
+      "status": "ok",
+      "window": [
+        188.51,
+        232.26
+      ],
+      "window_len": 43.75,
+      "natural_sec": 40.75,
+      "turn_sec": [
+        40.75
+      ],
+      "fits": true
+    },
+    {
+      "index": 7,
+      "status": "ok",
+      "window": [
+        232.26,
+        280.51
+      ],
+      "window_len": 48.25,
+      "natural_sec": 45.25,
+      "turn_sec": [
+        45.25
+      ],
+      "fits": true
+    },
+    {
+      "index": 8,
+      "status": "ok",
+      "window": [
+        280.51,
+        312.06
+      ],
+      "window_len": 31.55,
+      "natural_sec": 28.55,
+      "turn_sec": [
+        28.55
+      ],
+      "fits": true
+    },
+    {
+      "index": 9,
+      "status": "ok",
+      "window": [
+        312.06,
+        358.22
+      ],
+      "window_len": 46.16,
+      "natural_sec": 43.16,
+      "turn_sec": [
+        43.16
+      ],
+      "fits": true
+    },
+    {
+      "index": 10,
+      "status": "ok",
+      "window": [
+        358.22,
+        418.75
+      ],
+      "window_len": 60.53,
+      "natural_sec": 57.53,
+      "turn_sec": [
+        57.53
+      ],
+      "fits": true
+    },
+    {
+      "index": 11,
+      "status": "ok",
+      "window": [
+        418.75,
+        471.99
+      ],
+      "window_len": 53.24,
+      "natural_sec": 48.24,
+      "turn_sec": [
+        48.24
+      ],
+      "fits": true
+    }
+  ],
+  "total_natural_sec": 437.0
+}
