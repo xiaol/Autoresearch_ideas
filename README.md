@@ -29,6 +29,7 @@ The repo is meant to ship the reproducible research code, paper sources, and lig
 - `video/` – script, storyboard, Manim/TTS production code, and standalone visualization modules; heavy renders and audio are excluded from git
 - `paper_review/` – PAT-style automated paper review tool (multi-pass claim extraction, benchmark audit, math checking)
 - `references/` – citation links and bibtex
+- `external/comparing-transformers-hybrids-token-level/` – arXiv:2606.20936 token-level diagnostics, wired for the local Gemma4 + RWKV-MS online-memory adapter
 
 ## LM Engine Next Move
 

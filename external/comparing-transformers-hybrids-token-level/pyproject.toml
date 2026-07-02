@@ -1,0 +1,32 @@
+[project]
+name = "hybrid-token-level-eval"
+version = "0.1.0"
+description = "Token-level transformer vs hybrid LM evaluation diagnostics for arXiv:2606.20936."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "torch>=2.0",
+    "transformers>=4.40",
+    "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+prose = ["nltk>=3.8"]
+data = ["datasets>=5.0", "pyarrow>=15", "huggingface_hub>=1.0"]
+
+[project.scripts]
+token-level-score = "token_level_eval.score:main"
+token-level-score-rwkv-ms = "token_level_eval.score_rwkv_ms:main"
+token-level-train-rwkv-ms-lm = "token_level_eval.train_rwkv_ms_lm:main"
+token-level-summarize = "token_level_eval.summarize:main"
+token-level-synthetic = "token_level_eval.synthetic:main"
+token-level-synthetic-rwkv-ms = "token_level_eval.synthetic_rwkv_ms:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
