@@ -1,0 +1,612 @@
+import asyncio
+import gc
+import json
+import logging
+import os
+import sys
+import traceback
+from collections.abc import Awaitable
+from typing import Callable
+
+import sentry_sdk
+import torch
+from dotenv import load_dotenv
+
+# vLLM only available on Linux
+try:
+    from chatspace.generation import VLLMSteeringConfig, VLLMSteerModel
+
+    VLLM_AVAILABLE = True
+except ImportError:
+    VLLMSteeringConfig = None  # type: ignore[misc, assignment]
+    VLLMSteerModel = None  # type: ignore[misc, assignment]
+    VLLM_AVAILABLE = False
+from fastapi import APIRouter, FastAPI, Request, Response
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
+from fastapi.responses import JSONResponse
+from nnterp import StandardizedTransformer
+from nnterp.rename_utils import RenameConfig
+from transformer_lens import HookedTransformer
+from transformer_lens.hook_points import HookPoint
+
+# from transformer_lens.model_bridge.sources.transformers import boot
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+if VLLM_AVAILABLE:
+    from vllm import SamplingParams
+else:
+    SamplingParams = None  # type: ignore[misc, assignment]
+
+from neuronpedia_inference.args import list_available_options, parse_env_and_args
+from neuronpedia_inference.config import Config, get_saelens_neuronpedia_directory_df
+from neuronpedia_inference.endpoints.activation.all import (
+    router as activation_all_router,
+)
+from neuronpedia_inference.endpoints.activation.all_batch import (
+    router as activation_all_batch_router,
+)
+from neuronpedia_inference.endpoints.activation.single import (
+    router as activation_single_router,
+)
+from neuronpedia_inference.endpoints.activation.single_batch import (
+    router as activation_single_batch_router,
+)
+from neuronpedia_inference.endpoints.activation.source import (
+    router as activation_source_router,
+)
+from neuronpedia_inference.endpoints.activation.topk_by_token import (
+    router as activation_topk_by_token_router,
+)
+from neuronpedia_inference.endpoints.activation.topk_by_token_batch import (
+    router as activation_topk_by_token_batch_router,
+)
+from neuronpedia_inference.endpoints.lens.lens_loader import (
+    load_jacobian_lens_at_startup,
+)
+from neuronpedia_inference.endpoints.lens.prompt import (
+    router as lens_prompt_router,
+)
+from neuronpedia_inference.endpoints.lens.prompt import warmup_lens
+from neuronpedia_inference.endpoints.persona.monitor import (
+    router as persona_monitor_router,
+)
+from neuronpedia_inference.endpoints.persona.utils import initialize_persona_data
+from neuronpedia_inference.endpoints.steer.completion import (
+    router as steer_completion_router,
+)
+from neuronpedia_inference.endpoints.steer.completion_chat import (
+    router as steer_completion_chat_router,
+)
+from neuronpedia_inference.endpoints.tokenize import router as tokenize_router
+from neuronpedia_inference.endpoints.util.sae_topk_by_decoder_cossim import (
+    router as sae_topk_by_decoder_cossim_router,
+)
+from neuronpedia_inference.endpoints.util.sae_vector import router as sae_vector_router
+from neuronpedia_inference.endpoints.util.similarity_matrix_pred import (
+    router as similarity_matrix_pred_router,
+)
+from neuronpedia_inference.logging import initialize_logging
+from neuronpedia_inference.nnsight_health import (
+    detect_and_mark,
+    get_nnsight_health,
+)
+from neuronpedia_inference.sae_manager import SAEManager  # noqa: F401
+from neuronpedia_inference.shared import (  # noqa: F401
+    STR_TO_DTYPE,
+    Model,
+    replace_tlens_model_id_with_hf_model_id,
+)
+from neuronpedia_inference.utils import checkCudaError
+
+# Chatspace Consts
+# llama 3.3 70b awq (quantized) = 1 H200, 0.9
+CHATSPACE_NUM_GPUS = 1
+CHATSPACE_GPU_MEMORY_UTILIZATION = 0.9
+
+
+class TextOnlyAutoModelForCausalLM(AutoModelForCausalLM):
+    """Loads the text-only causal-LM stack of multimodal (image-text-to-text)
+    models such as Qwen3-Next / Qwen3.6.
+
+    nnsight's ``LanguageModel`` refuses to load any model whose config is
+    registered with ``AutoModelForImageTextToText`` and points the user at
+    ``VisionLanguageModel`` instead. That guard is bypassed whenever the
+    ``automodel`` passed to nnsight is not literally ``AutoModelForCausalLM``.
+    These models are *also* registered with ``AutoModelForCausalLM`` (mapping to
+    their text-only ``*ForCausalLM`` class, which ignores the vision weights on
+    load), so this trivial subclass keeps the full causal-LM behaviour while
+    skipping the guard. It behaves identically to ``AutoModelForCausalLM`` for
+    plain text models.
+    """
+
+# Initialize logging at module level
+initialize_logging()
+
+logger = logging.getLogger(__name__)
+logger.info("Server module initialized")
+
+load_dotenv()
+
+global initialized
+initialized = False
+global initialization_error
+initialization_error: str | None = None
+
+app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Add GZip compression middleware (only compresses if client sends Accept-Encoding: gzip)
+app.add_middleware(GZipMiddleware, minimum_size=1000, compresslevel=6)
+
+args = parse_env_and_args()
+
+
+# we have to initialize SAE's AFTER server startup, because some infrastructure providers require
+# our server to respond to health checks within a few minutes of starting up
+@app.on_event("startup")  # pyright: ignore[reportDeprecated]
+async def startup_event():
+    logger.info("Starting initialization...")
+    # Wait briefly to ensure server is ready
+    await asyncio.sleep(3)
+    # Start initialization in background
+    init_task = asyncio.create_task(initialize(args.custom_hf_model_id))
+
+    def _log_init_task_result(task: asyncio.Task[None]) -> None:
+        try:
+            task.result()
+        except Exception:
+            logger.exception("Background initialization task failed")
+
+    init_task.add_done_callback(_log_init_task_result)
+    logger.info("Initialization started")
+
+
+v1_router = APIRouter(prefix="/v1")
+
+v1_router.include_router(activation_all_router)
+v1_router.include_router(activation_all_batch_router)
+v1_router.include_router(steer_completion_chat_router)
+v1_router.include_router(steer_completion_router)
+v1_router.include_router(activation_single_router)
+v1_router.include_router(activation_single_batch_router)
+v1_router.include_router(activation_topk_by_token_router)
+v1_router.include_router(activation_topk_by_token_batch_router)
+v1_router.include_router(sae_topk_by_decoder_cossim_router)
+v1_router.include_router(sae_vector_router)
+v1_router.include_router(tokenize_router)
+v1_router.include_router(similarity_matrix_pred_router)
+v1_router.include_router(activation_source_router)
+v1_router.include_router(persona_monitor_router)
+v1_router.include_router(lens_prompt_router)
+app.include_router(v1_router)
+
+
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}
+
+
+@app.get("/health/nnsight")
+async def nnsight_health_check():
+    """Fast probe of the nnsight runtime.
+
+    Returns 200 if nnsight has not been observed in the corrupted-mount
+    state described in `nnsight_health.py`, otherwise 503. Intended to
+    be polled by an external health checker so the host can be drained
+    or restarted without having to issue a full (slow) steering request.
+    """
+    healthy, details = get_nnsight_health()
+    payload = {"status": "healthy" if healthy else "unhealthy", **details}
+    return JSONResponse(content=payload, status_code=200 if healthy else 503)
+
+
+USE_TLENS_BRIDGE = False
+
+
+@app.post("/initialize")
+async def initialize(
+    custom_hf_model_id: str | None = None,
+):
+    logger.info("Initializing...")
+    global initialization_error
+    initialization_error = None
+
+    # Move the heavy operations to a separate thread pool to prevent blocking
+    def load_model_and_sae():
+        # Validate inputs
+        df = get_saelens_neuronpedia_directory_df()
+        models = df["model"].unique()
+        sae_sets = df["neuronpedia_set"].unique()
+        # if args.model_id not in models:
+        #     logger.error(
+        #         f"Error: Invalid model_id '{args.model_id}'. Use --list_models to see available options."
+        #     )
+        #     exit(1)
+        # iterate through sae_sets and split them by spaces
+        args_sae_sets = []
+        for sae_set in args.sae_sets:
+            args_sae_sets.extend(sae_set.split())
+        logger.info("SAE sets: %s", args_sae_sets)
+        # logger.info("Checking for invalid SAE sets...")
+        # invalid_sae_sets = set(args_sae_sets) - set(sae_sets)
+        # if invalid_sae_sets:
+        #     logger.error(
+        #         f"Error: Invalid SAE set(s): {', '.join(invalid_sae_sets)}. Use --list_models to see available options."
+        #     )
+        #     exit(1)
+
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+            torch.cuda.reset_peak_memory_stats()
+        gc.collect()
+        torch.set_grad_enabled(False)
+        checkCudaError("cpu")
+        # todo: use multiple devices if available
+        device_count = 1
+
+        SECRET = os.getenv("SECRET")
+
+        logger.info(f"device in args: {args.device}")
+        logger.info(f"device set in args: {args.device}")
+        config = Config(
+            secret=SECRET,
+            model_id=args.model_id,
+            custom_hf_model_id=custom_hf_model_id,
+            sae_sets=args_sae_sets,
+            model_dtype=args.model_dtype,
+            sae_dtype=args.sae_dtype,
+            token_limit=args.token_limit,
+            lens_token_limit=args.lens_token_limit,
+            device=args.device,
+            override_model_id=args.override_model_id,
+            include_sae=args.include_sae,
+            exclude_sae=args.exclude_sae,
+            model_from_pretrained_kwargs=args.model_from_pretrained_kwargs,
+            max_loaded_saes=args.max_loaded_saes,
+            nnsight=args.nnsight,
+            chatspace=args.chatspace,
+        )
+        Config._instance = config
+
+        if args.nnsight:
+            logger.info("Loading model with nnterp...")
+
+            if args.device == "mps":
+                raise RuntimeError(
+                    "nnsight+nnterp is not supported on MPS for this server setup. "
+                    "Use --device cpu, or disable --nnsight."
+                )
+
+            model_to_load = (
+                config.override_model_id
+                if config.override_model_id
+                else config.model_id
+            )
+            logger.info("Model to load: %s", model_to_load)
+            nnsight_kwargs = {}
+            if args.nnsight_max_memory is not None:
+                mem_values = [v.strip() for v in args.nnsight_max_memory.split(",")]
+                num_gpus = torch.cuda.device_count()
+                if len(mem_values) == 1:
+                    nnsight_kwargs["max_memory"] = {
+                        i: f"{mem_values[0]}GiB" for i in range(num_gpus)
+                    }
+                else:
+                    if len(mem_values) != num_gpus:
+                        raise ValueError(
+                            f"nnsight_max_memory has {len(mem_values)} values but found {num_gpus} GPUs"
+                        )
+                    nnsight_kwargs["max_memory"] = {
+                        i: f"{mem_values[i]}GiB" for i in range(num_gpus)
+                    }
+                logger.info("nnsight max_memory: %s", nnsight_kwargs["max_memory"])
+            # Hybrid-attention models (e.g. Qwen3-Next / Qwen3.6) interleave
+            # gated linear-attention layers (module named ``linear_attn``) with
+            # full-attention layers (module named ``self_attn``). nnterp only
+            # looks for ``self_attn`` when standardizing, so the linear-attention
+            # layers fail its renaming check. Tell nnterp to also treat
+            # ``linear_attn`` as the attention module so every layer exposes a
+            # standardized ``self_attn``. This is a no-op for architectures that
+            # don't have a ``linear_attn`` module.
+            rename_config = RenameConfig(attn_name=["self_attn", "linear_attn"])
+            try:
+                model = StandardizedTransformer(
+                    replace_tlens_model_id_with_hf_model_id(model_to_load),
+                    dtype=STR_TO_DTYPE[config.model_dtype],
+                    trust_remote_code=True,
+                    rename_config=rename_config,
+                    # Load only the text stack of multimodal models (e.g.
+                    # Qwen3.6) instead of erroring out / pulling in the vision
+                    # tower. No-op for plain text models.
+                    automodel=TextOnlyAutoModelForCausalLM,
+                    **nnsight_kwargs,
+                )
+            except RecursionError as exc:
+                raise RuntimeError(
+                    "Failed to initialize nnterp StandardizedTransformer due to a recursion error. "
+                    "This is typically caused by an nnterp/nnsight/backend incompatibility for the "
+                    "current model/runtime. Try --device cpu, or disable --nnsight."
+                ) from exc
+        elif args.chatspace:
+            if not VLLM_AVAILABLE:
+                raise RuntimeError(
+                    "chatspace mode requires vLLM, which is only available on Linux. "
+                    "Use a different model loading mode on macOS."
+                )
+            logger.info("Loading model with chatspace VLLM...")
+            model_to_load = (
+                config.override_model_id
+                if config.override_model_id
+                else config.model_id
+            )
+            logger.info("Model to load: %s", model_to_load)
+            cfg = VLLMSteeringConfig(
+                model_name=replace_tlens_model_id_with_hf_model_id(model_to_load),
+                tensor_parallel_size=CHATSPACE_NUM_GPUS,
+                gpu_memory_utilization=CHATSPACE_GPU_MEMORY_UTILIZATION,
+                max_model_len=config.token_limit,
+                dtype=config.model_dtype,
+            )
+            model = VLLMSteerModel(
+                cfg,
+                bootstrap_layers=(),
+                enable_prefix_caching=False,  # this ensures old caches don't "bleed" over to new requests
+                enable_chunked_prefill=False,
+                max_num_batched_tokens=config.token_limit,
+            )
+
+        elif USE_TLENS_BRIDGE == False:
+            logger.info("Loading model...")
+
+            hf_model = None
+            hf_tokenizer = None
+            if custom_hf_model_id is not None:
+                logger.info("Loading custom HF model: %s", custom_hf_model_id)
+                hf_model = AutoModelForCausalLM.from_pretrained(
+                    custom_hf_model_id,
+                    torch_dtype=STR_TO_DTYPE[config.model_dtype],
+                )
+                hf_tokenizer = AutoTokenizer.from_pretrained(custom_hf_model_id)
+
+            model = HookedTransformer.from_pretrained_no_processing(
+                (
+                    config.override_model_id
+                    if config.override_model_id
+                    else config.model_id
+                ),
+                device=args.device,
+                dtype=STR_TO_DTYPE[config.model_dtype],
+                n_devices=device_count,
+                hf_model=hf_model,
+                **({"hf_config": hf_model.config} if hf_model else {}),
+                tokenizer=hf_tokenizer,
+                **config.model_kwargs,
+            )
+
+            # add hook_in to mlp for transcoders
+            def add_hook_in_to_mlp(mlp):  # type: ignore
+                mlp.hook_in = HookPoint()
+                original_forward = mlp.forward
+                mlp.forward = lambda x: original_forward(mlp.hook_in(x))
+
+            for block in model.blocks:
+                add_hook_in_to_mlp(block.mlp)
+            model.setup()
+
+        Model._instance = model
+        if isinstance(model, StandardizedTransformer):
+            config.set_num_layers(model.num_layers)
+        elif VLLM_AVAILABLE and isinstance(model, VLLMSteerModel):
+            config.set_num_layers(model.layer_count)
+        else:
+            config.set_num_layers(model.cfg.n_layers)
+
+        if model.tokenizer:
+            # Some tokenizers (e.g. Qwen2Tokenizer) don't expose
+            # `additional_special_tokens_ids` and their base-class `__getattr__`
+            # raises AttributeError instead of returning a default, so access it
+            # defensively.
+            additional_special_token_ids = (
+                getattr(model.tokenizer, "additional_special_tokens_ids", None) or []
+            )
+            special_token_ids = set(
+                [
+                    model.tokenizer.bos_token_id,  # type: ignore
+                    model.tokenizer.eos_token_id,
+                ]
+                + list(additional_special_token_ids)
+            )
+            special_token_ids = {
+                tid
+                for tid in special_token_ids
+                if tid is not None  # type: ignore
+            }
+            # cache this one time for steering later use
+            config.set_steer_special_token_ids(special_token_ids)  # type: ignore
+
+        logger.info(
+            f"Loaded {config.custom_hf_model_id if config.custom_hf_model_id else config.override_model_id} on {args.device}"
+        )
+        checkCudaError()
+
+        logger.info("Loading SAEs...")
+        SAEManager._instance = SAEManager(config.num_layers, args.device)
+        SAEManager._instance.load_saes()
+
+        # Load the fitted Jacobian lens (best-effort; never fatal). LOGIT_LENS
+        # requests work regardless; JACOBIAN_LENS requests error if this fails.
+        logger.info("Loading Jacobian lens (if available)...")
+        load_jacobian_lens_at_startup(config, args)
+
+        # If a Jacobian lens loaded, run a 1-token pass through the real lens
+        # code now so nnsight's first-trace initialization happens at startup
+        # (otherwise the first JACOBIAN_LENS request returns uniform logits).
+        logger.info("Warming up lens code path (if Jacobian lens available)...")
+        warmup_lens()
+
+        global initialized
+        initialized = True
+        logger.info("Initialized: %s", initialized)
+
+    try:
+        await asyncio.get_event_loop().run_in_executor(None, load_model_and_sae)
+    except Exception as exc:
+        initialization_error = str(exc)
+        logger.exception("Initialization failed")
+        raise
+
+    # After model is loaded, preload chatspace model if needed
+    if args.chatspace and VLLM_AVAILABLE:
+        model = Model.get_instance()
+        if isinstance(model, VLLMSteerModel):
+            logger.info("Preloading chatspace model with a test generation...")
+
+            async def preload_model():
+                prompts = ["Hi"]
+                sampling_params = SamplingParams(temperature=0.1, max_tokens=1)
+                result = await model.generate(prompts, sampling_params)
+                print("result:", result)
+                print("  ✓ Model preloaded successfully")
+
+            await preload_model()
+
+            # Initialize persona data for persona monitoring endpoint
+            config = Config.get_instance()
+            model_id_for_persona = config.override_model_id or config.model_id
+            logger.info(f"Initializing persona data for model: {model_id_for_persona}")
+            initialize_persona_data(model_id_for_persona)
+
+    # After model is loaded, preload chatspace model if needed
+    if args.chatspace and VLLM_AVAILABLE:
+        model = Model.get_instance()
+        if isinstance(model, VLLMSteerModel):
+            logger.info("Preloading chatspace model with a test generation...")
+
+            async def preload_model():
+                prompts = ["Hi"]
+                sampling_params = SamplingParams(temperature=0.1, max_tokens=1)
+                result = await model.generate(prompts, sampling_params)
+                print("result:", result)
+                print("  ✓ Model preloaded successfully")
+
+            await preload_model()
+
+            # Initialize persona data for persona monitoring endpoint
+            config = Config.get_instance()
+            model_id_for_persona = config.override_model_id or config.model_id
+            logger.info(f"Initializing persona data for model: {model_id_for_persona}")
+            initialize_persona_data(model_id_for_persona)
+
+
+@app.middleware("http")
+async def check_secret_key(
+    request: Request, call_next: Callable[[Request], Awaitable[Response]]
+) -> Response:
+    if request.url.path in ("/health", "/health/nnsight"):
+        return await call_next(request)
+
+    config = Config.get_instance()
+    if config.secret is None:
+        return await call_next(request)
+    secret_key = request.headers.get("X-SECRET-KEY")
+    if not secret_key or secret_key != config.secret:
+        return JSONResponse(
+            status_code=401,
+            content={"error": "Invalid or missing X-SECRET-KEY header"},
+        )
+    return await call_next(request)
+
+
+@app.middleware("http")
+async def check_model(
+    request: Request, call_next: Callable[[Request], Awaitable[Response]]
+) -> Response:
+    config = Config.get_instance()
+
+    if request.method == "POST":
+        try:
+            body = await request.json()
+            if "model" in body and (
+                body["model"] != config.model_id
+                and body["model"] != config.override_model_id
+                and body["model"] != config.custom_hf_model_id
+            ):
+                logger.error("Unsupported model: %s", body["model"])
+                return JSONResponse(
+                    content={"error": "Unsupported model"}, status_code=400
+                )
+        except (json.JSONDecodeError, ValueError):
+            pass
+
+    return await call_next(request)
+
+
+@app.middleware("http")
+async def log_and_check_cuda_error(
+    request: Request, call_next: Callable[[Request], Awaitable[Response]]
+) -> Response:
+    if not initialized:
+        error_details = (
+            f" Initialization error: {initialization_error}"
+            if initialization_error
+            else ""
+        )
+        return JSONResponse(
+            status_code=500,
+            content={"error": f"Server not initialized.{error_details}"},
+        )
+    logger.info("=== Request Info ===")
+    logger.info(f"URL: {request.url}")
+
+    # try:
+    #     body = await request.body()
+    #     if body:
+    #         logger.info(f"Body: {body.decode()}")
+    # except Exception as e:
+    #     logger.error(f"Error reading body: {str(e)}")
+
+    return await call_next(request)
+
+
+@app.exception_handler(Exception)
+async def generic_exception_handler(request: Request, exc: Exception):  # noqa: ARG001
+    detect_and_mark(exc)
+    return JSONResponse(
+        status_code=500,
+        content={
+            "error": str(exc),
+            "type": type(exc).__name__,
+            # Optionally include traceback in development
+            "traceback": traceback.format_exc() if app.debug else None,
+        },
+    )
+
+
+def main():
+    if os.getenv("SENTRY_DSN"):
+        logger.info("Initializing Sentry")
+        sentry_sdk.init(
+            dsn=os.getenv("SENTRY_DSN"),
+            traces_sample_rate=1.0,
+            _experiments={
+                "continuous_profiling_auto_start": True,
+            },
+            environment=",".join(args.sae_sets),
+        )
+    else:
+        logger.info("SENTRY_DSN not set, skipping Sentry initialization")
+
+    if args.list_models:
+        list_available_options()
+        sys.exit(0)
+
+    return app

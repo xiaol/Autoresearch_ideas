@@ -1,0 +1,505 @@
+'use client';
+
+import {
+  ACTIVATION_DISPLAY_DEFAULT_CONTEXT_TOKENS,
+  LINE_BREAK_REPLACEMENT_CHAR,
+  makeActivationBackgroundColorWithDFA,
+  replaceHtmlAnomalies,
+} from '@/lib/utils/activations';
+import { cn } from '@/lib/utils/ui';
+import * as Tooltip from '@radix-ui/react-tooltip';
+import { Copy } from 'lucide-react';
+import { ActivationPartialWithRelations } from 'prisma/generated/zod';
+import { useEffect, useMemo, useState } from 'react';
+import ActivationItemTokenTooltip from './activation-item-token-tooltip';
+
+const ACTIVATION_MAX_COPY_TOKENS = 512;
+const DFA_TARGET_TOKEN_CLASSNAME = 'border-2 border-orange-400';
+const DFA_SOURCE_TOKEN_CLASSNAME = 'border-2 border-emerald-400';
+const REGULAR_TOKEN_CLASSNAME = 'border-2 border-transparent hover:bg-slate-200';
+export const CENTER_ME_CLASSNAME = 'center-me';
+
+// TODO: support more types
+const START_TOKEN = ['<|start|>', '<|begin_of_text|>', '<|start_header_id|>', '<start_of_turn>', '<|im_start|>'];
+const END_TOKEN = ['<|end|>', '<|eot_id|>', '<|im_end|>', '<end_of_turn>'];
+const MESSAGE_TOKEN = ['<|message|>', '<|end_header_id|>'];
+const CHANNEL_TOKEN = '<|channel|>';
+const BOS_TOKEN = ['<bos>'];
+
+const CHAT_ROLE_NAMES = ['system', 'user', 'assistant'];
+
+const BOTTOM_ACTIVATION_DATA_SOURCE = 'bottom';
+
+export default function ActivationItem({
+  activation,
+  // only use this if you want the activation colors to be relative to other activations in a list
+  // otherwise, we assume that the darkest green will be the max activation value of the tokens
+  // in this activation text
+  overallMaxActivationValueInList = activation.maxValue || 0,
+  tokensToDisplayAroundMaxActToken = 10000,
+  showLineBreaks = false,
+  setActivationTestText,
+  showTopActivationToken = false,
+  centerAndBorderOnTokenIndex = undefined,
+  enableExpanding = true,
+  dfa = false,
+  dfaSplit = false,
+  showCopy = true,
+  overrideTextSize = 'text-xs',
+  overrideLeading = 'leading-none sm:leading-tight',
+  overrideTextColor = 'text-slate-600',
+  className,
+  showRawTokens = true,
+}: {
+  activation: ActivationPartialWithRelations;
+  overallMaxActivationValueInList?: number;
+  tokensToDisplayAroundMaxActToken?: number;
+  showLineBreaks?: boolean;
+  setActivationTestText?: (value: string) => void;
+  showTopActivationToken?: boolean;
+  centerAndBorderOnTokenIndex?: number;
+  enableExpanding?: boolean;
+  dfa?: boolean;
+  dfaSplit?: boolean;
+  showCopy?: boolean;
+  overrideTextSize?: string;
+  overrideLeading?: string;
+  overrideTextColor?: string;
+  className?: string;
+  showRawTokens?: boolean;
+}) {
+  const [currentRange, setCurrentRange] = useState(tokensToDisplayAroundMaxActToken);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [dfaMaxIndex, setDfaMaxIndex] = useState(0);
+  const [zHoveredTargetIndex, setZHoveredTargetIndex] = useState<number | null>(null);
+
+  const maxActivationTokenIndex = activation.maxValueTokenIndex || 0;
+  const maxActivationValue = activation.maxValue || 0;
+  const maxDfaTokenIndex = activation.dfaValues?.indexOf(Math.max(...activation.dfaValues)) || 0;
+  const maxDfaValue = activation.dfaMaxValue || 0;
+  const zLength = Math.min(
+    activation.zQIndices?.length || 0,
+    activation.zKIndices?.length || 0,
+    activation.zValues?.length || 0,
+  );
+  const hasZPattern = zLength > 0;
+  const effectiveDfa = dfa && !hasZPattern;
+
+  const isBottomActivation = activation.dataSource === BOTTOM_ACTIVATION_DATA_SOURCE;
+  const minActivationTokenIndex = activation.values ? activation.values.indexOf(Math.min(...activation.values)) : 0;
+
+  // For bottom activations, center around the most negative value; otherwise center around max
+  const anchorTokenIndex = isBottomActivation ? minActivationTokenIndex : maxActivationTokenIndex;
+
+  const hasImStartToken = activation.tokens?.some((t) => t === '<|im_start|>') || false;
+
+  let firstTokenShown = -1;
+
+  useEffect(() => {
+    if (!isExpanded) {
+      setCurrentRange(tokensToDisplayAroundMaxActToken);
+    } else {
+      setCurrentRange(10000);
+    }
+  }, [isExpanded]);
+
+  useEffect(() => {
+    if (effectiveDfa) {
+      setDfaMaxIndex(activation.dfaValues?.indexOf(Math.max(...activation.dfaValues)) || 0);
+    }
+  }, [effectiveDfa, activation.dfaValues]);
+
+  const zContributionsBySource = useMemo(() => {
+    const contributions = new Map<number, number>();
+    if (!hasZPattern || zHoveredTargetIndex === null) {
+      return contributions;
+    }
+    for (let i = 0; i < zLength; i += 1) {
+      const q = activation.zQIndices?.[i];
+      const k = activation.zKIndices?.[i];
+      const v = activation.zValues?.[i];
+      if (q === undefined || k === undefined || v === undefined) {
+        continue;
+      }
+      // In Neuronpedia exports, zQ acts like source and zK acts like target.
+      // Hovered token is target; highlight source contributors.
+      if (k === zHoveredTargetIndex) {
+        contributions.set(q, (contributions.get(q) || 0) + v);
+      }
+    }
+    return contributions;
+  }, [activation.zKIndices, activation.zQIndices, activation.zValues, hasZPattern, zHoveredTargetIndex, zLength]);
+
+  const zHoveredMaxContribution = useMemo(() => {
+    let maxContribution = 0;
+    zContributionsBySource.forEach((value) => {
+      if (value > maxContribution) {
+        maxContribution = value;
+      }
+    });
+    return maxContribution;
+  }, [zContributionsBySource]);
+
+  function tokenIsInRangeOfAnchorToken(tokenIndex: number, maxIndex: number) {
+    if (!activation.tokens) {
+      return false;
+    }
+    return tokenIndex > maxIndex - currentRange && tokenIndex < maxIndex + currentRange;
+  }
+
+  function hasNextToken(tokenIndex: number) {
+    return tokenIndex < (activation.tokens?.length || 0) - 1;
+  }
+
+  function nextTokenIsMessageEndOrChannelToken(tokenIndex: number) {
+    return (
+      hasNextToken(tokenIndex) &&
+      (MESSAGE_TOKEN.includes(activation.tokens?.[tokenIndex + 1] || '') ||
+        END_TOKEN.includes(activation.tokens?.[tokenIndex + 1] || ''))
+    );
+  }
+
+  function tokenIsRoleToken(tokenIndex: number) {
+    const modelId = activation.modelId || '';
+    const isGemmaInstruct = modelId.startsWith('gemma-2-') || modelId.startsWith('gemma-3-');
+    // Qwen format can start with a bare role name (e.g. "system") without a preceding <|im_start|>
+    if (
+      hasImStartToken &&
+      tokenIndex === 0 &&
+      CHAT_ROLE_NAMES.includes(activation.tokens?.[0] || '') &&
+      activation.tokens?.[1] === '\n'
+    ) {
+      return true;
+    }
+    return (
+      tokenIndex > 0 &&
+      START_TOKEN.includes(activation.tokens?.[tokenIndex - 1] || '') &&
+      (END_TOKEN.includes(activation.tokens?.[tokenIndex + 1] || '') ||
+        MESSAGE_TOKEN.includes(activation.tokens?.[tokenIndex + 1] || '') ||
+        (isGemmaInstruct && activation.tokens?.[tokenIndex + 1] === '\n') ||
+        (hasImStartToken && activation.tokens?.[tokenIndex + 1] === '\n') ||
+        CHANNEL_TOKEN === activation.tokens?.[tokenIndex + 1])
+    );
+  }
+
+  function prevTokenIsChannelToken(tokenIndex: number) {
+    return tokenIndex > 0 && activation.tokens?.[tokenIndex - 1] === CHANNEL_TOKEN;
+  }
+
+  function shouldShowToken(tokenIndex: number) {
+    if (!activation.tokens) {
+      return false;
+    }
+    if (activation.maxValue === 0) {
+      // show the middle of the text
+      return (
+        tokenIndex > activation.tokens.length / 2 - currentRange &&
+        tokenIndex < activation.tokens.length / 2 + currentRange
+      );
+    }
+
+    let toReturn = false;
+    const isInMaxActBuffer =
+      tokenIndex > anchorTokenIndex - currentRange && tokenIndex < anchorTokenIndex + currentRange;
+    if (effectiveDfa && activation.dfaTargetIndex !== undefined && activation.dfaTargetIndex !== null) {
+      const isInDFASourceBuffer =
+        tokenIndex > maxDfaTokenIndex - currentRange && tokenIndex < maxDfaTokenIndex + currentRange;
+      const isInTargetDFABuffer =
+        tokenIndex > activation.dfaTargetIndex - currentRange && tokenIndex < activation.dfaTargetIndex + currentRange;
+      toReturn = isInDFASourceBuffer || isInTargetDFABuffer;
+    } else {
+      toReturn = isInMaxActBuffer;
+    }
+    if (toReturn === true && firstTokenShown === -1) {
+      firstTokenShown = tokenIndex;
+    }
+
+    // if we're not showing raw tokens (eg we should hide special tokens for chat/etc), then hide depending on what token this is and what tokens are around it
+    if (!showRawTokens) {
+      if (
+        START_TOKEN.includes(activation.tokens?.[tokenIndex] || '') ||
+        END_TOKEN.includes(activation.tokens?.[tokenIndex] || '') ||
+        MESSAGE_TOKEN.includes(activation.tokens?.[tokenIndex] || '') ||
+        BOS_TOKEN.includes(activation.tokens?.[tokenIndex] || '') ||
+        activation.tokens?.[tokenIndex] === CHANNEL_TOKEN
+      ) {
+        return false;
+      }
+    }
+
+    return toReturn;
+  }
+
+  return (
+    <div
+      className={cn(
+        `flex w-full flex-row ${isExpanded || tokensToDisplayAroundMaxActToken > 100 ? 'items-start' : 'items-center'} justify-start gap-x-2`,
+        className,
+      )}
+    >
+      {showTopActivationToken && (
+        <div className="flex flex-row items-center gap-x-1.5">
+          {effectiveDfa && (
+            <div className="hidden items-center justify-start gap-y-0.5 whitespace-nowrap pr-1 text-center font-mono text-[10px] leading-normal text-slate-600 sm:flex sm:w-16 sm:flex-col">
+              <div className="rounded bg-slate-100 px-1.5 font-bold">
+                {activation.tokens && replaceHtmlAnomalies(activation.tokens[maxDfaTokenIndex])}
+              </div>
+              {activation.dfaValues && (
+                <div className="font-sans font-semibold text-orange-500">
+                  {maxDfaValue?.toFixed(maxDfaValue.toFixed(2) === '0.00' ? 3 : 2)}
+                </div>
+              )}
+            </div>
+          )}
+          <div className="hidden items-center justify-start gap-y-0.5 whitespace-nowrap py-1 pr-1 text-center font-mono text-[10px] leading-normal text-slate-600 sm:flex sm:w-16 sm:flex-col">
+            <div className="rounded bg-slate-100 px-1.5 font-bold">
+              {activation.tokens && replaceHtmlAnomalies(activation.tokens[anchorTokenIndex])}
+            </div>
+            <div className={`font-sans font-semibold ${isBottomActivation ? 'text-rose-600' : 'text-emerald-600'}`}>
+              {isBottomActivation
+                ? activation.minValue?.toFixed(Math.abs(activation.minValue).toFixed(2) === '0.00' ? 3 : 2)
+                : maxActivationValue?.toFixed(maxActivationValue.toFixed(2) === '0.00' ? 3 : 2)}
+            </div>
+          </div>
+        </div>
+      )}
+      <div
+        // if it's the smallest range and we're split in dfa mode, then force it to be stacked
+        className={`flex-1 ${
+          effectiveDfa === true &&
+          dfaSplit === true &&
+          currentRange === ACTIVATION_DISPLAY_DEFAULT_CONTEXT_TOKENS[0].size &&
+          'flex w-full flex-row items-center overflow-hidden'
+        } ${!showRawTokens && 'sm:ml-2.5'} ${overrideLeading}`}
+        onClick={() => {
+          if (enableExpanding) {
+            setIsExpanded(!isExpanded);
+          }
+        }}
+      >
+        {/* if we have DFA and we're split and it isn't expanded, these are the tokens on the left side (max DFA values (orange background), the DFA source) */}
+        {effectiveDfa && dfaSplit && !isExpanded && activation.tokens && (
+          <>
+            {activation.tokens.map((token, tokenIndex) => {
+              const tokenWithReplacedAnomalies = replaceHtmlAnomalies(token);
+              const tokenEndsWithSpace = tokenWithReplacedAnomalies.endsWith(' ');
+              const tokenStartsWithSpace = tokenWithReplacedAnomalies.startsWith(' ');
+              // When the token is purely whitespace, swap each whitespace char with a
+              // non-breaking space so the span keeps a normal character line-height
+              // (otherwise the background gradient ends up shorter than neighboring tokens).
+              const displayContent =
+                tokenWithReplacedAnomalies.length > 0 && tokenWithReplacedAnomalies.trim() === ''
+                  ? tokenWithReplacedAnomalies.replace(/\s/g, '\u00A0')
+                  : tokenWithReplacedAnomalies;
+              if (tokenIsInRangeOfAnchorToken(tokenIndex, dfaMaxIndex)) {
+                return (
+                  <span key={tokenIndex}>
+                    <Tooltip.Provider skipDelayDuration={0} delayDuration={0}>
+                      <Tooltip.Root disableHoverableContent>
+                        <Tooltip.Trigger asChild>
+                          <span
+                            className={`inline-block cursor-default whitespace-nowrap bg-origin-border font-mono ${
+                              !dfaSplit && tokenIndex === activation.dfaTargetIndex
+                                ? DFA_TARGET_TOKEN_CLASSNAME
+                                : effectiveDfa && tokenIndex === dfaMaxIndex
+                                  ? DFA_SOURCE_TOKEN_CLASSNAME
+                                  : REGULAR_TOKEN_CLASSNAME
+                            } ${tokenEndsWithSpace && 'pr-1'} ${tokenStartsWithSpace && 'pl-1'} ${
+                              activation.lossValues &&
+                              (activation.lossValues[tokenIndex] > 0
+                                ? 'border-b-red-400'
+                                : activation.lossValues[tokenIndex] < 0
+                                  ? 'border-b-blue-400'
+                                  : '')
+                            } ${!showRawTokens && tokenIsRoleToken(tokenIndex) && '-ml-2 mr-1 mt-1 rounded bg-slate-300'} ${!showRawTokens && prevTokenIsChannelToken(tokenIndex) && 'mt-1 rounded bg-slate-200'} ${overrideTextColor} ${overrideTextSize} `}
+                            style={{
+                              backgroundImage: dfaSplit
+                                ? makeActivationBackgroundColorWithDFA(
+                                    activation.dfaMaxValue ? activation.dfaMaxValue : 0,
+                                    activation.dfaValues ? activation.dfaValues[tokenIndex] : 0,
+                                    '251, 146, 60',
+                                  )
+                                : makeActivationBackgroundColorWithDFA(
+                                    overallMaxActivationValueInList,
+                                    activation.values ? activation.values[tokenIndex] : 0,
+                                    '52, 211, 153',
+                                    activation.dfaValues ? activation.dfaValues[tokenIndex] : 0,
+                                    activation.dfaMaxValue ? activation.dfaMaxValue : 0,
+                                  ),
+                            }}
+                          >
+                            {displayContent}
+                          </span>
+                        </Tooltip.Trigger>
+                        <ActivationItemTokenTooltip
+                          activation={activation}
+                          token={token}
+                          tokenIndex={tokenIndex}
+                          dfaMaxIndex={dfaMaxIndex}
+                        />
+                      </Tooltip.Root>
+                      {((!showRawTokens && nextTokenIsMessageEndOrChannelToken(tokenIndex)) ||
+                        ((token.indexOf('\n') !== -1 || tokenWithReplacedAnomalies === LINE_BREAK_REPLACEMENT_CHAR) &&
+                          showLineBreaks)) && <br />}
+                    </Tooltip.Provider>
+                  </span>
+                );
+              }
+              return '';
+            })}
+            {/* this is the separator between the DFA and the max activations */}
+            <span className="inline-block w-full" />
+          </>
+        )}
+
+        {/* in all cases, we should display the activations / max activation (green background) */}
+        {activation.tokens &&
+          activation.tokens.map((token, tokenIndex) => {
+            const tokenWithReplacedAnomalies = replaceHtmlAnomalies(token);
+            const tokenEndsWithSpace = tokenWithReplacedAnomalies.endsWith(' ');
+            const tokenStartsWithSpace = tokenWithReplacedAnomalies.startsWith(' ');
+            // When the token is purely whitespace, swap each whitespace char with a
+            // non-breaking space so the span keeps a normal character line-height
+            // (otherwise the background gradient ends up shorter than neighboring tokens).
+            const displayContent =
+              tokenWithReplacedAnomalies.length > 0 && tokenWithReplacedAnomalies.trim() === ''
+                ? tokenWithReplacedAnomalies.replace(/\s/g, '\u00A0')
+                : tokenWithReplacedAnomalies;
+            if (
+              effectiveDfa && dfaSplit
+                ? tokenIsInRangeOfAnchorToken(tokenIndex, anchorTokenIndex)
+                : shouldShowToken(tokenIndex)
+            ) {
+              return (
+                <span key={tokenIndex}>
+                  {effectiveDfa &&
+                    !dfaSplit &&
+                    tokenIndex > 0 &&
+                    shouldShowToken(tokenIndex - 1) === false &&
+                    firstTokenShown !== tokenIndex && (
+                      <Tooltip.Provider skipDelayDuration={0} delayDuration={0}>
+                        <Tooltip.Root disableHoverableContent>
+                          <Tooltip.Trigger asChild>
+                            <span className="inline-block cursor-pointer rounded-full border-2 border-x-[4px] border-white bg-slate-100 bg-origin-border px-[4px] py-0 text-[11px] font-medium text-slate-500 hover:bg-sky-200 hover:text-sky-700">
+                              ⋯
+                            </span>
+                          </Tooltip.Trigger>
+                          <Tooltip.Portal>
+                            <Tooltip.Content
+                              className="z-50 flex w-full flex-col items-center gap-y-1.5 rounded border bg-amber-50 px-4 py-2 text-center text-xs font-semibold text-slate-700 shadow"
+                              sideOffset={6}
+                            >
+                              View Full Context
+                            </Tooltip.Content>
+                          </Tooltip.Portal>
+                        </Tooltip.Root>
+                      </Tooltip.Provider>
+                    )}
+                  <Tooltip.Provider skipDelayDuration={0} delayDuration={0}>
+                    <Tooltip.Root disableHoverableContent>
+                      <Tooltip.Trigger asChild>
+                        <span
+                          className={`${centerAndBorderOnTokenIndex === tokenIndex ? CENTER_ME_CLASSNAME : ''} inline-block cursor-default whitespace-nowrap bg-origin-border font-mono ${
+                            hasZPattern && zHoveredTargetIndex === tokenIndex
+                              ? DFA_TARGET_TOKEN_CLASSNAME
+                              : effectiveDfa && tokenIndex === activation.dfaTargetIndex
+                                ? DFA_TARGET_TOKEN_CLASSNAME
+                                : effectiveDfa && (!dfaSplit || isExpanded) && tokenIndex === dfaMaxIndex
+                                  ? DFA_SOURCE_TOKEN_CLASSNAME
+                                  : centerAndBorderOnTokenIndex === tokenIndex
+                                    ? 'border border-slate-600'
+                                    : REGULAR_TOKEN_CLASSNAME
+                          } ${tokenEndsWithSpace && 'pr-1'} ${tokenStartsWithSpace && 'pl-1'} ${
+                            activation.lossValues &&
+                            (activation.lossValues[tokenIndex] > 0
+                              ? 'border-b-red-400'
+                              : activation.lossValues[tokenIndex] < 0
+                                ? 'border-b-blue-400'
+                                : '')
+                          } ${!showRawTokens && tokenIsRoleToken(tokenIndex) && '-ml-2 mr-1 mt-1 rounded bg-slate-300'} ${!showRawTokens && prevTokenIsChannelToken(tokenIndex) && 'mt-1 rounded bg-slate-200'} ${overrideTextColor} ${overrideTextSize} `}
+                          style={{
+                            backgroundImage: (() => {
+                              const tokenValue = activation.values ? activation.values[tokenIndex] : 0;
+                              const isNegativeToken = tokenValue < 0;
+                              // For bottom activations with negative token values, use red; otherwise use green
+                              const useRed = isBottomActivation && isNegativeToken;
+                              const zHoverContribution =
+                                hasZPattern && zHoveredTargetIndex !== null
+                                  ? Math.max(0, zContributionsBySource.get(tokenIndex) || 0)
+                                  : 0;
+                              return makeActivationBackgroundColorWithDFA(
+                                useRed ? Math.abs(activation.minValue || 0) : overallMaxActivationValueInList,
+                                useRed ? Math.abs(tokenValue) : tokenValue,
+                                useRed ? '253, 164, 175' : '52, 211, 153',
+                                hasZPattern
+                                  ? zHoverContribution
+                                  : (!dfaSplit || isExpanded) && activation.dfaValues
+                                    ? activation.dfaValues[tokenIndex]
+                                    : 0,
+                                hasZPattern
+                                  ? zHoveredMaxContribution
+                                  : (!dfaSplit || isExpanded) && activation.dfaMaxValue
+                                    ? activation.dfaMaxValue
+                                    : 0,
+                              );
+                            })(),
+                          }}
+                          onMouseEnter={() => {
+                            if (hasZPattern) {
+                              setZHoveredTargetIndex(tokenIndex);
+                            }
+                          }}
+                          onMouseLeave={() => {
+                            if (hasZPattern) {
+                              setZHoveredTargetIndex(null);
+                            }
+                          }}
+                        >
+                          {displayContent}
+                        </span>
+                      </Tooltip.Trigger>
+                      <ActivationItemTokenTooltip
+                        activation={activation}
+                        token={token}
+                        tokenIndex={tokenIndex}
+                        dfaMaxIndex={dfaMaxIndex}
+                      />
+                    </Tooltip.Root>
+                    {((!showRawTokens && nextTokenIsMessageEndOrChannelToken(tokenIndex)) ||
+                      ((token.indexOf('\n') !== -1 || tokenWithReplacedAnomalies === LINE_BREAK_REPLACEMENT_CHAR) &&
+                        showLineBreaks)) && <br />}
+                  </Tooltip.Provider>
+                </span>
+              );
+            }
+            return '';
+          })}
+      </div>
+      {showCopy && setActivationTestText && (
+        <div className="mt-0 flex flex-row items-center justify-end">
+          <button
+            type="button"
+            className="flex cursor-pointer flex-row rounded bg-slate-100 p-1.5 text-[10px] font-medium text-slate-400 hover:bg-slate-200"
+            title="Copy/Remix"
+            onClick={() => {
+              const wholeString = activation.tokens?.join('') || '';
+              // truncate to the tokens around the max activation
+              if (activation.values && activation.tokens && activation.values.length > ACTIVATION_MAX_COPY_TOKENS) {
+                const maxIndex = activation.values?.indexOf(Math.max(...activation.values!));
+                const startIndex = Math.max(0, maxIndex - ACTIVATION_MAX_COPY_TOKENS / 2);
+                const endIndex = Math.min(activation.tokens?.length, maxIndex + ACTIVATION_MAX_COPY_TOKENS / 2);
+                const truncatedString = activation.tokens?.slice(startIndex, endIndex);
+                setActivationTestText(truncatedString.join(''));
+              } else {
+                setActivationTestText(wholeString);
+              }
+              window.scrollTo(0, 0);
+            }}
+          >
+            <Copy className="h-3 w-3" />
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}

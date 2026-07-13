@@ -1,0 +1,154 @@
+---
+title: 'Collaborating on Circuits, New Graph Features, and a Fellowship Opportunity'
+description: 'Interpretability Orgs, Assemble! 📜🧠🔥🗽🔍'
+date: 2025-08-06
+author: Johnny Lin
+image: ASSET_BASE_URL/blog/post-preview-min.jpg
+imagePreview: ASSET_BASE_URL/blog/post-preview-min.jpg
+---
+
+# In This Edition
+
+🔊 Summary by NotebookLM - The Babble on [[Apple]](https://podcasts.apple.com/us/podcast/the-babble-a-neuronpedia-podcast-by-notebooklm/id1809283401?i=1000720842328) [[Spotify]](https://creators.spotify.com/pod/profile/neuronpedia/episodes/Ep--4-Interpretability-Orgs--Assemble-e36gn1b)
+
+- **The Circuit Analysis Research Landscape**: A collaborative post on circuit tracing and cross-layer transcoders (CLTs), including research extensions, perspectives, and future directions. Co-authored by Anthropic, Google DeepMind, Goodfire AI, EleutherAI, and Decode. [[Read the Post]](https://www.neuronpedia.org/graph/info) [[Tweets with GIFs]](https://x.com/neuronpedia/status/1952782534666010715) [[YouTube Tutorial]](https://www.youtube.com/playlist?list=PL05yUGfKO5wP6S5_12z7LG30LZigRYx1e) [[Open Source CLTs]](https://huggingface.co/collections/mntss/cross-layer-transcoders-688c39eaa8d5562e9c864055) [[circuit-tracer v0.2]](https://github.com/safety-research/circuit-tracer) [[clt-training GitHub]](https://github.com/EleutherAI/clt-training)
+
+- **New Graph Features**: Neuronpedia's circuit tracer interface now supports steering/interventions, Qwen3 4B graph generation, horizontally scrollable link graphs for long prompts, and other fixes. [[Circuit Tracer]](https://www.neuronpedia.org/graph) [[Qwen3 4B Graph]](https://www.neuronpedia.org/qwen3-4b/graph?slug=qwen-name&pruningThreshold=0.73&densityThreshold=0.99)
+
+- **Fellowship with Neel Nanda (MATS)**: (All experience levels are welcome - many past scholars have had no past experience.) Learn and publish research under the supervision of Neel Nanda, lead of the mech interp team at Google DeepMind. This full-time fellowship comes with a stipend and provides other financial support including housing, transportation, etc. [[Application due August 29th]](https://tinyurl.com/neel-mats-app)
+
+---
+
+# Post: The Circuit Analysis Research Landscape
+
+[[Read the Post]](https://www.neuronpedia.org/graph/info) [[Tweets with GIFs]](https://x.com/neuronpedia/status/1952782534666010715) [[YouTube Tutorial]](https://www.youtube.com/playlist?list=PL05yUGfKO5wP6S5_12z7LG30LZigRYx1e) [[Open Source CLTs]](https://huggingface.co/collections/mntss/cross-layer-transcoders-688c39eaa8d5562e9c864055) [[circuit-tracer v0.2 GitHub]](https://github.com/safety-research/circuit-tracer) [[clt-training GitHub]](https://github.com/EleutherAI/clt-training)
+
+<figure>
+  <img src="ASSET_BASE_URL/blog/fiveorgs.jpg" alt="" />
+</figure>
+
+#### Background
+
+An awesome thing about Anthropic's recent circuits/biology release was that they [open sourced the tools](https://www.anthropic.com/research/open-source-circuit-tracing) with Anthropic Fellows Michael Hanna and Mateusz Piotrowski, and also expended significant time helping other interpretability orgs (like us!) to understand and properly implement their work.
+
+#### The Perks of Collaboration
+
+Of course, the objective of onboarding others to a promising research direction is so that they, too, can contribute to making more overall progress to the science. Today, we report on that progress - the result of a multi-org collaboration by [Anthropic](https://www.anthropic.com/research#interpretability), [Google DeepMind](https://deepmindsafetyresearch.medium.com/), [Goodfire AI](https://www.goodfire.ai/), [EleutherAI](https://www.eleuther.ai/), and [Decode Research](https://www.decoderesearch.org/) - in [The Circuit Analysis Research Landscape](https://www.neuronpedia.org/graph/info).
+
+Open source collaboration enabled each organization to contribute their strengths, to efficiently verify and review, and also to optimize time/resources to avoid duplicate efforts. For instance, in section three ([_Transcoder Architecture and Implementation_](https://www.neuronpedia.org/graph/info#section-transcoder-architecture-and-implementation)), four teams of researchers divided up the work of developing, training, optimizing, and benchmarking _eleven types of transcoder architectures across multiple models_ - a breadth that would have been burdensome and surely slower to achieve than with a single team.
+
+We're tremendously optimistic on the potential of future cross-organization collaborations for advancing interpretability, and both grateful and proud to support it on Neuronpedia. Check out [the post here](https://www.neuronpedia.org/graph/info).
+
+#### New Resources
+
+Significant code and artifacts from this post that you can use immediately:
+
+- [Attribution Graphs for Dummies](https://www.youtube.com/playlist?list=PL05yUGfKO5wP6S5_12z7LG30LZigRYx1e): A two-part YouTube series that walks you through what attribution graphs are, and how to generate and analyze circuits. Hosted by researchers at Anthropic, Google DeepMind, and Goodfire AI.
+- [`circuit-tracer v0.2.0`](https://github.com/safety-research/circuit-tracer): Cross-layer transcoder (CLT) support, memory improvements, text generation improvements, and better support for new models.
+- [Open Source CLTs](https://huggingface.co/collections/mntss/cross-layer-transcoders-688c39eaa8d5562e9c864055): Cross-layer transcoders for Llama 3.2 1B and Gemma 2 2B.
+- [`clt-training`](https://github.com/EleutherAI/clt-training): A CLT training library by EleutherAI that's optimized for low-GPU environments.
+
+---
+
+# Graph Updates: Steering, Qwen4 4B, UI for Long Prompts
+
+[[Circuit Tracer]](https://www.neuronpedia.org/graph) [[Qwen3-4B Graph]](https://www.neuronpedia.org/qwen3-4b/graph?slug=qwen-name&pruningThreshold=0.73&densityThreshold=0.99) [[YouTube Steering Demo](https://youtu.be/hdi1a9MjwDs?feature=shared&t=3717)]
+
+#### Steering nodes and supernodes (groups of features)
+
+Once you've generated an attribution graph from a prompt, built a subgraph based on your hypotheses of the model's internal reasoning process, and you've grouped features into supernodes, it's time to **test** your hypotheses and circuits to see if you were right. You can now test by steering both nodes and supernodes directly from the Neuronpedia graph interface!
+
+<figure>
+  <img
+    src="ASSET_BASE_URL/blog/steer-graph.gif"
+    alt="Here, we negatively steer on two steps of the reasoning process to verify our circuit hypotheses."
+  />
+  <figcaption className="text-xs text-slate-500">
+    Here, we negatively steer on two steps of the 'Dallas state capital' reasoning process to verify our circuit
+    hypotheses.
+  </figcaption>
+</figure>
+
+Using [the example](https://www.neuronpedia.org/gemma-2-2b/graph?slug=gemma-fact-dallas-austin&pruningThreshold=0.6&densityThreshold=0.99) of "The capital of the state containing Dallas is" (Austin), our hypothesis is roughly:
+
+Dallas ➡️ Texas ➡️ capital ➡️ Austin
+
+Above, we negatively steer two supernodes separately.
+
+1. Interrupting the "capital" step:
+   Dallas ➡️ Texas ➡️ ❓ ➡️ Texas
+
+2. Interrupting the "Texas" step:
+   Dallas ➡️ ❓➡️ capital ➡️ Albany (New York's capital)
+
+In both cases, our steering outputs supported our circuit hypothesis. While this doesn't _prove_ that the circuit hypotheses are correct, it's still pretty strong evidence that we're on the right track.
+
+#### Steering with Features not in the Graph
+
+Sometimes, you may want to steer with a feature that's not already in the graph. Here, we steer the same Dallas graph with a California feature, which causes the model to output Sacramento as the capital.
+
+<figure>
+  <img
+    src="ASSET_BASE_URL/blog/graph-steer-add.gif"
+    alt="Here, we steer using a California feature, to change the output for the capital of Texas to Sacramento."
+  />
+  <figcaption className="text-xs text-slate-500">
+    Here, we steer using a California feature, to change the output for the capital of Texas to Sacramento.
+  </figcaption>
+</figure>
+
+The steps demonstrated in the above video:
+
+1. Click "+ Add Feature"
+2. Search for the feature you want (Protip: Select the later layers - you can choose multiple layers.)
+3. Pick the feature to steer and the position it might be most relevant for.
+4. Update the steering strength, and click steer.
+
+#### Generate Graphs with Qwen3 4B
+
+We're expanding beyond Gemma 2 2B, thanks to the availability of [Qwen3 4B transcoders](https://huggingface.co/mwhanna/qwen3-4b-transcoders) from the Anthropic Fellows. Importantly, Qwen3 4B is a "reasoning"/"thinking" model, so it should be interesting to see how the internal reasoning of the model compares to its "external" reasoning (visible chain of thought tokens).
+
+To use it, simply click "+ New Graph", but be sure to click the dropdown for the model, and select "Qwen3-4B". Here's an [example Qwen3 4B graph](https://www.neuronpedia.org/qwen3-4b/graph?slug=qwen-name&pruningThreshold=0.73&densityThreshold=0.99).
+
+**Important Usage Notes & Limitations**
+
+- **Limited to 64 Tokens**: We'll soon expand this as soon as we add some memory optimizations (esp from the new circuit-tracer v0.2) and benchmark it, but for now your prompts have a maximum of 64 tokens.
+- **Steering Not Enabled**: Due to some edge cases with the special tokens, we'll enable steering on Qwen3-4B in the near future.
+
+#### Horizontal Scrolling for Longer Prompts
+
+With the addition of thinking models and inevitably, much longer prompts, we'll need multiple solutions to address the clutter of hundreds, if not thousands of tokens and nodes. This will be a multi-step project, but we're starting simply by adding an "Expand" toggle for graphs that are longer than 16 tokens.
+
+Enabling the "Expand" toggle makes the link/attribution graph horizontally scrollable, and spaces out the prompt tokens so that there's more breathing room to render and accurately select the nodes you're interested in. To zoom back out, just toggle "Expand" again to disable it.
+
+Here's an [example of a 60 token prompt](https://www.neuronpedia.org/qwen3-4b/graph?slug=addingstuff&pruningThreshold=0.69&densityThreshold=0.99), demoed below:
+
+<figure>
+  <img
+    src="ASSET_BASE_URL/blog/graph-scroll.gif"
+    alt="Here, we toggle 'Expand' on and off to give more space to the cramped attribution graph."
+  />
+  <figcaption className="text-xs text-slate-500">
+    Here, we toggle 'Expand' on and off to give more space to the cramped attribution graph.
+  </figcaption>
+</figure>
+
+Of course, you can imagine that there are many other ways to compact specific segments of the prompt - and we can too! We're just gonna find some time to implement them - stay tuned!
+
+---
+
+# Fellowship with Neel Nanda (MATS)
+
+If you've made it this far down the page, you're probably fairly interested in mechanistic interpretability. And you should further indulge that interest by doing a [MATS](https://www.matsprogram.org) fellowship with [Neel Nanda](http://neelnanda.io), who leads mech interp at Google DeepMind. And you should happily accept the _stipend plus additional financial support (including housing, transportation, food, etc)_ that the fellowship offers! 🎉
+
+- **All experience levels accepted** - Many MATS scholars have no prior research experience.
+- **Applications due August 29th** - Get started early - this isn't your typical application.
+- **Recommend a friend** - Not a good time for you? Recommend someone who might be interested.
+
+  <div className="mt-2 text-center">
+    ➡️[Details, FAQ, and Application for Neel MATS](https://tinyurl.com/neel-mats-app)⬅️
+  </div>
+
+---
+
+As always, please [contact us](https://www.neuronpedia.org/contact) with your questions, feedback, and suggestions.

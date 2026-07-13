@@ -1,0 +1,17 @@
+{
+  "eslint.enable": true,
+  "prettier.prettierPath": "./node_modules/prettier",
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": ["javascript", "javascriptreact", "html", "typescript", "typescriptreact"],
+  "eslint.useFlatConfig": true,
+  "eslint.experimental.useFlatConfig": true,
+  "workbench.editor.customLabels.patterns": {
+    "**/app/**/page.tsx": "(${dirname})/page.${extname}",
+    "**/app/**/route.tsx": "(${dirname})/route.${extname}",
+    "**/app/**/layout.tsx": "(${dirname})/layout.${extname}",
+    "**/app/**/index.tsx": "(${dirname})/index.${extname}"
+  }
+}
