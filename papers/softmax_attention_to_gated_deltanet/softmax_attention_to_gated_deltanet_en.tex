@@ -1,0 +1,958 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,top=24mm,bottom=24mm,left=23mm,right=23mm,headheight=18pt,headsep=8mm]{geometry}
+\usepackage{fontspec}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{framed}
+\usepackage{multicol}
+\usepackage{hyperref}
+
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{Noto Serif}
+\setsansfont{Noto Sans}
+
+\definecolor{WechatGreen}{HTML}{07C160}
+\definecolor{WechatDark}{HTML}{057A3E}
+\definecolor{Ink}{HTML}{17202A}
+\definecolor{Muted}{HTML}{5B6673}
+\definecolor{RuleGray}{HTML}{D9DEE5}
+\definecolor{PaperGray}{HTML}{F5F7F9}
+\definecolor{GreenTint}{HTML}{EAF8F0}
+\definecolor{Blue}{HTML}{2F6FEB}
+\definecolor{BlueTint}{HTML}{EEF5FF}
+\definecolor{Orange}{HTML}{C76B00}
+\definecolor{OrangeTint}{HTML}{FFF4E5}
+\definecolor{Red}{HTML}{B42318}
+\definecolor{RedTint}{HTML}{FFF0EE}
+\definecolor{Purple}{HTML}{7357B7}
+\definecolor{PurpleTint}{HTML}{F4F0FF}
+
+\hypersetup{
+  colorlinks=true,
+  hypertexnames=false,
+  linkcolor=WechatDark,
+  citecolor=WechatDark,
+  urlcolor=Blue,
+  pdftitle={From Softmax Attention to Gated DeltaNet},
+  pdfsubject={A first-principles reconstruction of Scientific Spaces archive 11823},
+  pdfkeywords={softmax attention, Gated DeltaNet, delta rule, linear attention}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.58em}
+\setlength{\fboxsep}{7pt}
+\renewcommand{\arraystretch}{1.25}
+\linespread{1.06}
+\setcounter{tocdepth}{2}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\trans}{^{\mathsf T}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\softmax}{\operatorname{softmax}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\sourceeq}[1]{\hfill{\sffamily\scriptsize\color{Muted}SOURCE EQ. #1}}
+
+\newcommand{\badge}[2]{%
+  \begingroup\setlength{\fboxsep}{3.5pt}%
+  \colorbox{#1}{\textcolor{white}{\sffamily\bfseries\scriptsize #2}}%
+  \endgroup
+}
+
+\newenvironment{greenbox}[1]{%
+  \def\FrameCommand{\fcolorbox{WechatGreen}{GreenTint}}%
+  \MakeFramed{\advance\hsize-\width\FrameRestore}%
+  {\sffamily\bfseries\color{WechatDark}#1}\par\smallskip
+}{\endMakeFramed}
+
+\newenvironment{bluebox}[1]{%
+  \def\FrameCommand{\fcolorbox{Blue}{BlueTint}}%
+  \MakeFramed{\advance\hsize-\width\FrameRestore}%
+  {\sffamily\bfseries\color{Blue}#1}\par\smallskip
+}{\endMakeFramed}
+
+\newenvironment{orangebox}[1]{%
+  \def\FrameCommand{\fcolorbox{Orange}{OrangeTint}}%
+  \MakeFramed{\advance\hsize-\width\FrameRestore}%
+  {\sffamily\bfseries\color{Orange}#1}\par\smallskip
+}{\endMakeFramed}
+
+\newenvironment{redbox}[1]{%
+  \def\FrameCommand{\fcolorbox{Red}{RedTint}}%
+  \MakeFramed{\advance\hsize-\width\FrameRestore}%
+  {\sffamily\bfseries\color{Red}#1}\par\smallskip
+}{\endMakeFramed}
+
+\newenvironment{graybox}[1]{%
+  \def\FrameCommand{\fcolorbox{RuleGray}{PaperGray}}%
+  \MakeFramed{\advance\hsize-\width\FrameRestore}%
+  {\sffamily\bfseries\color{Ink}#1}\par\smallskip
+}{\endMakeFramed}
+
+\newcommand{\flowbox}[3]{%
+  \fcolorbox{#1}{#2}{%
+    \parbox{0.75\linewidth}{\centering\sffamily\bfseries\color{Ink}#3}%
+  }%
+}
+
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{0pt}%
+  {2.7ex plus 0.7ex minus 0.2ex}{1.1ex}%
+  {\normalfont\sffamily\Large\bfseries\color{Ink}}}
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}%
+  {2.1ex plus 0.5ex minus 0.2ex}{0.8ex}%
+  {\normalfont\sffamily\large\bfseries\color{Ink}}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{0pt}%
+  {1.7ex plus 0.4ex minus 0.2ex}{0.6ex}%
+  {\normalfont\sffamily\normalsize\bfseries\color{WechatDark}}}
+
+\def\ps@wechat{%
+  \def\@oddhead{\vbox{%
+    \hbox to\textwidth{{\sffamily\footnotesize\color{Muted}SOFTMAX ATTENTION $\boldsymbol{\rightarrow}$ GATED DELTANET}\hfil{\sffamily\footnotesize\color{Muted}\thepage}}%
+    \vskip3pt{\color{WechatGreen}\hrule height 0.65pt}}}%
+  \def\@evenhead{\@oddhead}%
+  \def\@oddfoot{\hfil{\sffamily\scriptsize\color{Muted}Scientific Spaces 11823 --- English technical reconstruction}\hfil}%
+  \def\@evenfoot{\@oddfoot}%
+}
+\makeatother
+\pagestyle{wechat}
+
+\begin{document}
+
+\begin{titlepage}
+  \thispagestyle{empty}
+  \vspace*{13mm}
+  {\color{WechatGreen}\rule{34mm}{2.2mm}}\par
+  \vspace{13mm}
+  {\sffamily\bfseries\fontsize{27}{32}\selectfont\color{Ink}
+    From Softmax Attention\\[2mm]
+    to Gated DeltaNet\par}
+  \vspace{5mm}
+  {\sffamily\fontsize{15}{20}\selectfont\color{Muted}
+    A derivation from first principles: motivation, mechanism, mathematics,
+    approximations, and limits\par}
+
+  \vspace{15mm}
+  \begin{greenbox}{THE IDEA IN ONE SENTENCE}
+    Softmax attention already performs an exact prediction-error correction
+    for one fixed query. A local approximation of the newest softmax weight,
+    followed by a heuristic query-independent anchor, turns that correction
+    into a shared matrix update with Gated DeltaNet's retain--erase--write
+    structure.
+  \end{greenbox}
+
+  \vspace{8mm}
+  \begin{tabularx}{\textwidth}{@{}>{\sffamily\bfseries\color{Ink}}p{34mm}Y@{}}
+    Primary source & Jianlin Su, Scientific Spaces archive 11823 \cite{su2026linearizing} \\
+    Reference model & Gated Delta Networks, arXiv:2412.06464 \cite{yang2024gated} \\
+    Format & English, equation-first, editorial explainer \\
+    Claim boundary & Analytic reconstruction; no experiment or benchmark claim \\
+  \end{tabularx}
+
+  \vfill
+  {\sffamily\small\color{Muted}Prepared for the Autoresearch Ideas repository}\par
+  {\sffamily\small\color{Muted}23 July 2026}\par
+\end{titlepage}
+
+\tableofcontents
+\clearpage
+
+\section{The whole argument on one page}
+
+\begin{center}
+  \flowbox{Blue}{BlueTint}{Causal softmax attention for one fixed query}\par
+  {\color{Muted}$\Downarrow$ \quad \badge{Blue}{EXACT REARRANGEMENT}}\par
+  \flowbox{Blue}{BlueTint}{Old output $+$ newest weight $\times$ prediction error}\par
+  {\color{Muted}$\Downarrow$ \quad \badge{Orange}{DIAGONAL TAYLOR APPROXIMATION}}\par
+  \flowbox{Orange}{OrangeTint}{A query-dependent recurrent correction}\par
+  {\color{Muted}$\Downarrow$ \quad \badge{Purple}{AFFINE STATE ANSATZ}}\par
+  \flowbox{Purple}{PurpleTint}{A quadratic-in-query term prevents exact closure}\par
+  {\color{Muted}$\Downarrow$ \quad \badge{Orange}{HEURISTIC ANCHOR}}\par
+  \flowbox{Orange}{OrangeTint}{Replace the residual query by $k_t-\bar{k}_t$}\par
+  {\color{Muted}$\Downarrow$ \quad \badge{WechatGreen}{STRUCTURAL MATCH}}\par
+  \flowbox{WechatGreen}{GreenTint}{One shared state with retain $+$ erase $+$ write}\par
+\end{center}
+
+\begin{redbox}{READ THIS BEFORE THE EQUATIONS}
+  The conclusion is not ``softmax attention equals Gated DeltaNet.'' The path
+  contains a local Taylor expansion, an affine modeling assumption, and a
+  norm-dependent heuristic choice. What emerges is a GDN-shaped approximation
+  whose algebra reveals a meaningful relationship between attention and online
+  error correction.
+\end{redbox}
+
+The derivation answers a practical question. Full causal attention can retrieve
+from every prior token, but it forms a triangular score grid with
+$1+2+\cdots+T$ query--key comparisons. A recurrent model updates one bounded
+state per token. Can the behavior of softmax attention be compressed into such
+a state without discarding the mechanism that corrects old associations? The
+source article's answer is: approximately, and the correction naturally looks
+like Gated DeltaNet.
+
+\section{Foundations: the objects and operations}
+
+\subsection{Dimensions and roles}
+
+We use one attention head and a causal prefix ending at time $t$:
+
+\[
+  \vect q,\vect k_i\in\R^{d_k},\qquad
+  \vect v_i,\vect o_t,\vect b_t\in\R^{d_v},\qquad
+  \vect A_t\in\R^{d_v\times d_k}.
+\]
+
+\begin{tabularx}{\textwidth}{@{}p{27mm}p{31mm}Y@{}}
+\toprule
+\textbf{Object} & \textbf{Shape} & \textbf{Meaning} \\
+\midrule
+$\vect q$ & $d_k$-vector & A request: which stored pattern is relevant now? \\
+$\vect k_i$ & $d_k$-vector & An address or feature direction for token $i$. \\
+$\vect v_i$ & $d_v$-vector & The content returned if key $i$ is selected. \\
+$\vect A_t$ & $d_v\times d_k$ matrix & A compressed map from query directions to value directions. \\
+$\bar{\vect k}_t,\bar{\vect v}_t$ & vectors & Arithmetic prefix means through time $t$. \\
+\bottomrule
+\end{tabularx}
+
+\subsection{Dot product: alignment becomes a scalar}
+
+The score $\vect q\trans\vect k$ is a dot product:
+
+\[
+  \vect q\trans\vect k
+  =\sum_{r=1}^{d_k}q_r k_r
+  =\lVert\vect q\rVert\,\lVert\vect k\rVert\cos\theta.
+\]
+
+It is large and positive when the vectors point in similar directions, zero
+when they are orthogonal, and negative when they oppose each other. Attention
+uses this scalar as a compatibility score. The usual $1/\sqrt{d_k}$ scaling can
+be absorbed into $\vect q$ or $\vect k$ for this derivation.
+
+\subsection{Softmax: scores become normalized mixture weights}
+
+For logits $s_i=\vect q\trans\vect k_i$,
+
+\[
+  \alpha_i=\frac{e^{s_i}}{\sum_j e^{s_j}},
+  \qquad \alpha_i>0,
+  \qquad \sum_i\alpha_i=1.
+\]
+
+Exponentiation rewards larger scores; normalization makes the result a convex
+mixture. If the values are vectors, $\sum_i\alpha_i\vect v_i$ lies in their
+weighted span.
+
+\begin{graybox}{A SMALL NUMERICAL EXAMPLE}
+  With logits $(-0.2,0,0.2)$, exact softmax gives approximately
+  $(0.2693,0.3289,0.4018)$. The first-order approximation developed later gives
+  $(0.2667,0.3333,0.4000)$. They are close because the logits are tightly
+  clustered; the approximation need not remain close when they spread out.
+\end{graybox}
+
+\subsection{Outer product: a key--value association becomes a matrix}
+
+The outer product $\vect v\vect k\trans$ has shape $d_v\times d_k$. Reading it
+with a query gives
+
+\[
+  (\vect v\vect k\trans)\vect q
+  =\vect v(\vect k\trans\vect q).
+\]
+
+The query first measures its alignment with the stored key, then scales the
+stored value by that amount. This identity is the algebraic foundation of
+matrix-state linear attention: a sum of outer products stores many approximate
+associations in one matrix.
+
+\section{Starting point: causal softmax attention}
+
+For one fixed query $\vect q$, attention over the first $t$ key--value pairs is
+
+\begin{equation}
+  \vect o_t(\vect q)
+  =\sum_{i=1}^{t}\alpha_{t,i}(\vect q)\vect v_i,
+  \qquad
+  \alpha_{t,i}(\vect q)
+  =\frac{e^{\vect q\trans\vect k_i}}{Z_t(\vect q)},
+  \qquad
+  Z_t(\vect q)=\sum_{i=1}^{t}e^{\vect q\trans\vect k_i}.
+  \tag{1}\label{eq:attention}
+\end{equation}
+\sourceeq{1}
+
+\badge{Blue}{DEFINITION} Equation~\eqref{eq:attention} says that the query
+scores every visible key, softmax normalizes those scores, and the resulting
+weights mix the corresponding values. ``Causal'' means only positions
+$1,\ldots,t$ are visible at position $t$.
+
+\subsection{The direct first-order route gives vanilla linear attention}
+
+Let $\bar{\vect k}_t=t^{-1}\sum_i\vect k_i$ and
+$\bar{\vect v}_t=t^{-1}\sum_i\vect v_i$. A first-order expansion of every
+softmax coefficient gives
+
+\begin{align}
+  \vect o_t(\vect q)
+  &\approx \frac1t\sum_{i=1}^{t}
+    \left[1+\vect q\trans(\vect k_i-\bar{\vect k}_t)\right]\vect v_i
+    \notag\\
+  &=\bar{\vect v}_t+
+    \left(\frac1t\sum_{i=1}^{t}\vect v_i\vect k_i\trans
+    -\bar{\vect v}_t\bar{\vect k}_t\trans\right)\vect q.
+  \tag{2}\label{eq:vala}
+\end{align}
+\sourceeq{2}
+
+Once the softmax approximation is made, the second line is exact algebra. The
+matrix is a cross-covariance-like summary of keys and values. This is already a
+linear-attention state, but it is essentially a Vanilla Linear Attention
+(VaLA) variant. The source article asks whether a more targeted derivation can
+retain the Delta Rule's ability to correct an existing association.
+
+\section{The exact Delta-shaped recurrence}
+
+Define the unnormalized numerator
+$\vect N_t=\sum_{i=1}^{t}e^{\vect q\trans\vect k_i}\vect v_i$. Splitting off
+the newest term gives
+
+\begin{align}
+  \vect o_t
+  &=\frac{\vect N_t}{Z_t}
+   =\frac{\vect N_{t-1}+e^{\vect q\trans\vect k_t}\vect v_t}{Z_t}
+   =\frac{Z_{t-1}\vect o_{t-1}+e^{\vect q\trans\vect k_t}\vect v_t}{Z_t}.
+  \tag{3}\label{eq:split}
+\end{align}
+\sourceeq{3}
+
+Because $Z_t=Z_{t-1}+e^{\vect q\trans\vect k_t}$ and
+$\alpha_{t,t}=e^{\vect q\trans\vect k_t}/Z_t$,
+
+\begin{equation}
+  \boxed{\vect o_t
+  =\vect o_{t-1}
+  +\alpha_{t,t}(\vect v_t-\vect o_{t-1})}.
+  \tag{4}\label{eq:exactdelta}
+\end{equation}
+\sourceeq{4}
+
+\begin{bluebox}{EXACT FOR ONE FIXED QUERY}
+  Equation~\eqref{eq:exactdelta} has the canonical online-learning form
+  \[
+    \text{new prediction}
+    =\text{old prediction}
+    +\text{step size}\times\text{prediction error}.
+  \]
+  The error is $\vect v_t-\vect o_{t-1}$ and the adaptive step size is the
+  newest attention weight $\alpha_{t,t}$. No approximation has appeared yet.
+\end{bluebox}
+
+\subsection{Why this exact RNN is still quadratic}
+
+The suppressed dependence matters: the state is really
+$\vect o_{t-1}(\vect q)$. In a Transformer, each position has a different
+query $\vect q_1,\ldots,\vect q_T$. Query $\vect q_t$ needs a recurrence over
+its entire prefix, so the amount of work is
+
+\[
+  1+2+\cdots+T=\frac{T(T+1)}2=\bigO(T^2).
+\]
+
+An actually linear recurrent model needs one state that is updated only from
+keys and values, independent of whichever query will read it later. The rest of
+the derivation constructs an approximation to that shared state.
+
+\section{The local softmax approximation}
+
+\subsection{First-order expansion from the ground up}
+
+Let $s_i=\vect q\trans\vect k_i$, let
+$\bar s=t^{-1}\sum_i s_i$, and define centered logits
+$\delta_i=s_i-\bar s$. Then $\sum_i\delta_i=0$. For small $\delta_i$,
+
+\[
+  e^{s_i}=e^{\bar s}e^{\delta_i}
+  =e^{\bar s}\left(1+\delta_i+\frac{\delta_i^2}{2}+\cdots\right).
+\]
+
+At first order the denominator is
+
+\[
+  \sum_j e^{s_j}
+  \approx e^{\bar s}\sum_j(1+\delta_j)
+  =t e^{\bar s},
+\]
+
+because the centered deviations cancel. Therefore
+
+\begin{equation}
+  \alpha_{t,i}(\vect q)
+  \approx \frac1t(1+\delta_i)
+  =\frac1t\left[1+\vect q\trans(\vect k_i-\bar{\vect k}_t)\right].
+  \tag{T}\label{eq:taylor}
+\end{equation}
+
+This approximation still sums to one, but it no longer guarantees positivity.
+Its omitted error begins at second order in the spread of the centered logits.
+It is a local expansion around uniform attention, not a global replacement for
+softmax \cite{su2026softmax}.
+
+\subsection{Approximate only the newest coefficient}
+
+Apply Equation~\eqref{eq:taylor} only to $\alpha_{t,t}$ in the exact recurrence.
+Writing $\delta\vect k_t=\vect k_t-\bar{\vect k}_t$ gives
+
+\begin{align}
+  \vect o_t
+  &\approx \vect o_{t-1}
+    +\frac1t\left(1+\vect q\trans\delta\vect k_t\right)
+      (\vect v_t-\vect o_{t-1}) \notag\\
+  &=\left(1-\frac1t\right)\vect o_{t-1}+\frac1t\vect v_t
+    +\frac1t(\vect v_t-\vect o_{t-1})
+      \delta\vect k_t\trans\vect q.
+  \tag{5}\label{eq:diagonal}
+\end{align}
+\sourceeq{5}
+
+\badge{Orange}{LOCAL APPROXIMATION} This is a lighter approximation burden than
+expanding all $\alpha_{t,i}$ at once, although it is not automatically accurate
+for every sequence.
+
+\subsection{Why the diagonal route can retain more structure}
+
+For a fixed query, every old weight has the exact factorization
+
+\begin{equation}
+  \alpha_{t,i}
+  =\alpha_{i,i}\prod_{j=i+1}^{t}(1-\alpha_{j,j}).
+  \tag{6}\label{eq:factor}
+\end{equation}
+\sourceeq{6}
+
+To see this, insert the telescoping normalizers:
+
+\[
+  \frac{e^{s_i}}{Z_t}
+  =\frac{e^{s_i}}{Z_i}
+   \frac{Z_i}{Z_{i+1}}\cdots\frac{Z_{t-1}}{Z_t},
+  \qquad
+  \frac{Z_{j-1}}{Z_j}=1-\frac{e^{s_j}}{Z_j}=1-\alpha_{j,j}.
+\]
+
+Approximating the local factors and multiplying them keeps cross-products such
+as $(1+a)(1+b)=1+a+b+ab$. A single global first-order expansion would keep only
+$1+a+b$. This motivates the diagonal strategy, but it is not a theorem that
+the accumulated approximation error is uniformly smaller.
+
+\section{A shared affine memory, and why it fails to close}
+
+The smallest useful query-independent model is an affine readout:
+
+\begin{equation}
+  \widehat{\vect o}_t(\vect q)=\vect A_t\vect q+\vect b_t,
+  \qquad \vect A_0=0,\quad\vect b_0=0.
+  \tag{7}\label{eq:ansatz}
+\end{equation}
+\sourceeq{7}
+
+\badge{Purple}{MODELING ANSATZ} The matrix and bias may depend on all observed
+keys and values, but they must not depend on the query used at readout time.
+This is deliberately an approximation: generic softmax attention is not affine
+in $\vect q$.
+
+Substitute Equation~\eqref{eq:ansatz} into Equation~\eqref{eq:diagonal}:
+
+\begin{align}
+  \vect A_t\vect q+\vect b_t
+  \approx{}&\left(1-\frac1t\right)
+    (\vect A_{t-1}\vect q+\vect b_{t-1})+\frac1t\vect v_t \notag\\
+  &+\frac1t
+    (\vect v_t-\vect b_{t-1}-\vect A_{t-1}\vect q)
+    \delta\vect k_t\trans\vect q.
+  \tag{8}\label{eq:substitution}
+\end{align}
+\sourceeq{8}
+
+The query-free part closes cleanly:
+
+\begin{equation}
+  \vect b_t=\left(1-\frac1t\right)\vect b_{t-1}+\frac1t\vect v_t
+  =\bar{\vect v}_t.
+  \tag{9}\label{eq:bmean}
+\end{equation}
+\sourceeq{9}
+
+But the apparent matrix update is
+
+\begin{equation}
+  \vect A_t=\left(1-\frac1t\right)\vect A_{t-1}
+  +\frac1t(\vect v_t-\bar{\vect v}_{t-1}
+  -\vect A_{t-1}\vect q)\delta\vect k_t\trans.
+  \tag{10}\label{eq:notclosed}
+\end{equation}
+\sourceeq{10}
+
+The visible $\vect q$ violates query independence. Equivalently,
+Equation~\eqref{eq:substitution} contains
+
+\[
+  -(\vect A_{t-1}\vect q)(\delta\vect k_t\trans\vect q),
+\]
+
+which is quadratic in $\vect q$, while the left side is only affine. This is
+the exact obstruction: first-order softmax does not imply first-order closure
+of the recurrent state.
+
+\section{The shortcut that only returns to VaLA}
+
+One could simply drop $\vect A_{t-1}\vect q$ inside the residual, obtaining
+
+\begin{equation}
+  \vect A_t=\left(1-\frac1t\right)\vect A_{t-1}
+  +\frac1t(\vect v_t-\bar{\vect v}_{t-1})
+  (\vect k_t-\bar{\vect k}_t)\trans.
+  \tag{11}\label{eq:drop}
+\end{equation}
+\sourceeq{11}
+
+Because this is an incremental average, it unrolls exactly to
+
+\begin{equation}
+  \vect A_t=\frac1t\sum_{i=1}^{t}
+  (\vect v_i-\bar{\vect v}_{i-1})
+  (\vect k_i-\bar{\vect k}_i)\trans.
+  \tag{12}\label{eq:unroll}
+\end{equation}
+\sourceeq{12}
+
+This looks new, but two exact mean identities reveal that it is merely the
+VaLA matrix in Equation~\eqref{eq:vala}. First,
+
+\begin{align}
+  t\bar{\vect v}_t\bar{\vect k}_t\trans
+  -(t-1)\bar{\vect v}_{t-1}\bar{\vect k}_{t-1}\trans
+  ={}&-\bar{\vect v}_{t-1}\bar{\vect k}_t\trans
+  +\vect v_t\bar{\vect k}_t\trans
+  +\bar{\vect v}_{t-1}\vect k_t\trans.
+  \tag{13}\label{eq:meanidentity}
+\end{align}
+\sourceeq{13}
+
+Summing this telescoping difference gives
+
+\begin{equation}
+  \sum_{i=1}^{t}\vect v_i\vect k_i\trans
+  -t\bar{\vect v}_t\bar{\vect k}_t\trans
+  =\sum_{i=1}^{t}
+  (\vect v_i-\bar{\vect v}_{i-1})
+  (\vect k_i-\bar{\vect k}_i)\trans.
+  \tag{14}\label{eq:telescoping}
+\end{equation}
+\sourceeq{14}
+
+\begin{graybox}{WHY THIS NEGATIVE RESULT MATTERS}
+  Throwing away the troublesome prediction term also throws away the mechanism
+  that erases an obsolete key--value association. The derivation has gone in a
+  circle and recovered vanilla linear attention. To obtain a Delta-style state,
+  the old prediction must be approximated more carefully rather than deleted.
+\end{graybox}
+
+\section{The error principle and the representative query}
+
+Restore the query dependence explicitly in the exact fixed-query recurrence:
+
+\begin{equation}
+  \vect o_t(\vect q)=\vect o_{t-1}(\vect q)
+  +\alpha_{t,t}(\vect q)
+   [\vect v_t-\vect o_{t-1}(\vect q)].
+  \tag{15}\label{eq:qexplicit}
+\end{equation}
+\sourceeq{15}
+
+Suppose only the occurrence inside the residual is replaced by a representative
+query $\vect c$. The introduced error is exactly
+
+\begin{equation}
+  \vect E_t(\vect q,\vect c)
+  =\alpha_{t,t}(\vect q)
+   [\vect o_{t-1}(\vect q)-\vect o_{t-1}(\vect c)].
+  \tag{16}\label{eq:error}
+\end{equation}
+\sourceeq{16}
+
+Choosing $\vect c=\vect q_t$ eliminates today's error at one query, but the
+shared state must also serve unknown future queries. The article proposes a
+minimax-inspired anchor: make the replacement exact at the query direction
+where the newest token would receive its largest attention weight.
+
+Under the linearized weight,
+
+\[
+  \alpha_{t,t}(\vect q)
+  \approx \frac1t[1+\vect q\trans\delta\vect k_t].
+\]
+
+Without a norm constraint this has no finite maximum. If
+$\lVert\vect q\rVert\le r$, Cauchy--Schwarz gives
+
+\[
+  \vect q\trans\delta\vect k_t
+  \le \lVert\vect q\rVert\,\lVert\delta\vect k_t\rVert
+  \le r\lVert\delta\vect k_t\rVert,
+\]
+
+with equality in the direction
+$r\,\delta\vect k_t/\lVert\delta\vect k_t\rVert$. Assuming comparable query
+and key norms, the source makes the simple magnitude choice
+
+\begin{equation}
+  \vect q^*=\delta\vect k_t=\vect k_t-\bar{\vect k}_t.
+  \tag{17}\label{eq:qstar}
+\end{equation}
+\sourceeq{17}
+
+\begin{orangebox}{WHAT IS RIGOROUS, AND WHAT IS HEURISTIC?}
+  The maximizing \emph{direction} follows from Cauchy--Schwarz once a query-norm
+  bound is imposed. The magnitude $\vect q^*=\delta\vect k_t$ additionally
+  assumes comparable query/key scales. This does not solve a global minimax
+  problem for Equation~\eqref{eq:error}; it anchors the approximation at one
+  strategically selected direction.
+\end{orangebox}
+
+\section{The Gated DeltaNet-shaped update}
+
+Define the centered key and value innovation
+
+\[
+  \vect x_t=\vect k_t-\bar{\vect k}_t,
+  \qquad
+  \vect y_t=\vect v_t-\bar{\vect v}_{t-1},
+  \qquad
+  g_t=\frac1t,
+  \qquad
+  \lambda_t=1-\frac1t.
+\]
+
+Substituting $\vect q^*=\vect x_t$ into Equation~\eqref{eq:notclosed} yields
+
+\begin{align}
+  \vect A_t
+  &=\lambda_t\vect A_{t-1}
+    +g_t(\vect y_t-\vect A_{t-1}\vect x_t)\vect x_t\trans
+    \tag{18a}\label{eq:deriveddelta}\\
+  &=\vect A_{t-1}
+    (\lambda_t\vect I-g_t\vect x_t\vect x_t\trans)
+    +g_t\vect y_t\vect x_t\trans.
+    \tag{18b}\label{eq:derivedexpanded}
+\end{align}
+\sourceeq{18}
+
+\begin{center}
+\begin{tabularx}{0.96\textwidth}{@{}C@{\hspace{3mm}}C@{\hspace{3mm}}C@{}}
+\fcolorbox{WechatGreen}{GreenTint}{\parbox{0.25\textwidth}{\centering\sffamily\bfseries
+  RETAIN\par\smallskip$\lambda_t\vect A_{t-1}$\par\smallskip
+  \normalfont\small Keep a decayed copy of global memory.}}
+&
+\fcolorbox{Orange}{OrangeTint}{\parbox{0.25\textwidth}{\centering\sffamily\bfseries
+  ERASE\par\smallskip$-g_t(\vect A_{t-1}\vect x_t)\vect x_t\trans$\par\smallskip
+  \normalfont\small Remove the old prediction along $\vect x_t$.}}
+&
+\fcolorbox{Blue}{BlueTint}{\parbox{0.25\textwidth}{\centering\sffamily\bfseries
+  WRITE\par\smallskip$g_t\vect y_t\vect x_t\trans$\par\smallskip
+  \normalfont\small Store the new centered target at $\vect x_t$.}}
+\end{tabularx}
+\end{center}
+
+\subsection{The fundamental Delta Rule from gradient descent}
+
+Suppose a matrix $\vect S$ should map key $\vect k$ to target value $\vect v$.
+Use squared prediction loss
+
+\[
+  L(\vect S)=\frac12\lVert\vect v-\vect S\vect k\rVert^2.
+\]
+
+The matrix gradient is
+
+\[
+  \nabla_{\vect S}L=(\vect S\vect k-\vect v)\vect k\trans.
+\]
+
+One gradient-descent step with learning rate $\beta$ is
+
+\begin{align}
+  \vect S^+
+  &=\vect S-\beta(\vect S\vect k-\vect v)\vect k\trans \notag\\
+  &=\vect S+\beta(\vect v-\vect S\vect k)\vect k\trans \notag\\
+  &=\vect S(\vect I-\beta\vect k\vect k\trans)
+    +\beta\vect v\vect k\trans.
+  \tag{D}\label{eq:deltarule}
+\end{align}
+
+The term $\vect S\vect k$ is the old prediction; the residual
+$\vect v-\vect S\vect k$ is what remains to be learned. Multiplication by
+$\vect k\trans$ localizes the matrix correction to that key direction.
+Equation~\eqref{eq:deriveddelta} is this targeted correction plus a global
+retention factor $\lambda_t$.
+
+\subsection{A concrete two-dimensional update}
+
+Let
+
+\[
+  \vect A=
+  \begin{bmatrix}2&0.5\\0&1\end{bmatrix},\qquad
+  \vect x=\begin{bmatrix}1\\0\end{bmatrix},\qquad
+  \vect y=\begin{bmatrix}3\\-1\end{bmatrix},\qquad
+  \beta=0.25.
+\]
+
+The old prediction is $\vect A\vect x=(2,0)\trans$ and the residual is
+$(1,-1)\trans$. A plain Delta step gives
+
+\[
+  \vect A^+
+  =\vect A+0.25
+    \begin{bmatrix}1\\-1\end{bmatrix}
+    \begin{bmatrix}1&0\end{bmatrix}
+  =\begin{bmatrix}2.25&0.5\\-0.25&1\end{bmatrix}.
+\]
+
+Only the first column changes because $\vect x$ points along the first input
+axis. The updated prediction $(2.25,-0.25)\trans$ has moved one quarter of the
+way from the old prediction toward the target. This is the geometric meaning of
+the rank-one erase/write operation.
+
+\section{Comparison with canonical Gated DeltaNet}
+
+A common Gated DeltaNet convention is \cite{yang2024gated}
+
+\begin{equation}
+  \vect S_t
+  =\vect S_{t-1}
+    [\alpha_t(\vect I-\beta_t\vect k_t\vect k_t\trans)]
+   +\beta_t\vect v_t\vect k_t\trans.
+  \tag{19}\label{eq:gdn}
+\end{equation}
+\sourceeq{19}
+
+Both updates have the same three mechanisms: global retention, targeted erasure
+of the current key's old prediction, and a rank-one write. For $t>1$,
+Equation~\eqref{eq:derivedexpanded} can even be placed into the convention of
+Equation~\eqref{eq:gdn} by the algebraic reparameterization
+
+\[
+  \alpha_t=\frac{t-1}{t},\qquad
+  \beta_t=\frac1{t-1},\qquad
+  \vect k'_t=\vect x_t,\qquad
+  \vect v'_t=\frac{t-1}{t}\vect y_t.
+\]
+
+Indeed, $\alpha_t\beta_t=1/t$ and
+$\beta_t\vect v'_t=\vect y_t/t$. At $t=1$, the centered key is zero and the
+state can be initialized directly rather than using the singular
+reparameterization.
+
+\begin{tabularx}{\textwidth}{@{}p{32mm}YY@{}}
+\toprule
+ & \textbf{Taylor-derived state} & \textbf{Trained Gated DeltaNet} \\
+\midrule
+Retention & Deterministic $1-1/t$ & Learned, data-dependent gate \\
+Update rate & Deterministic $1/t$ & Learned, data-dependent gate \\
+Key & Centered $\vect k_t-\bar{\vect k}_t$ & Learned key projection \\
+Value target & $\vect v_t-\bar{\vect v}_{t-1}$ & Learned value projection \\
+Status & Approximation to softmax & Independently trained architecture \\
+Evidence here & Analytic structure & No benchmark transferred by this derivation \\
+\bottomrule
+\end{tabularx}
+
+\begin{redbox}{THE PRECISE CLAIM}
+  There is an exact algebraic mapping between the displayed update forms after
+  centering and rescaling their variables. There is not an equality between
+  ordinary softmax attention and a trained Gated DeltaNet model. The latter
+  learns its representations and gates from data, whereas the derivation fixes
+  them through Taylor coefficients and prefix means.
+\end{redbox}
+
+\section{Readout, algorithm, and complexity}
+
+The approximate output for the actual query at time $t$ is
+
+\begin{equation}
+  \widehat{\vect o}_t=\vect A_t\vect q_t+\bar{\vect v}_t.
+  \tag{20}\label{eq:readout}
+\end{equation}
+\sourceeq{20}
+
+The hat is intentional: it keeps visible that this is the output of the
+approximating recurrent model, not an exact identity with the original softmax
+output.
+
+\subsection{One causal scan}
+
+\begin{longtable}{@{}P{10mm}P{50mm}P{78mm}@{}}
+\toprule
+\textbf{Step} & \textbf{Operation} & \textbf{Purpose} \\
+\midrule
+1 & $g_t=1/t$, $\lambda_t=1-g_t$ & Set deterministic write and retention rates. \\
+2 & $\bar{\vect k}_t=\lambda_t\bar{\vect k}_{t-1}+g_t\vect k_t$ & Update the key mean. \\
+3 & $\vect x_t=\vect k_t-\bar{\vect k}_t$ & Isolate what is new about the key. \\
+4 & $\vect y_t=\vect v_t-\bar{\vect v}_{t-1}$ & Isolate the value innovation against the old baseline. \\
+5 & $\vect A_t=\lambda_t\vect A_{t-1}+g_t(\vect y_t-\vect A_{t-1}\vect x_t)\vect x_t\trans$ & Retain globally, erase the old prediction, and write the residual. \\
+6 & $\bar{\vect v}_t=\lambda_t\bar{\vect v}_{t-1}+g_t\vect v_t$ & Update the value baseline. \\
+7 & $\widehat{\vect o}_t=\vect A_t\vect q_t+\bar{\vect v}_t$ & Read the shared state with today's query. \\
+\bottomrule
+\end{longtable}
+
+At $t=1$, $\bar{\vect k}_1=\vect k_1$, so $\vect x_1=0$,
+$\vect A_1=0$, and the output is $\bar{\vect v}_1=\vect v_1$, exactly as it
+should be for a one-token prefix.
+
+\subsection{Sequence scaling}
+
+\begin{tabularx}{\textwidth}{@{}p{31mm}YY@{}}
+\toprule
+ & \textbf{Causal softmax attention} & \textbf{Derived recurrent approximation} \\
+\midrule
+Sequence state & All prior keys and values: $\bigO(T(d_k+d_v))$ & Matrix and two means: $\bigO(d_kd_v+d_k+d_v)$ \\
+Per-token work & Grows with prefix length & $\bigO(d_kd_v)$ rank-one update/read \\
+Full sequence & $\bigO(T^2d_k)$ score interactions, plus value mixing & $\bigO(Td_kd_v)$ \\
+\shortstack[l]{Scaling\\statement} & Quadratic in $T$ & Linear in $T$ for fixed head dimensions \\
+\bottomrule
+\end{tabularx}
+
+Linear asymptotic sequence cost does not guarantee faster wall-clock execution.
+Kernel fusion, parallel training scans, memory traffic, head size, and hardware
+utilization all matter. The source article provides no timing measurements.
+
+\section{Assumption and claim ledger}
+
+\begin{longtable}{@{}P{29mm}P{38mm}P{77mm}@{}}
+\toprule
+\textbf{Class} & \textbf{Where} & \textbf{Boundary} \\
+\midrule
+\badge{Blue}{EXACT} & Equations 3--4 & Exact recurrence for one fixed query and its prefix. \\
+\badge{Blue}{EXACT} & Equation 6 & Exact factorization of old attention weights into diagonal survival factors. \\
+\badge{Orange}{TAYLOR} & Equations 2 and 5 & Local around nearly uniform logits; may yield negative approximate weights. \\
+\badge{Purple}{ANSATZ} & Equation 7 & A finite affine state cannot represent generic softmax dependence on every query exactly. \\
+\badge{Orange}{HEURISTIC} & Equation 17 & Direction follows under a norm constraint; magnitude assumes comparable query/key scales. \\
+\badge{WechatGreen}{STRUCTURE} & Equations 18--19 & Retain--erase--write forms match after centering/rescaling; learned models are not thereby equal. \\
+\badge{Red}{NOT CLAIMED} & Performance & The article contains no experiment, benchmark, accuracy guarantee, or universal replacement claim. \\
+\bottomrule
+\end{longtable}
+
+Additional boundaries matter in practice:
+
+\begin{itemize}
+  \setlength{\itemsep}{0.35em}
+  \item Repeated local approximation errors may accumulate through the scan.
+  \item The minimax-inspired anchor does not control the replacement error for
+        every possible future query.
+  \item The derivation assumes causal dot-product attention. Extra biases and
+        masks need separate analysis, as do positional terms and nonlinear
+        feature maps.
+  \item The deterministic $1/t$ write rate becomes small on long prefixes;
+        learned GDN gates need not follow this schedule.
+  \item Centered keys can have varying norms, so practical implementations may
+        need normalization or learned scaling not justified by this derivation.
+\end{itemize}
+
+\section{Research ideas suggested by the mechanism}
+
+The following are testable follow-ups, not claims made by the source article.
+
+\subsection{Use logit dispersion as an approximation-confidence signal}
+
+The Taylor error grows with centered-logit spread. A model could estimate
+$\operatorname{Var}_i(\vect q_t\trans\vect k_i)$ or a recurrent proxy and use
+it to interpolate between the cheap Delta state and a local attention fallback.
+This directly tests whether the mathematical validity region predicts model
+error.
+
+\subsection{Initialize learned gates from the harmonic schedule}
+
+The derivation suggests $g_t=1/t$ and $\lambda_t=1-1/t$ as an analytic starting
+point. A learned GDN could be initialized near this schedule, then trained to
+depart from it when the data calls for faster writing or forgetting. The useful
+comparison is initialization and stability, not an assumption that the fixed
+schedule is optimal.
+
+\subsection{Ablate centering separately from the Delta Rule}
+
+The derived key is $\vect k_t-\bar{\vect k}_t$ and the value target is
+$\vect v_t-\bar{\vect v}_{t-1}$. A controlled experiment should compare
+uncentered, key-centered, value-centered, and doubly centered updates while
+holding parameter count and gate parameterization fixed.
+
+\subsection{Measure diagonal approximation error over time}
+
+Equation~\eqref{eq:factor} provides an interpretable diagnostic: compare exact
+diagonal weights, their Taylor approximations, and the product-induced old
+weights. This can reveal whether the local-factor strategy really outperforms a
+single global expansion in trained representations, and where errors compound.
+
+\subsection{Benchmark quality and systems behavior separately}
+
+Any evaluation should report approximation error, language-model quality,
+long-context retrieval, recurrent-state memory, training throughput, and
+single-token decoding latency. Linear asymptotics and hardware speed are
+different hypotheses.
+
+\begin{greenbox}{FINAL TAKEAWAY}
+  Softmax contains an exact Delta-shaped update when the query is fixed. The
+  article linearizes only the newest attention gate, exposes the query term that
+  prevents a shared state, and anchors that term to the centered newest key.
+  The resulting matrix recurrence retains old memory, erases its prediction in
+  one key direction, and writes the residual there. That is why Gated
+  DeltaNet's mechanism appears---approximately and structurally, not by exact
+  model equivalence.
+\end{greenbox}
+
+\appendix
+\section{Dimension check for the final update}
+
+For $\vect A_{t-1}\in\R^{d_v\times d_k}$,
+$\vect x_t\in\R^{d_k}$, and $\vect y_t\in\R^{d_v}$:
+
+\[
+  \underbrace{\vect A_{t-1}\vect x_t}_{d_v\text{-vector}},
+  \qquad
+  \underbrace{\vect y_t-\vect A_{t-1}\vect x_t}_{d_v\text{-vector}},
+  \qquad
+  \underbrace{(\vect y_t-\vect A_{t-1}\vect x_t)\vect x_t\trans}_{d_v\times d_k\text{ matrix}}.
+\]
+
+Every term in Equation~\eqref{eq:deriveddelta} therefore has the same
+$d_v\times d_k$ shape. Reading with $\vect q_t\in\R^{d_k}$ produces a
+$d_v$-vector, which can be added to $\bar{\vect v}_t$.
+
+\section{Source-equation map}
+
+\begin{tabularx}{\textwidth}{@{}P{18mm}P{43mm}Y@{}}
+\toprule
+\textbf{Source} & \textbf{Role here} & \textbf{Status} \\
+\midrule
+1--2 & Attention definition and global first-order VaLA baseline & Definition, then local approximation \\
+3--4 & Prefix split and prediction-error recurrence & Exact for a fixed query \\
+5--6 & Diagonal Taylor step and survival factorization & Approximation, then exact identity \\
+7--10 & Affine state and quadratic-query obstruction & Modeling ansatz and inherited approximation \\
+11--14 & Dropped-query shortcut and return to VaLA & Heuristic followed by exact telescoping algebra \\
+15--17 & Replacement error and representative direction & Exact error expression followed by heuristic choice \\
+18--20 & GDN-shaped update, canonical comparison, and readout & Derived approximation and structural comparison \\
+\bottomrule
+\end{tabularx}
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{document}
