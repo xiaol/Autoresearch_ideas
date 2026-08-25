@@ -1,5 +1,11 @@
 # Adaptive Multi-State Selective Memory (AMS²)
 
+> **Status (2026-08-26):** AMS² remains a hypothesis, not a validated result.
+> The later RWKV-MS campaign shows that boundary allocation, source selection,
+> recurrent value transport, and causal answer use must be tested separately.
+> See [the experiment ledger](13_rwkv_online_memory_research_ledger.md) before
+> extending this design.
+
 ## Unified Architecture for Write-Gated, Boundary-Aware Recurrence
 
 ### Motivation

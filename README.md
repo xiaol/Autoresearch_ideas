@@ -20,6 +20,10 @@ The repo is meant to ship the reproducible research code, paper sources, and lig
 - `docs/07_higher_order_benchmark_audit.md` – corrected triple-interaction benchmark notes
 - `docs/08_generic_latent_followup.md` – generic benchmark follow-up for untyped latent compression
 - `docs/09_recurrent_ffn_paper_plan.md` – benchmark-first plan for a recurrent FFN paper with result-dependent framing
+- `docs/10_delta_mem_integration.md` – Delta-Mem integration notes
+- `docs/11_multi_state_memory.md` – multi-state online-memory proposal
+- `docs/12_ams2_proposal.md` – adaptive multi-state selective-memory proposal
+- `docs/13_rwkv_online_memory_research_ledger.md` – evidence-backed RWKV-MS experiment ledger, retired routes, and ranked next work
 - `rwkv_manifold_steering/` – Goodfire-style manifold steering reproduction and RWKV/Qwen cyclic-concept extension, with matched-endpoint metrics and PCA dimensionality-reduction notes
 - `model/` – PyTorch skeleton for a matrix-state RNN with ROSA wiring
 - `configs/` – example config

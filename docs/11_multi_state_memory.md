@@ -1,5 +1,12 @@
 # 11 — Multi-State Online Memory
 
+> **Evidence update (2026-08-26):** This document is an architectural proposal.
+> Later experiments established strong synthetic multi-state mechanics and a
+> projected-slot system gain, but did not establish donor-specific causal use of
+> RWKV recurrence in the Gemma hybrid. See
+> [the experiment ledger](13_rwkv_online_memory_research_ledger.md) for the
+> current claim boundary and follow-up priorities.
+
 ## What It Is
 
 Multi-state online memory extends the single-state recurrent cell of RWKV-7 by
